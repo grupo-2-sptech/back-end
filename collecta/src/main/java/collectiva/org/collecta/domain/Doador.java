@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-
 @Data
 public class Doador extends Conta {
     @Id
