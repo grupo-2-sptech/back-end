@@ -1,21 +1,22 @@
 package collectiva.org.collecta.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
-public class Organizacao extends Conta{
-    @Id
-    @GeneratedValue(generator = "uuid")
-    private UUID id;
+public class Organizacao extends Conta {
     private String nomeSocial;
     private String nomeFantasia;
     private String cnpj;
     private Date dataFundacao;
+
+    @OneToMany(mappedBy = "organizacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Campanha> campanha = new ArrayList<>();
 }

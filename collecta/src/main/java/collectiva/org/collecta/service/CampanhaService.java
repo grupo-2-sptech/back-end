@@ -12,6 +12,5 @@ public class CampanhaService {
 
     public void salvarCompanha(Campanha campanha){
         entityManager.persist(campanha);
-
     }
 }
