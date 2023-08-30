@@ -19,4 +19,7 @@ public class Organizacao extends Conta {
 
     @OneToMany(mappedBy = "organizacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Campanha> campanha = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organizacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComentarioOrganizacao> comentarios = new ArrayList<>();
 }

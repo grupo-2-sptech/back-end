@@ -20,4 +20,7 @@ public class Doador extends Conta {
     @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Doacao> doacoes = new ArrayList<Doacao>();
 
+    @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComentarioDoador> comentarios = new ArrayList<>();
+
 }

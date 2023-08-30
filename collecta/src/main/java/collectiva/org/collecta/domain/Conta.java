@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,10 +18,6 @@ public abstract class Conta {
     private String email;
     private String senha;
     private String telefone;
-
-    @ManyToOne
-    @JoinColumn(name = "comentario_autor_id")
-    private ComentarioAutor comentarioAutor;
 
 }
 
