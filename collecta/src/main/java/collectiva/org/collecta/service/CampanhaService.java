@@ -29,9 +29,9 @@ public class CampanhaService {
         Campanha campanha = campanhaRepository.buscarCampanhaPorId(id);
         return ResponseEntity.ok().body(campanha);
     }
-    public ResponseEntity<Campanha> atualizadoCampanha(UUID id, Campanha campanha){
-        Campanha campanhaNovo = campanhaRepository.atualizarCampanha(id,campanha);
-        return ResponseEntity.ok().body(campanhaNovo);
+    public ResponseEntity<Campanha> atualizarCampanha(UUID id, Campanha campanha){
+        Campanha campanhaNova = campanhaRepository.atualizarCampanha(id,campanha);
+        return ResponseEntity.ok().body(campanhaNova);
     }
     public ResponseEntity<Void> deletarCampanha(UUID id){
         campanhaRepository.excluirCampanha(id);

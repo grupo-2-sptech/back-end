@@ -17,24 +17,24 @@ public class CampanhaController {
     private CampanhaService campanhaService;
 
     @GetMapping
-    public ResponseEntity<List<Campanha>> buscarComentarios() {
+    public ResponseEntity<List<Campanha>> buscarCampanhas() {
         return campanhaService.buscarTodasCampanhas();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Campanha> buscarComentarioPorId(@PathVariable UUID id) {
+    public ResponseEntity<Campanha> buscarCampanhaPorId(@PathVariable UUID id) {
         return campanhaService.buscarCampanhaPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Campanha> criarComentario(@RequestBody Campanha campanha) {
+    public ResponseEntity<Campanha> criarCampanha(@RequestBody Campanha campanha) {
         return campanhaService.salvarCampanha(campanha);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Campanha> atualizarComentario(@PathVariable UUID id, @RequestBody Campanha campanha) {
-        return campanhaService.atualizadoCampanha(id, campanha);
+    public ResponseEntity<Campanha> atualizarCampanha(@PathVariable UUID id, @RequestBody Campanha campanha) {
+        return campanhaService.atualizarCampanha(id, campanha);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarComentario(@PathVariable UUID id){
+    public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id){
         return  campanhaService.deletarCampanha(id);
     }
 }
