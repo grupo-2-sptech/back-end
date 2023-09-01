@@ -1,16 +1,16 @@
 package collectiva.org.collecta.service;
 
-import collectiva.org.collecta.domain.Conta;
+import collectiva.org.collecta.domain.Campanha;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ContaService {
+public class ComentarioOrganizacaoService {
     @Autowired
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
-    public void salvarConta(Conta conta){
-        entityManager.persist(conta);
+    public void salvarCompanha(Campanha campanha){
+        entityManager.persist(campanha);
     }
 }

@@ -2,7 +2,6 @@ package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.UUID;
 @Data
 public class Campanha {
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
 
     private String nome;

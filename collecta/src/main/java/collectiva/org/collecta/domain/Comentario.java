@@ -3,7 +3,6 @@ package collectiva.org.collecta.domain;
 import collectiva.org.collecta.domain.enums.TipoConta;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import java.util.UUID;
@@ -13,8 +12,8 @@ import java.util.UUID;
 @Data
 public abstract class Comentario {
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
 
     private String comentario;

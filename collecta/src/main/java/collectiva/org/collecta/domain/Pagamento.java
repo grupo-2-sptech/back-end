@@ -2,7 +2,6 @@ package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -10,8 +9,8 @@ import java.util.UUID;
 @Data
 public class Pagamento {
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid", updatable = false)
     private UUID uuid;
 
     private String formaPagamento;

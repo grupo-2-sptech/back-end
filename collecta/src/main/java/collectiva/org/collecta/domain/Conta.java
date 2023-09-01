@@ -11,8 +11,8 @@ import java.util.UUID;
 @Data
 public abstract class Conta {
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
 
     private String email;
