@@ -13,28 +13,28 @@ import java.util.UUID;
 @Service
 public class ComentarioDoadorService {
     @Autowired
-    ComentarioDoadorRepository comentarioDoadorRepository;
+    ComentarioDoadorRepository comentarioOrganizacaoRepository;
 
     public ResponseEntity<ComentarioDoador> salvarComentario(ComentarioDoador comentarioDoador) {
-        comentarioDoadorRepository.salvarComentario(comentarioDoador);
+        comentarioOrganizacaoRepository.salvarComentario(comentarioDoador);
         return ResponseEntity.status(HttpStatus.CREATED).body(comentarioDoador);
     }
 
     public ResponseEntity<List<ComentarioDoador>> buscarTodosComentarios() {
-        List<ComentarioDoador> comentarioDoadors = comentarioDoadorRepository.buscarTodosComentarios();
-        return ResponseEntity.ok().body(comentarioDoadors);
+        List<ComentarioDoador> comentariosDoador = comentarioOrganizacaoRepository.buscarTodosComentarios();
+        return ResponseEntity.ok().body(comentariosDoador);
     }
 
     public ResponseEntity<ComentarioDoador> buscarComentarioPorId(UUID id) {
-        ComentarioDoador comentarioDoador = comentarioDoadorRepository.buscarComentarioPorId(id);
+        ComentarioDoador comentarioDoador = comentarioOrganizacaoRepository.buscarComentarioPorId(id);
         return ResponseEntity.ok().body(comentarioDoador);
     }
     public ResponseEntity<ComentarioDoador> atualizadoComentario(UUID id, ComentarioDoador comentarioDoador){
-        ComentarioDoador comentario = comentarioDoadorRepository.atualizarComentario(id,comentarioDoador);
-        return ResponseEntity.ok().body(comentario);
+        ComentarioDoador comentarioDoadorNovo = comentarioOrganizacaoRepository.atualizarComentario(id,comentarioDoador);
+        return ResponseEntity.ok().body(comentarioDoadorNovo);
     }
     public ResponseEntity<Void> deletarComentario(UUID id){
-        comentarioDoadorRepository.excluirComentario(id);
+        comentarioOrganizacaoRepository.excluirComentario(id);
         return ResponseEntity.ok().build();
     }
 }

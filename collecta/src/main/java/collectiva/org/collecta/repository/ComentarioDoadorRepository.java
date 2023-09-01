@@ -17,8 +17,8 @@ public class ComentarioDoadorRepository {
 
     // Create
     @Transactional
-    public void salvarComentario(ComentarioDoador comentario) {
-        entityManager.persist(comentario);
+    public void salvarComentario(ComentarioDoador comentarioDoador) {
+        entityManager.persist(comentarioDoador);
     }
 
     // Read
@@ -46,7 +46,7 @@ public class ComentarioDoadorRepository {
     // Delete
     @Transactional
     public void excluirComentario(UUID id) {
-        ComentarioDoador comentario = entityManager.find(ComentarioDoador.class, id);
-        entityManager.remove(comentario);
+        ComentarioDoador comentarioDoador = entityManager.find(ComentarioDoador.class, id);
+        entityManager.remove(comentarioDoador);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/comentarios")
+@RequestMapping("/comentarios/usuarios")
 public class ComentarioDoadorController {
 
     @Autowired
@@ -26,8 +26,8 @@ public class ComentarioDoadorController {
     }
 
     @PostMapping
-    public ResponseEntity<ComentarioDoador> criarComentario(@RequestBody ComentarioDoador comentario) {
-        return comentarioService.salvarComentario(comentario);
+    public ResponseEntity<ComentarioDoador> criarComentario(@RequestBody ComentarioDoador comentarioDoador) {
+        return comentarioService.salvarComentario(comentarioDoador);
     }
     @PutMapping("/{id}")
     public ResponseEntity<ComentarioDoador> atualizarComentario(@PathVariable UUID id, @RequestBody ComentarioDoador comentarioDoador) {
