@@ -1,6 +1,6 @@
 package collectiva.org.collecta.repository;
 
-import collectiva.org.collecta.domain.Relatorio;
+import collectiva.org.collecta.domain.Pagamento;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -10,44 +10,43 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class RelatorioRepository {
+public class PagamentoRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     // Create
     @Transactional
-    public void salvarRelatorio(Relatorio relatorio) {
-        entityManager.persist(relatorio);
+    public void salvarPagamento(Pagamento pagamento) {
+        entityManager.persist(pagamento);
     }
 
     // Read
     @Transactional
-    public Relatorio buscarRelatorioPorId(UUID id) {
-        return entityManager.find(Relatorio.class, id);
+    public Pagamento buscarPagamentoPorId(UUID id) {
+        return entityManager.find(Pagamento.class, id);
     }
 
     @Transactional
-    public List<Relatorio> buscarTodosRelatorios() {
-        String jpql = "SELECT c FROM Relatorio c"; // JPQL para buscar todos os registros
-        return entityManager.createQuery(jpql, Relatorio.class).getResultList();
+    public List<Pagamento> buscarTodosPagamentos() {
+        String jpql = "SELECT c FROM Pagamento c"; // JPQL para buscar todos os registros
+        return entityManager.createQuery(jpql, Pagamento.class).getResultList();
 
     }
 
     // Update
     @Transactional
-    public Relatorio atualizarRelatorio(UUID id, Relatorio relatorio) {
-        Relatorio relatorioAntigo = entityManager.find(Relatorio.class, id);
-        relatorioAntigo.setData(relatorio.getData());
-        relatorioAntigo.setValorArrecadado(relatorio.getValorArrecadado());
-        relatorioAntigo.setQuantidadeDoacoes(relatorio.getQuantidadeDoacoes());
-        return relatorioAntigo;
+    public Pagamento atualizarPagamento(UUID id, Pagamento pagamento) {
+        Pagamento pagamentoAntigo = entityManager.find(Pagamento.class, id);
+        pagamentoAntigo.setParcelas(pagamento.getParcelas());
+        pagamentoAntigo.setFormaPagamento(pagamento.getFormaPagamento());
+        return pagamentoAntigo;
     }
 
     // Delete
     @Transactional
-    public void excluirRelatorio(UUID id) {
-        Relatorio Relatorio = entityManager.find(Relatorio.class, id);
-        entityManager.remove(Relatorio);
+    public void excluirPagamento(UUID id) {
+        Pagamento Pagamento = entityManager.find(Pagamento.class, id);
+        entityManager.remove(Pagamento);
     }
 }
