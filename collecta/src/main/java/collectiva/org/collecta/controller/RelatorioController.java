@@ -18,7 +18,7 @@ public class RelatorioController {
 
     @GetMapping
     public ResponseEntity<List<Relatorio>> buscarRelatorios() {
-        return relatorioService.buscarTodasRelatorios();
+        return relatorioService.buscarTodosRelatorios();
     }
     @GetMapping("/{id}")
     public ResponseEntity<Relatorio> buscarRelatorioPorId(@PathVariable UUID id) {

@@ -20,7 +20,7 @@ public class RelatorioService {
         return ResponseEntity.status(HttpStatus.CREATED).body(relatorio);
     }
 
-    public ResponseEntity<List<Relatorio>> buscarTodasRelatorios() {
+    public ResponseEntity<List<Relatorio>> buscarTodosRelatorios() {
         List<Relatorio> relatorio = relatorioRepository.buscarTodosRelatorios();
         return ResponseEntity.ok().body(relatorio);
     }

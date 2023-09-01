@@ -18,7 +18,7 @@ public class PagamentoController {
 
     @GetMapping
     public ResponseEntity<List<Pagamento>> buscarPagamentos() {
-        return pagamentoService.buscarTodasPagamentos();
+        return pagamentoService.buscarTodosPagamentos();
     }
     @GetMapping("/{id}")
     public ResponseEntity<Pagamento> buscarPagamentoPorId(@PathVariable UUID id) {

@@ -20,7 +20,7 @@ public class PagamentoService {
         return ResponseEntity.status(HttpStatus.CREATED).body(pagamento);
     }
 
-    public ResponseEntity<List<Pagamento>> buscarTodasPagamentos() {
+    public ResponseEntity<List<Pagamento>> buscarTodosPagamentos() {
         List<Pagamento> pagamento = pagamentoRepository.buscarTodosPagamentos();
         return ResponseEntity.ok().body(pagamento);
     }
