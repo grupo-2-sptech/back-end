@@ -2,6 +2,7 @@ package collectiva.org.collecta.domain;
 
 import collectiva.org.collecta.domain.enums.TipoConta;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
+@AllArgsConstructor
 public abstract class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,4 +28,6 @@ public abstract class Comentario {
     @JoinColumn(name = "post")
     private Post post;
 
+    public Comentario() {
+    }
 }

@@ -7,10 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/comentarios/usuarios")
+@RequestMapping("/comentarios/doador")
 public class ComentarioDoadorController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class ComentarioDoadorController {
         return comentarioService.buscarTodosComentarios();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ComentarioDoador> buscarComentarioPorId(@PathVariable UUID id) {
+    public ResponseEntity<Optional<ComentarioDoador>> buscarComentarioPorId(@PathVariable UUID id) {
         return comentarioService.buscarComentarioPorId(id);
     }
 
@@ -31,7 +32,7 @@ public class ComentarioDoadorController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<ComentarioDoador> atualizarComentario(@PathVariable UUID id, @RequestBody ComentarioDoador comentarioDoador) {
-        return comentarioService.atualizadoComentario(id, comentarioDoador);
+        return comentarioService.atualizarComentario(id, comentarioDoador);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarComentario(@PathVariable UUID id){

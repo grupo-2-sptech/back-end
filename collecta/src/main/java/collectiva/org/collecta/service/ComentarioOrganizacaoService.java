@@ -1,41 +1,54 @@
 package collectiva.org.collecta.service;
 
-import collectiva.org.collecta.domain.ComentarioDoador;
 import collectiva.org.collecta.domain.ComentarioOrganizacao;
 import collectiva.org.collecta.repository.ComentarioOrganizacaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ComentarioOrganizacaoService {
-    @Autowired
-    ComentarioOrganizacaoRepository comentarioOrganizacaoRepository;
+    private final ComentarioOrganizacaoRepository comentarioDoadorRepository;
 
-    public ResponseEntity<ComentarioOrganizacao> salvarComentario(ComentarioOrganizacao comentarioOrganizacao) {
-        comentarioOrganizacaoRepository.salvarComentario(comentarioOrganizacao);
-        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioOrganizacao);
+    public ResponseEntity<ComentarioOrganizacao> salvarComentario(ComentarioOrganizacao comentarioDoador) {
+        comentarioDoadorRepository.save(comentarioDoador);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioDoador);
     }
 
     public ResponseEntity<List<ComentarioOrganizacao>> buscarTodosComentarios() {
-        List<ComentarioOrganizacao> comentariosOrganizacao = comentarioOrganizacaoRepository.buscarTodosComentarios();
-        return ResponseEntity.ok().body(comentariosOrganizacao);
+        List<ComentarioOrganizacao> comentarioDoador = comentarioDoadorRepository.findAll();
+        return ResponseEntity.ok().body(comentarioDoador);
     }
 
-    public ResponseEntity<ComentarioOrganizacao> buscarComentarioPorId(UUID id) {
-        ComentarioOrganizacao comentarioOrganizacao = comentarioOrganizacaoRepository.buscarComentarioPorId(id);
-        return ResponseEntity.ok().body(comentarioOrganizacao);
+    public ResponseEntity<Optional<ComentarioOrganizacao>> buscarComentarioPorId(UUID id) {
+        Optional<ComentarioOrganizacao> comentarioDoador = comentarioDoadorRepository.findById(id);
+        return ResponseEntity.ok().body(comentarioDoador);
     }
-    public ResponseEntity<ComentarioOrganizacao> atualizadoComentario(UUID id, ComentarioOrganizacao comentarioOrganizacao){
-        ComentarioOrganizacao comentarioOrganizacaoNovo = comentarioOrganizacaoRepository.atualizarComentario(id,comentarioOrganizacao);
-        return ResponseEntity.ok().body(comentarioOrganizacaoNovo);
+
+    public ResponseEntity<ComentarioOrganizacao> atualizarComentario(UUID id, ComentarioOrganizacao comentarioDoador) {
+        Optional<ComentarioOrganizacao> comentarioDoadorAntigo = comentarioDoadorRepository.findById(id);
+        ComentarioOrganizacao comentarioDoadorExistente = comentarioDoadorAntigo.get();
+
+        ComentarioOrganizacao comentarioDoadorAtualizado = ComentarioOrganizacao.builder()
+                .id(comentarioDoadorExistente.getId())
+                .comentario(comentarioDoador.getComentario())
+                .data(comentarioDoador.getData())
+                .build();
+
+        comentarioDoadorRepository.save(comentarioDoadorAtualizado);
+
+        return ResponseEntity.ok().body(comentarioDoadorAtualizado);
     }
-    public ResponseEntity<Void> deletarComentario(UUID id){
-        comentarioOrganizacaoRepository.excluirComentario(id);
+
+    public ResponseEntity<Void> deletarComentario(UUID id) {
+        comentarioDoadorRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }
+

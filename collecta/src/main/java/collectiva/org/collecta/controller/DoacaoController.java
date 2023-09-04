@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class DoacaoController {
         return doacaoService.buscarTodasDoacoes();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Doacao> buscarDoacaoPorId(@PathVariable UUID id) {
+    public ResponseEntity<Optional<Doacao>> buscarDoacaoPorId(@PathVariable UUID id) {
         return doacaoService.buscarDoacaoPorId(id);
     }
 

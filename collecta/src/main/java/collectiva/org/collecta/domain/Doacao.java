@@ -2,6 +2,8 @@ package collectiva.org.collecta.domain;
 
 import collectiva.org.collecta.domain.enums.ModoContribuição;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 public class Doacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,4 +36,7 @@ public class Doacao {
 
     @OneToOne(mappedBy = "doacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pagamento pagamento;
+
+    public Doacao() {
+    }
 }

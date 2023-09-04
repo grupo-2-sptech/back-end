@@ -2,39 +2,58 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Organizacao;
 import collectiva.org.collecta.repository.OrganizacaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class OrganizacaoService {
-    @Autowired
-    OrganizacaoRepository organizacaoRepository;
+    private final OrganizacaoRepository organizacaoRepository;
 
     public ResponseEntity<Organizacao> salvarOrganizacao(Organizacao organizacao) {
-        organizacaoRepository.salvarOrganizacao(organizacao);
+        organizacaoRepository.save(organizacao);
         return ResponseEntity.status(HttpStatus.CREATED).body(organizacao);
     }
 
     public ResponseEntity<List<Organizacao>> buscarTodasOrganizacoes() {
-        List<Organizacao> organizacao = organizacaoRepository.buscarTodasOrganizacoes();
+        List<Organizacao> organizacao = organizacaoRepository.findAll();
         return ResponseEntity.ok().body(organizacao);
     }
 
-    public ResponseEntity<Organizacao> buscarOrganizacaoPorId(UUID id) {
-        Organizacao organizacao = organizacaoRepository.buscarOrganizacaoPorId(id);
+    public ResponseEntity<Optional<Organizacao>> buscarOrganizacaoPorId(UUID id) {
+        Optional<Organizacao> organizacao = organizacaoRepository.findById(id);
         return ResponseEntity.ok().body(organizacao);
     }
-    public ResponseEntity<Organizacao> atualizarOrganizacao(UUID id, Organizacao organizacao){
-        Organizacao organizacaoNovo = organizacaoRepository.atualizarOrganizacao(id,organizacao);
-        return ResponseEntity.ok().body(organizacaoNovo);
+
+    public ResponseEntity<Organizacao> atualizarOrganizacao(UUID id, Organizacao organizacao) {
+        Optional<Organizacao> organizacaoAntiga = organizacaoRepository.findById(id);
+        Organizacao organizacaoExistente = organizacaoAntiga.get();
+
+        Organizacao organizacaoAtualizada = Organizacao.builder()
+                .id(organizacaoExistente.getId())
+                .email(organizacao.getEmail())
+                .senha(organizacao.getSenha())
+                .telefone(organizacao.getTelefone())
+                .nomeFantasia(organizacao.getNomeFantasia())
+                .nomeSocial(organizacao.getNomeSocial())
+                .cnpj(organizacao.getCnpj())
+                .dataFundacao(organizacao.getDataFundacao())
+                .build();
+
+        organizacaoRepository.save(organizacaoAtualizada);
+
+        return ResponseEntity.ok().body(organizacaoAtualizada);
     }
-    public ResponseEntity<Void> deletarOrganizacao(UUID id){
-        organizacaoRepository.excluirOrganizacao(id);
+
+    public ResponseEntity<Void> deletarOrganizacao(UUID id) {
+        organizacaoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }
+

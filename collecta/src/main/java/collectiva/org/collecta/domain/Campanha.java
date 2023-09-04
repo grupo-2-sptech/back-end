@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 public class Campanha {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "uuid", updatable = false)
@@ -38,4 +43,7 @@ public class Campanha {
     @OneToMany(mappedBy = "campanha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    public Campanha() {
+
+    }
 }
