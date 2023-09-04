@@ -1,7 +1,9 @@
 package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
