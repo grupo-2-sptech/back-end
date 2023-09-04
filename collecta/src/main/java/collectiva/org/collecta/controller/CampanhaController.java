@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class CampanhaController {
         return campanhaService.buscarTodasCampanhas();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Campanha> buscarCampanhaPorId(@PathVariable UUID id) {
+    public ResponseEntity<Optional<Campanha>> buscarCampanhaPorId(@PathVariable UUID id) {
         return campanhaService.buscarCampanhaPorId(id);
     }
 
