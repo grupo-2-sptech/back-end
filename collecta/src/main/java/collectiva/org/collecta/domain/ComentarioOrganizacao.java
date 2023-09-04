@@ -1,14 +1,31 @@
 package collectiva.org.collecta.domain;
 
+import collectiva.org.collecta.domain.enums.TipoConta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
-public class ComentarioOrganizacao extends Comentario{
+@AllArgsConstructor
+public class ComentarioOrganizacao extends Comentario {
     @ManyToOne
-    @JoinColumn(name="organizacao")
+    @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
+
+    @Builder
+    public ComentarioOrganizacao(UUID id, String comentario, Date data, TipoConta tipoConta, Post post, Organizacao organizacao) {
+        super(id, comentario, data, tipoConta, post);
+        this.organizacao = organizacao;
+    }
+
+    public ComentarioOrganizacao() {
+
+    }
 }

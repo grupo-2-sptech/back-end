@@ -32,7 +32,7 @@ public class ComentarioDoadorController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<ComentarioDoador> atualizarComentario(@PathVariable UUID id, @RequestBody ComentarioDoador comentarioDoador) {
-        return comentarioService.atualizadoComentario(id, comentarioDoador);
+        return comentarioService.atualizarComentario(id, comentarioDoador);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarComentario(@PathVariable UUID id){

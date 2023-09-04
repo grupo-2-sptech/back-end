@@ -31,7 +31,7 @@ public class ComentarioDoadorService {
         return ResponseEntity.ok().body(comentarioDoador);
     }
 
-    public ResponseEntity<ComentarioDoador> atualizadoComentario(UUID id, ComentarioDoador comentarioDoador) {
+    public ResponseEntity<ComentarioDoador> atualizarComentario(UUID id, ComentarioDoador comentarioDoador) {
         Optional<ComentarioDoador> comentarioDoadorAntigo = comentarioDoadorRepository.findById(id);
         ComentarioDoador comentarioDoadorExistente = comentarioDoadorAntigo.get();
 
