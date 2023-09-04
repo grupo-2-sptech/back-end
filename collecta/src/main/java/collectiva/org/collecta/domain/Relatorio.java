@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,6 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 public class Relatorio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,4 +27,7 @@ public class Relatorio {
     @JoinColumn(name = "campanha")
     private Campanha campanha;
 
+    public Relatorio() {
+
+    }
 }
