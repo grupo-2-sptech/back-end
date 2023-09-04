@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class PostController {
         return postService.buscarTodosPosts();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Post> buscarPostPorId(@PathVariable UUID id) {
+    public ResponseEntity<Optional<Post>> buscarPostPorId(@PathVariable UUID id) {
         return postService.buscarPostPorId(id);
     }
 
