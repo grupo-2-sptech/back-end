@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class OrganizacaoController {
         return organizacaoService.buscarTodasOrganizacoes();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Organizacao> buscarOrganizacaoPorId(@PathVariable UUID id) {
+    public ResponseEntity<Optional<Organizacao>> buscarOrganizacaoPorId(@PathVariable UUID id) {
         return organizacaoService.buscarOrganizacaoPorId(id);
     }
 
