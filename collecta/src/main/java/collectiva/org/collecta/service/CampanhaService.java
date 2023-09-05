@@ -1,6 +1,5 @@
 package collectiva.org.collecta.service;
 
-import collectiva.org.collecta.controller.CampanhaController;
 import collectiva.org.collecta.domain.Campanha;
 import collectiva.org.collecta.repository.CampanhaRepository;
 import lombok.RequiredArgsConstructor;

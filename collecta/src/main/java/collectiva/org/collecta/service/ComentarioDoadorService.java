@@ -17,24 +17,43 @@ public class ComentarioDoadorService {
     private final ComentarioDoadorRepository comentarioDoadorRepository;
 
     public ResponseEntity<ComentarioDoador> salvarComentario(ComentarioDoador comentarioDoador) {
+        if (comentarioDoador.getComentario() == null || comentarioDoador.getComentario().isEmpty() ||
+                comentarioDoador.getComentario().length() <= 3 ||
+                comentarioDoador.getData() == null) {
+            return ResponseEntity.badRequest().build();
+        }
         comentarioDoadorRepository.save(comentarioDoador);
         return ResponseEntity.status(HttpStatus.CREATED).body(comentarioDoador);
     }
 
     public ResponseEntity<List<ComentarioDoador>> buscarTodosComentarios() {
         List<ComentarioDoador> comentarioDoador = comentarioDoadorRepository.findAll();
+        if (comentarioDoador.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(comentarioDoador);
     }
 
+
     public ResponseEntity<Optional<ComentarioDoador>> buscarComentarioPorId(UUID id) {
         Optional<ComentarioDoador> comentarioDoador = comentarioDoadorRepository.findById(id);
+        if (comentarioDoador.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(comentarioDoador);
     }
 
     public ResponseEntity<ComentarioDoador> atualizarComentario(UUID id, ComentarioDoador comentarioDoador) {
         Optional<ComentarioDoador> comentarioDoadorAntigo = comentarioDoadorRepository.findById(id);
+        if (comentarioDoadorAntigo.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         ComentarioDoador comentarioDoadorExistente = comentarioDoadorAntigo.get();
-
+        if (comentarioDoador.getComentario() == null || comentarioDoador.getComentario().isEmpty() ||
+                comentarioDoador.getComentario().length() <= 3 ||
+                comentarioDoador.getData() == null) {
+            return ResponseEntity.badRequest().build();
+        }
         ComentarioDoador comentarioDoadorAtualizado = ComentarioDoador.builder()
                 .id(comentarioDoadorExistente.getId())
                 .comentario(comentarioDoador.getComentario())
@@ -47,8 +66,11 @@ public class ComentarioDoadorService {
     }
 
     public ResponseEntity<Void> deletarComentario(UUID id) {
+        Optional<ComentarioDoador> comentarioDoador = comentarioDoadorRepository.findById(id);
+        if (comentarioDoador.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         comentarioDoadorRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
-
