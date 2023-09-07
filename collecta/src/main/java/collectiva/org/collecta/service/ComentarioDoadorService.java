@@ -56,8 +56,7 @@ public class ComentarioDoadorService {
     }
 
     public ResponseEntity<Void> deletarComentario(UUID id) {
-        Optional<ComentarioDoador> comentarioDoador = comentarioDoadorRepository.findById(id);
-        if (comentarioDoador.isEmpty()) {
+        if (!comentarioDoadorRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         comentarioDoadorRepository.deleteById(id);

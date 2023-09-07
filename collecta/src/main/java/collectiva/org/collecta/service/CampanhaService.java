@@ -61,8 +61,7 @@ public class CampanhaService {
     }
 
     public ResponseEntity<Void> deletarCampanha(UUID id) {
-        Optional<Campanha> campanha = campanhaRepository.findById(id);
-        if(campanha.isEmpty()){
+        if (!campanhaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         campanhaRepository.deleteById(id);
