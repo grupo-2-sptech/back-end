@@ -23,18 +23,26 @@ public class RelatorioService {
 
     public ResponseEntity<List<Relatorio>> buscarTodosRelatorios() {
         List<Relatorio> relatorio = relatorioRepository.findAll();
+        if (relatorio.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(relatorio);
     }
 
     public ResponseEntity<Optional<Relatorio>> buscarRelatorioPorId(UUID id) {
         Optional<Relatorio> relatorio = relatorioRepository.findById(id);
+        if (relatorio.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().body(relatorio);
     }
 
     public ResponseEntity<Relatorio> atualizarRelatorio(UUID id, Relatorio relatorio) {
         Optional<Relatorio> relatorioAntigo = relatorioRepository.findById(id);
+        if (relatorioAntigo.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
         Relatorio relatorioExistente = relatorioAntigo.get();
-
         Relatorio relatorioAtualizado = Relatorio.builder()
                 .id(relatorioExistente.getId())
                 .data(relatorio.getData())
@@ -47,6 +55,9 @@ public class RelatorioService {
     }
 
     public ResponseEntity<Void> deletarRelatorio(UUID id) {
+        if (relatorioRepository.existsById(id)){
+            return ResponseEntity.badRequest().build();
+        }
         relatorioRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
