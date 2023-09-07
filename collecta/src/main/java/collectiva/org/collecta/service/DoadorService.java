@@ -23,11 +23,17 @@ public class DoadorService {
 
     public ResponseEntity<List<Doador>> buscarTodosDoadores() {
         List<Doador> doador = doadorRepository.findAll();
+        if (doador.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(doador);
     }
 
     public ResponseEntity<Optional<Doador>> buscarDoadorPorId(UUID id) {
         Optional<Doador> doador = doadorRepository.findById(id);
+        if (doador.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(doador);
     }
 
@@ -52,6 +58,9 @@ public class DoadorService {
     }
 
     public ResponseEntity<Void> deletarDoador(UUID id) {
+        if (!doadorRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         doadorRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
