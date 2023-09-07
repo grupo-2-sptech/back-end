@@ -34,13 +34,13 @@ public class Campanha {
     @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
 
-    @OneToMany(mappedBy = "campanha", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Doacao> doacoes = new ArrayList<Doacao>();
 
-    @OneToMany(mappedBy = "campanha", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Relatorio> relatorios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "campanha", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Post> posts = new ArrayList<>();
 
     public Campanha() {

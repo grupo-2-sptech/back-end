@@ -23,18 +23,26 @@ public class OrganizacaoService {
 
     public ResponseEntity<List<Organizacao>> buscarTodasOrganizacoes() {
         List<Organizacao> organizacao = organizacaoRepository.findAll();
+        if (organizacao.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(organizacao);
     }
 
     public ResponseEntity<Optional<Organizacao>> buscarOrganizacaoPorId(UUID id) {
         Optional<Organizacao> organizacao = organizacaoRepository.findById(id);
+        if (organizacao.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(organizacao);
     }
 
     public ResponseEntity<Organizacao> atualizarOrganizacao(UUID id, Organizacao organizacao) {
         Optional<Organizacao> organizacaoAntiga = organizacaoRepository.findById(id);
+        if (organizacaoAntiga.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         Organizacao organizacaoExistente = organizacaoAntiga.get();
-
         Organizacao organizacaoAtualizada = Organizacao.builder()
                 .id(organizacaoExistente.getId())
                 .email(organizacao.getEmail())
@@ -52,6 +60,9 @@ public class OrganizacaoService {
     }
 
     public ResponseEntity<Void> deletarOrganizacao(UUID id) {
+        if (!organizacaoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         organizacaoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
