@@ -23,11 +23,17 @@ public class ComentarioOrganizacaoService {
 
     public ResponseEntity<List<ComentarioOrganizacao>> buscarTodosComentarios() {
         List<ComentarioOrganizacao> comentarioDoador = comentarioOrganizacaoRepository.findAll();
+        if (comentarioDoador.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(comentarioDoador);
     }
 
     public ResponseEntity<Optional<ComentarioOrganizacao>> buscarComentarioPorId(UUID id) {
         Optional<ComentarioOrganizacao> comentarioDoador = comentarioOrganizacaoRepository.findById(id);
+        if (comentarioDoador.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(comentarioDoador);
     }
 

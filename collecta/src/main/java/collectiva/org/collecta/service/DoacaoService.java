@@ -23,11 +23,17 @@ public class DoacaoService {
 
     public ResponseEntity<List<Doacao>> buscarTodasDoacoes() {
         List<Doacao> doacao = doacaoRepository.findAll();
+        if (doacao.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(doacao);
     }
 
     public ResponseEntity<Optional<Doacao>> buscarDoacaoPorId(UUID id) {
         Optional<Doacao> doacao = doacaoRepository.findById(id);
+        if (doacao.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(doacao);
     }
 
@@ -48,6 +54,9 @@ public class DoacaoService {
     }
 
     public ResponseEntity<Void> deletarDoacao(UUID id) {
+        if (!doacaoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         doacaoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
