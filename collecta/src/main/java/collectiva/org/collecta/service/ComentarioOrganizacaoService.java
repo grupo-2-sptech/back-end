@@ -39,8 +39,10 @@ public class ComentarioOrganizacaoService {
 
     public ResponseEntity<ComentarioOrganizacao> atualizarComentario(UUID id, ComentarioOrganizacao comentarioDoador) {
         Optional<ComentarioOrganizacao> comentarioDoadorAntigo = comentarioOrganizacaoRepository.findById(id);
+        if (comentarioDoadorAntigo.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         ComentarioOrganizacao comentarioDoadorExistente = comentarioDoadorAntigo.get();
-
         ComentarioOrganizacao comentarioDoadorAtualizado = ComentarioOrganizacao.builder()
                 .id(comentarioDoadorExistente.getId())
                 .comentario(comentarioDoador.getComentario())

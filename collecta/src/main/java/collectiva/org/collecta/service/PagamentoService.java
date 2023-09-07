@@ -39,8 +39,10 @@ public class PagamentoService {
 
     public ResponseEntity<Pagamento> atualizarPagamento(UUID id, Pagamento pagamento) {
         Optional<Pagamento> pagamentoAntigo = pagamentoRepository.findById(id);
+        if (pagamentoAntigo.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         Pagamento pagamentoExistente = pagamentoAntigo.get();
-
         Pagamento pagamentoAtualizado = Pagamento.builder()
                 .id(pagamentoExistente.getId())
                 .parcelas(pagamento.getParcelas())

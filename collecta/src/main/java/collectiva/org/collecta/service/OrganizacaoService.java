@@ -39,8 +39,10 @@ public class OrganizacaoService {
 
     public ResponseEntity<Organizacao> atualizarOrganizacao(UUID id, Organizacao organizacao) {
         Optional<Organizacao> organizacaoAntiga = organizacaoRepository.findById(id);
+        if (organizacaoAntiga.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         Organizacao organizacaoExistente = organizacaoAntiga.get();
-
         Organizacao organizacaoAtualizada = Organizacao.builder()
                 .id(organizacaoExistente.getId())
                 .email(organizacao.getEmail())

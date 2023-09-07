@@ -39,8 +39,10 @@ public class DoacaoService {
 
     public ResponseEntity<Doacao> atualizarDoacao(UUID id, Doacao doacao) {
         Optional<Doacao> doacaoAntiga = doacaoRepository.findById(id);
+        if (doacaoAntiga.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         Doacao doacaoExistente = doacaoAntiga.get();
-
         Doacao doacaoAtualizada = Doacao.builder()
                 .id(doacaoExistente.getId())
                 .valor(doacao.getValor())

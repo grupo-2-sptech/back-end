@@ -39,8 +39,10 @@ public class DoadorService {
 
     public ResponseEntity<Doador> atualizarDoador(UUID id, Doador doador) {
         Optional<Doador> doadorAntigo = doadorRepository.findById(id);
+        if (doadorAntigo.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         Doador doadorExistente = doadorAntigo.get();
-
         Doador doadorAtualizado = Doador.builder()
                 .id(doadorExistente.getId())
                 .email(doador.getEmail())
