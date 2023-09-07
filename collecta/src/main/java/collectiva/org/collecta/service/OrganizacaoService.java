@@ -58,7 +58,7 @@ public class OrganizacaoService {
     }
 
     public ResponseEntity<Void> deletarOrganizacao(UUID id) {
-        if (organizacaoRepository.existsById(id)) {
+        if (!organizacaoRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         organizacaoRepository.deleteById(id);

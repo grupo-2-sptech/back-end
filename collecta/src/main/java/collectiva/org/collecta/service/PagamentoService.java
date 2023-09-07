@@ -23,11 +23,17 @@ public class PagamentoService {
 
     public ResponseEntity<List<Pagamento>> buscarTodosPagamentos() {
         List<Pagamento> pagamento = pagamentoRepository.findAll();
+        if (pagamento.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(pagamento);
     }
 
     public ResponseEntity<Optional<Pagamento>> buscarPagamentoPorId(UUID id) {
         Optional<Pagamento> pagamento = pagamentoRepository.findById(id);
+        if (pagamento.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(pagamento);
     }
 
@@ -47,6 +53,9 @@ public class PagamentoService {
     }
 
     public ResponseEntity<Void> deletarPagamento(UUID id) {
+        if (!pagamentoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         pagamentoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
