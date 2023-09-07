@@ -23,18 +23,26 @@ public class DoacaoService {
 
     public ResponseEntity<List<Doacao>> buscarTodasDoacoes() {
         List<Doacao> doacao = doacaoRepository.findAll();
+        if (doacao.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(doacao);
     }
 
     public ResponseEntity<Optional<Doacao>> buscarDoacaoPorId(UUID id) {
         Optional<Doacao> doacao = doacaoRepository.findById(id);
+        if (doacao.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().body(doacao);
     }
 
     public ResponseEntity<Doacao> atualizarDoacao(UUID id, Doacao doacao) {
         Optional<Doacao> doacaoAntiga = doacaoRepository.findById(id);
+        if (doacaoAntiga.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         Doacao doacaoExistente = doacaoAntiga.get();
-
         Doacao doacaoAtualizada = Doacao.builder()
                 .id(doacaoExistente.getId())
                 .valor(doacao.getValor())
@@ -48,6 +56,9 @@ public class DoacaoService {
     }
 
     public ResponseEntity<Void> deletarDoacao(UUID id) {
+        if (!doacaoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         doacaoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

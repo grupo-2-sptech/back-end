@@ -23,18 +23,27 @@ public class PostService {
 
     public ResponseEntity<List<Post>> buscarTodosPosts() {
         List<Post> post = postRepository.findAll();
+        if (post.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(post);
     }
 
     public ResponseEntity<Optional<Post>> buscarPostPorId(UUID id) {
         Optional<Post> post = postRepository.findById(id);
+        if (post.isEmpty()) {
+            return ResponseEntity.notFound().build();
+
+        }
         return ResponseEntity.ok().body(post);
     }
 
     public ResponseEntity<Post> atualizarPost(UUID id, Post post) {
         Optional<Post> postAntigo = postRepository.findById(id);
+        if (postAntigo.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
         Post postExistente = postAntigo.get();
-
         Post postAtualizado = Post.builder()
                 .id(postExistente.getId())
                 .titulo(post.getTitulo())
@@ -48,6 +57,9 @@ public class PostService {
     }
 
     public ResponseEntity<Void> deletarPost(UUID id) {
+        if (postRepository.existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
         postRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
