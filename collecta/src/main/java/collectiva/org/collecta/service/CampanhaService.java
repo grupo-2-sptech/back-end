@@ -18,16 +18,6 @@ public class CampanhaService {
     private final CampanhaRepository campanhaRepository;
 
     public ResponseEntity<Campanha> salvarCampanha(Campanha campanha) {
-        if(campanha.getNome() == null || campanha.getNome().isEmpty() || campanha.getNome().length() <= 3  ||
-                campanha.getDescricao() == null ||campanha.getDescricao().isEmpty() || campanha.getDescricao().length() <= 3 ||
-                campanha.getValorArrecadado() == null ||campanha.getValorArrecadado().compareTo(BigDecimal.ZERO) < 0 ||
-                campanha.getValorMeta().compareTo(BigDecimal.ZERO) < 0 || campanha.getValorMeta() == null ||
-                campanha.getDataInicio() == null ||
-                campanha.getDataFim() == null ||
-                campanha.getStatus().isEmpty() || campanha.getStatus().length() <= 3 || campanha.getStatus() == null
-        ){
-            return ResponseEntity.badRequest().build();
-        }
         campanhaRepository.save(campanha);
         return ResponseEntity.status(HttpStatus.CREATED).body(campanha);
     }
@@ -54,16 +44,6 @@ public class CampanhaService {
             return ResponseEntity.notFound().build();
         }
         Campanha campanhaExistente = campanhaAntiga.get();
-        if(campanha.getNome() == null || campanha.getNome().isEmpty() || campanha.getNome().length() <= 3  ||
-                campanha.getDescricao() == null ||campanha.getDescricao().isEmpty() || campanha.getDescricao().length() <= 3 ||
-                campanha.getValorArrecadado() == null ||campanha.getValorArrecadado().compareTo(BigDecimal.ZERO) < 0 ||
-                campanha.getValorMeta().compareTo(BigDecimal.ZERO) < 0 || campanha.getValorMeta() == null ||
-                campanha.getDataInicio() == null ||
-                campanha.getDataFim() == null ||
-                campanha.getStatus().isEmpty() || campanha.getStatus().length() <= 3 || campanha.getStatus() == null
-        ){
-            return ResponseEntity.badRequest().build();
-        }
         Campanha campanhaAtualizada = Campanha.builder()
                 .id(campanhaExistente.getId())
                 .nome(campanha.getNome())

@@ -17,11 +17,6 @@ public class ComentarioDoadorService {
     private final ComentarioDoadorRepository comentarioDoadorRepository;
 
     public ResponseEntity<ComentarioDoador> salvarComentario(ComentarioDoador comentarioDoador) {
-        if (comentarioDoador.getComentario() == null || comentarioDoador.getComentario().isEmpty() ||
-                comentarioDoador.getComentario().length() <= 3 ||
-                comentarioDoador.getData() == null) {
-            return ResponseEntity.badRequest().build();
-        }
         comentarioDoadorRepository.save(comentarioDoador);
         return ResponseEntity.status(HttpStatus.CREATED).body(comentarioDoador);
     }
@@ -49,11 +44,6 @@ public class ComentarioDoadorService {
             return ResponseEntity.notFound().build();
         }
         ComentarioDoador comentarioDoadorExistente = comentarioDoadorAntigo.get();
-        if (comentarioDoador.getComentario() == null || comentarioDoador.getComentario().isEmpty() ||
-                comentarioDoador.getComentario().length() <= 3 ||
-                comentarioDoador.getData() == null) {
-            return ResponseEntity.badRequest().build();
-        }
         ComentarioDoador comentarioDoadorAtualizado = ComentarioDoador.builder()
                 .id(comentarioDoadorExistente.getId())
                 .comentario(comentarioDoador.getComentario())
