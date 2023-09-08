@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/relatorio")
+@RequestMapping("/relatorios")
 public class RelatorioController {
 
     @Autowired

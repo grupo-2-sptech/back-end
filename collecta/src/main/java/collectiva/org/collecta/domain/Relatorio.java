@@ -15,8 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Relatorio {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "uuid", updatable = false)
+    @GeneratedValue(generator = "uuid2")
     private UUID id;
 
     private Date data;
