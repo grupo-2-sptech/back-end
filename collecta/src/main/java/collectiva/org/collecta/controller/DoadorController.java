@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/doador")
+@RequestMapping("/doadores")
 public class DoadorController {
 
     @Autowired

@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/comentarios/organizacao")
+@RequestMapping("/comentarios/organizacoes")
 public class ComentarioOrganizacaoController {
 
     @Autowired
