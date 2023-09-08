@@ -16,10 +16,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class Campanha {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "uuid", updatable = false)
+    @GeneratedValue(generator = "uuid2")
     private UUID id;
 
     private String nome;

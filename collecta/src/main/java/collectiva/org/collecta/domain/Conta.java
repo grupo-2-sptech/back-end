@@ -13,8 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public abstract class Conta {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "uuid", updatable = false)
+    @GeneratedValue(generator = "uuid2")
     private UUID id;
 
     private String email;
