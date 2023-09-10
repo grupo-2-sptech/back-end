@@ -1,6 +1,9 @@
 package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ComentarioOrganizacao;
+import collectiva.org.collecta.dto.ComentarioOrganizacaoDTO;
+import collectiva.org.collecta.mapper.ComentarioDoadorMapper;
+import collectiva.org.collecta.mapper.ComentarioOrganizacaoMapper;
 import collectiva.org.collecta.repository.ComentarioOrganizacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,34 +13,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ComentarioOrganizacaoService {
     private final ComentarioOrganizacaoRepository comentarioOrganizacaoRepository;
 
-    public ResponseEntity<ComentarioOrganizacao> salvarComentario(ComentarioOrganizacao comentarioDoador) {
-        comentarioOrganizacaoRepository.save(comentarioDoador);
-        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioDoador);
+    public ResponseEntity<ComentarioOrganizacaoDTO> salvarComentario(ComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
+        ComentarioOrganizacao comentarioOrganizacao = ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO);
+        comentarioOrganizacaoRepository.save(comentarioOrganizacao);
+        comentarioOrganizacaoDTO = ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioOrganizacaoDTO);
     }
 
-    public ResponseEntity<List<ComentarioOrganizacao>> buscarTodosComentarios() {
-        List<ComentarioOrganizacao> comentarioDoador = comentarioOrganizacaoRepository.findAll();
-        if (comentarioDoador.isEmpty()) {
+    public ResponseEntity<List<ComentarioOrganizacaoDTO>> buscarTodosComentarios() {
+        List<ComentarioOrganizacao> comentariosOrganizacao = comentarioOrganizacaoRepository.findAll();
+        if (comentariosOrganizacao.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok().body(comentarioDoador);
+        List<ComentarioOrganizacaoDTO> comentariosOrganizacaoDTO = comentariosOrganizacao.stream().map(ComentarioOrganizacaoMapper::paraDTO).collect(Collectors.toList());
+        return ResponseEntity.ok().body(comentariosOrganizacaoDTO);
     }
 
-    public ResponseEntity<Optional<ComentarioOrganizacao>> buscarComentarioPorId(UUID id) {
-        Optional<ComentarioOrganizacao> comentarioDoador = comentarioOrganizacaoRepository.findById(id);
-        if (comentarioDoador.isEmpty()) {
+    public ResponseEntity<ComentarioOrganizacaoDTO> buscarComentarioPorId(UUID id) {
+        Optional<ComentarioOrganizacao> comentarioOrganizacao = comentarioOrganizacaoRepository.findById(id);
+        if (comentarioOrganizacao.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(comentarioDoador);
+        ComentarioOrganizacaoDTO comentarioOrganizacaoDTO = ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao.get());
+        return ResponseEntity.ok().body(comentarioOrganizacaoDTO);
     }
 
-    public ResponseEntity<ComentarioOrganizacao> atualizarComentario(UUID id, ComentarioOrganizacao comentarioDoador) {
+    public ResponseEntity<ComentarioOrganizacaoDTO> atualizarComentario(UUID id, ComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
         Optional<ComentarioOrganizacao> comentarioDoadorAntigo = comentarioOrganizacaoRepository.findById(id);
         if (comentarioDoadorAntigo.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -45,13 +53,14 @@ public class ComentarioOrganizacaoService {
         ComentarioOrganizacao comentarioDoadorExistente = comentarioDoadorAntigo.get();
         ComentarioOrganizacao comentarioDoadorAtualizado = ComentarioOrganizacao.builder()
                 .id(comentarioDoadorExistente.getId())
-                .comentario(comentarioDoador.getComentario())
-                .data(comentarioDoador.getData())
+                .comentario(comentarioOrganizacaoDTO.getComentario())
+                .data(comentarioDoadorExistente.getData())
+                .tipoConta(comentarioDoadorExistente.getTipoConta())
                 .build();
 
         comentarioOrganizacaoRepository.save(comentarioDoadorAtualizado);
-
-        return ResponseEntity.ok().body(comentarioDoadorAtualizado);
+        comentarioOrganizacaoDTO = ComentarioOrganizacaoMapper.paraDTO(comentarioDoadorAtualizado);
+        return ResponseEntity.ok().body(comentarioOrganizacaoDTO);
     }
 
     public ResponseEntity<Void> deletarComentario(UUID id) {

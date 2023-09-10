@@ -27,12 +27,12 @@ public class ComentarioDoadorService {
     }
 
     public ResponseEntity<List<ComentarioDoadorDTO>> buscarTodosComentarios() {
-        List<ComentarioDoador> comentarioDoador = comentarioDoadorRepository.findAll();
-        if (comentarioDoador.isEmpty()) {
+        List<ComentarioDoador> comentariosDoador = comentarioDoadorRepository.findAll();
+        if (comentariosDoador.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        List<ComentarioDoadorDTO> comentarioDoadoresDTO = comentarioDoador.stream().map(ComentarioDoadorMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(comentarioDoadoresDTO);
+        List<ComentarioDoadorDTO> comentariosDoadorDTO = comentariosDoador.stream().map(ComentarioDoadorMapper::paraDTO).collect(Collectors.toList());
+        return ResponseEntity.ok().body(comentariosDoadorDTO);
     }
 
 
@@ -54,7 +54,8 @@ public class ComentarioDoadorService {
         ComentarioDoador comentarioDoadorAtualizado = ComentarioDoador.builder()
                 .id(comentarioDoadorExistente.getId())
                 .comentario(comentarioDoadorDTO.getComentario())
-                .data(comentarioDoadorDTO.getData())
+                .data(comentarioDoadorExistente.getData())
+                .tipoConta(comentarioDoadorExistente.getTipoConta())
                 .build();
 
         comentarioDoadorRepository.save(comentarioDoadorAtualizado);
