@@ -1,13 +1,13 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.domain.Organizacao;
+import collectiva.org.collecta.dto.OrganizacaoDTO;
 import collectiva.org.collecta.service.OrganizacaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,21 +18,21 @@ public class OrganizacaoController {
     private OrganizacaoService organizacaoService;
 
     @GetMapping
-    public ResponseEntity<List<Organizacao>> buscarOrganizacoes() {
+    public ResponseEntity<List<OrganizacaoDTO>> buscarOrganizacoes() {
         return organizacaoService.buscarTodasOrganizacoes();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Organizacao>> buscarOrganizacaoPorId(@PathVariable UUID id) {
+    public ResponseEntity<OrganizacaoDTO> buscarOrganizacaoPorId(@PathVariable UUID id) {
         return organizacaoService.buscarOrganizacaoPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Organizacao> criarOrganizacao(@RequestBody Organizacao organizacao) {
-        return organizacaoService.salvarOrganizacao(organizacao);
+    public ResponseEntity<OrganizacaoDTO> criarOrganizacao(@RequestBody @Valid OrganizacaoDTO organizacaoDTO) {
+        return organizacaoService.salvarOrganizacao(organizacaoDTO);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Organizacao> atualizarOrganizacao(@PathVariable UUID id, @RequestBody Organizacao organizacao) {
-        return organizacaoService.atualizarOrganizacao(id, organizacao);
+    public ResponseEntity<OrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid OrganizacaoDTO organizacaoDTO) {
+        return organizacaoService.atualizarOrganizacao(id, organizacaoDTO);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarOrganizacao(@PathVariable UUID id){

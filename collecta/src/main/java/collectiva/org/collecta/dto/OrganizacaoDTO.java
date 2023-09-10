@@ -7,10 +7,11 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
-public class DoadorDTO {
+public class OrganizacaoDTO {
     private UUID id;
     @NotBlank(message = "O email esta vazio")
     @Size(min = 3, message = "O email deve ter no mínimo 3 caracteres")
@@ -26,19 +27,19 @@ public class DoadorDTO {
     @Size(min = 11, max = 11, message = "Telefone inválido")
     private String telefone;
 
-    @NotBlank(message = "O nome esta vazio")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
-    private String nome;
+    @NotBlank(message = "O nome social esta vazio")
+    @Size(min = 3, message = "O nome social deve ter no mínimo 3 caracteres")
+    private String nomeSocial;
 
-    @NotBlank(message = "O sobrenome esta vazio")
-    @Size(min = 3, message = "O sobrenome deve ter no mínimo 3 caracteres")
-    private String sobrenome;
+    @NotBlank(message = "O nome fantasia esta vazio")
+    @Size(min = 3, message = "O nome fantasia deve ter no mínimo 3 caracteres")
+    private String nomeFantasia;
 
-    @NotNull(message = "A data de nascimento está vazia")
-    @Past(message = "A data de nascimento deve ser no passado")
-    private LocalDateTime dataNascimento;
+    @NotNull(message = "A data de fundação está vazia")
+    @Past(message = "A data de fundação deve ser no passado")
+    private LocalDateTime dataFundacao;
 
-    @NotNull(message = "O CPF esta vazio")
-    @Size(min = 11, max = 11, message  = "CPF inválido")
-    private String cpf;
+    @NotNull(message = "O CNPJ esta vazio")
+    @Size(min = 11, max = 11, message  = "CNPJ inválido")
+    private String cnpj;
 }
