@@ -14,7 +14,7 @@ public class ComentarioOrganizacaoMapper {
         return ComentarioOrganizacao.builder()
                 .comentario(comentarioOrganizacaoDTO.getComentario())
                 .data(LocalDateTime.now())
-                .tipoConta(TipoConta.Organizacao)
+                .tipoConta(TipoConta.ORGANIZACAO)
                 .build();
     }
     public static ComentarioOrganizacaoDTO paraDTO(ComentarioOrganizacao comentarioOrganizacao){

@@ -1,13 +1,13 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.domain.Doacao;
+import collectiva.org.collecta.dto.DoacaoDTO;
 import collectiva.org.collecta.service.DoacaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,21 +18,21 @@ public class DoacaoController {
     private DoacaoService doacaoService;
 
     @GetMapping
-    public ResponseEntity<List<Doacao>> buscarDoacoes() {
+    public ResponseEntity<List<DoacaoDTO>> buscarDoacoes() {
         return doacaoService.buscarTodasDoacoes();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Doacao>> buscarDoacaoPorId(@PathVariable UUID id) {
+    public ResponseEntity<DoacaoDTO> buscarDoacaoPorId(@PathVariable UUID id) {
         return doacaoService.buscarDoacaoPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Doacao> criarDoacao(@RequestBody Doacao doacao) {
-        return doacaoService.salvarDoacao(doacao);
+    public ResponseEntity<DoacaoDTO> criarDoacao(@RequestBody @Valid DoacaoDTO doacaoDTO) {
+        return doacaoService.salvarDoacao(doacaoDTO);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Doacao> atualizarDoacao(@PathVariable UUID id, @RequestBody Doacao doacao) {
-        return doacaoService.atualizarDoacao(id, doacao);
+    public ResponseEntity<DoacaoDTO> atualizarDoacao(@PathVariable UUID id, @RequestBody @Valid DoacaoDTO doacaoDTO) {
+        return doacaoService.atualizarDoacao(id, doacaoDTO);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDoacao(@PathVariable UUID id){

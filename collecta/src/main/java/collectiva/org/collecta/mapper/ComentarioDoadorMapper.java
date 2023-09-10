@@ -14,7 +14,7 @@ public class ComentarioDoadorMapper {
         return ComentarioDoador.builder()
                 .comentario(comentarioDoadorDTO.getComentario())
                 .data(LocalDateTime.now())
-                .tipoConta(TipoConta.Doador)
+                .tipoConta(TipoConta.DOADOR)
                 .build();
     }
     public static ComentarioDoadorDTO paraDTO(ComentarioDoador comentarioDoador){
