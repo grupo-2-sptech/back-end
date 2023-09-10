@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -25,7 +25,7 @@ public class ComentarioDoador extends Comentario {
     }
 
     @Builder
-    public ComentarioDoador(UUID id, String comentario, Date data, TipoConta tipoConta, Post post, Doador doador) {
+    public ComentarioDoador(UUID id, String comentario, LocalDateTime data, TipoConta tipoConta, Post post, Doador doador) {
         super(id, comentario, data, tipoConta, post);
         this.doador = doador;
     }

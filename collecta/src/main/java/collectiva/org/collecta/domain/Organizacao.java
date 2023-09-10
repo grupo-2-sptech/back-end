@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public class Organizacao extends Conta {
     private String nomeSocial;
     private String nomeFantasia;
     private String cnpj;
-    private Date dataFundacao;
+    private LocalDateTime dataFundacao;
 
     @OneToMany(mappedBy = "organizacao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Campanha> campanha = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Organizacao extends Conta {
     private List<ComentarioOrganizacao> comentarios = new ArrayList<>();
 
     @Builder
-    public Organizacao(UUID id, String email, String senha, String telefone, String nomeSocial, String nomeFantasia, String cnpj, Date dataFundacao, List<Campanha> campanha, List<ComentarioOrganizacao> comentarios) {
+    public Organizacao(UUID id, String email, String senha, String telefone, String nomeSocial, String nomeFantasia, String cnpj, LocalDateTime dataFundacao, List<Campanha> campanha, List<ComentarioOrganizacao> comentarios) {
         super(id, email, senha, telefone);
         this.nomeSocial = nomeSocial;
         this.nomeFantasia = nomeFantasia;

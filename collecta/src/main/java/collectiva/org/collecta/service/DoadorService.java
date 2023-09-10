@@ -1,6 +1,8 @@
 package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Doador;
+import collectiva.org.collecta.dto.DoadorDTO;
+import collectiva.org.collecta.mapper.DoadorMapper;
 import collectiva.org.collecta.repository.DoadorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,53 +12,58 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DoadorService {
     private final DoadorRepository doadorRepository;
 
-    public ResponseEntity<Doador> salvarDoador(Doador doador) {
+    public ResponseEntity<DoadorDTO> salvarDoador(DoadorDTO doadorDTO) {
+        Doador doador = DoadorMapper.paraEntidade(doadorDTO);
         doadorRepository.save(doador);
-        return ResponseEntity.status(HttpStatus.CREATED).body(doador);
+        doadorDTO = DoadorMapper.paraDTO(doador);
+        return ResponseEntity.status(HttpStatus.CREATED).body(doadorDTO);
     }
 
-    public ResponseEntity<List<Doador>> buscarTodosDoadores() {
-        List<Doador> doador = doadorRepository.findAll();
-        if (doador.isEmpty()){
+    public ResponseEntity<List<DoadorDTO>> buscarTodosDoadores() {
+        List<Doador> doadores = doadorRepository.findAll();
+        if (doadores.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok().body(doador);
+        List<DoadorDTO> doadoresDTO = doadores.stream().map(DoadorMapper::paraDTO).collect(Collectors.toList());
+        return ResponseEntity.ok().body(doadoresDTO);
     }
 
-    public ResponseEntity<Optional<Doador>> buscarDoadorPorId(UUID id) {
+    public ResponseEntity<DoadorDTO> buscarDoadorPorId(UUID id) {
         Optional<Doador> doador = doadorRepository.findById(id);
-        if (doador.isEmpty()){
+        if (doador.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(doador);
+        DoadorDTO doadorDTO = DoadorMapper.paraDTO(doador.get());
+        return ResponseEntity.ok().body(doadorDTO);
     }
 
-    public ResponseEntity<Doador> atualizarDoador(UUID id, Doador doador) {
+    public ResponseEntity<DoadorDTO> atualizarDoador(UUID id, DoadorDTO doadorDTO) {
         Optional<Doador> doadorAntigo = doadorRepository.findById(id);
-        if (doadorAntigo.isEmpty()){
+        if (doadorAntigo.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Doador doadorExistente = doadorAntigo.get();
         Doador doadorAtualizado = Doador.builder()
                 .id(doadorExistente.getId())
-                .email(doador.getEmail())
-                .senha(doador.getSenha())
-                .telefone(doador.getTelefone())
-                .nome(doador.getNome())
-                .sobrenome(doador.getSobrenome())
-                .cpf(doador.getCpf())
-                .dataNascimento(doador.getDataNascimento())
+                .email(doadorDTO.getEmail())
+                .senha(doadorDTO.getSenha())
+                .telefone(doadorDTO.getTelefone())
+                .nome(doadorDTO.getNome())
+                .sobrenome(doadorDTO.getSobrenome())
+                .cpf(doadorDTO.getCpf())
+                .dataNascimento(doadorDTO.getDataNascimento())
                 .build();
 
         doadorRepository.save(doadorAtualizado);
-
-        return ResponseEntity.ok().body(doadorAtualizado);
+        doadorDTO = DoadorMapper.paraDTO(doadorAtualizado);
+        return ResponseEntity.ok().body(doadorDTO);
     }
 
     public ResponseEntity<Void> deletarDoador(UUID id) {

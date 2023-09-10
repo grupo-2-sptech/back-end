@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,7 @@ public class Relatorio {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
-    private Date data;
+    private LocalDateTime data;
     private BigDecimal valorArrecadado;
     private int quantidadeDoacoes;
 

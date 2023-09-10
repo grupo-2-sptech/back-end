@@ -1,6 +1,8 @@
 package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Pagamento;
+import collectiva.org.collecta.dto.PagamentoDTO;
+import collectiva.org.collecta.mapper.PagamentoMapper;
 import collectiva.org.collecta.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,34 +12,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public ResponseEntity<Pagamento> salvarPagamento(Pagamento pagamento) {
+    public ResponseEntity<PagamentoDTO> salvarPagamento(PagamentoDTO pagamentoDTO) {
+        Pagamento pagamento = PagamentoMapper.paraEntidade(pagamentoDTO);
         pagamentoRepository.save(pagamento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pagamento);
+        pagamentoDTO = PagamentoMapper.paraDTO(pagamento);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoDTO);
     }
 
-    public ResponseEntity<List<Pagamento>> buscarTodosPagamentos() {
-        List<Pagamento> pagamento = pagamentoRepository.findAll();
-        if (pagamento.isEmpty()) {
+    public ResponseEntity<List<PagamentoDTO>> buscarTodosPagamentos() {
+        List<Pagamento> pagamentos = pagamentoRepository.findAll();
+        if (pagamentos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok().body(pagamento);
+        List<PagamentoDTO> pagamentosDTO = pagamentos.stream().map(PagamentoMapper::paraDTO).collect(Collectors.toList());
+        return ResponseEntity.ok().body(pagamentosDTO);
     }
 
-    public ResponseEntity<Optional<Pagamento>> buscarPagamentoPorId(UUID id) {
+    public ResponseEntity<PagamentoDTO> buscarPagamentoPorId(UUID id) {
         Optional<Pagamento> pagamento = pagamentoRepository.findById(id);
         if (pagamento.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(pagamento);
+        PagamentoDTO pagamentoDTO = PagamentoMapper.paraDTO(pagamento.get());
+        return ResponseEntity.ok().body(pagamentoDTO);
     }
 
-    public ResponseEntity<Pagamento> atualizarPagamento(UUID id, Pagamento pagamento) {
+    public ResponseEntity<PagamentoDTO> atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
         Optional<Pagamento> pagamentoAntigo = pagamentoRepository.findById(id);
         if (pagamentoAntigo.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -45,13 +52,13 @@ public class PagamentoService {
         Pagamento pagamentoExistente = pagamentoAntigo.get();
         Pagamento pagamentoAtualizado = Pagamento.builder()
                 .id(pagamentoExistente.getId())
-                .parcelas(pagamento.getParcelas())
-                .formaPagamento(pagamento.getFormaPagamento())
+                .parcelas(pagamentoDTO.getParcelas())
+                .formaPagamento(pagamentoDTO.getFormaPagamento())
                 .build();
 
         pagamentoRepository.save(pagamentoAtualizado);
-
-        return ResponseEntity.ok().body(pagamentoAtualizado);
+        pagamentoDTO = PagamentoMapper.paraDTO(pagamentoAtualizado);
+        return ResponseEntity.ok().body(pagamentoDTO);
     }
 
     public ResponseEntity<Void> deletarPagamento(UUID id) {

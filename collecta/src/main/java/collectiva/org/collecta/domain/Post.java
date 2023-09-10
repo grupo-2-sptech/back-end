@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +19,7 @@ public class Post {
 
     private String titulo;
     private String conteudo;
-    private Date data;
+    private LocalDateTime data;
 
     @ManyToOne
     @JoinColumn(name = "campanha")

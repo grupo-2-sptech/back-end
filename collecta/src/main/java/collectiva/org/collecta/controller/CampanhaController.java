@@ -1,13 +1,13 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.domain.Campanha;
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.service.CampanhaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,21 +18,21 @@ public class CampanhaController {
     private CampanhaService campanhaService;
 
     @GetMapping
-    public ResponseEntity<List<Campanha>> buscarCampanhas() {
+    public ResponseEntity<List<CampanhaDTO>> buscarCampanhas() {
         return campanhaService.buscarTodasCampanhas();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Campanha>> buscarCampanhaPorId(@PathVariable UUID id) {
+    public ResponseEntity<CampanhaDTO> buscarCampanhaPorId(@PathVariable UUID id) {
         return campanhaService.buscarCampanhaPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Campanha> criarCampanha(@RequestBody Campanha campanha) {
+    public ResponseEntity<CampanhaDTO> criarCampanha(@RequestBody @Valid CampanhaDTO campanha) {
         return campanhaService.salvarCampanha(campanha);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Campanha> atualizarCampanha(@PathVariable UUID id, @RequestBody Campanha campanha) {
-        return campanhaService.atualizarCampanha(id, campanha);
+    public ResponseEntity<CampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody CampanhaDTO campanhaDTO) {
+        return campanhaService.atualizarCampanha(id, campanhaDTO);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id){
