@@ -40,7 +40,7 @@ public class CampanhaDTO {
     private LocalDateTime dataFim;
 
     @NotBlank(message = "O status esta vazio")
-    @Pattern(regexp = "^(ativo|inativo)$", message = "O status deve ser 'ativo' ou 'inativo'")
+    @Pattern(regexp = "^(ATIVO|INATIVO)$", message = "O status deve ser 'ATIVO' ou 'INATIVO'")
     @Size(min = 3, message = "O status deve ter no mínimo 3 caracteres")
     private String status;
 }

@@ -1,6 +1,7 @@
 package collectiva.org.collecta.mapper;
 
 import collectiva.org.collecta.domain.Doacao;
+import collectiva.org.collecta.domain.enums.ModoContribuição;
 import collectiva.org.collecta.dto.DoacaoDTO;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public class DoacaoMapper {
         return Doacao.builder()
                 .valor(doacaoDTO.getValor())
                 .dataHora(LocalDateTime.now())
-                .modoContribuicao(doacaoDTO.getModoContribuicao())
+                .modoContribuicao(ModoContribuição.valueOf(doacaoDTO.getModoContribuicao()))
                 .build();
     }
 
@@ -21,7 +22,7 @@ public class DoacaoMapper {
                 .id(doacao.getId())
                 .valor(doacao.getValor())
                 .dataHora(doacao.getDataHora())
-                .modoContribuicao(doacao.getModoContribuicao())
+                .modoContribuicao(String.valueOf(doacao.getModoContribuicao()))
                 .build();
     }
 }

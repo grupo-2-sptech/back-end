@@ -5,6 +5,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,6 @@ public class DoacaoDTO {
     private LocalDateTime dataHora;
 
     @NotNull(message = "O modo de contribuição não pode ser nulo")
-    @Enumerated(EnumType.STRING)
-    private ModoContribuição modoContribuicao;
+    @Pattern(regexp = "^(MENSAL|UNITARIO)$", message = "O modo de contribuição deve ser 'MENSAL' ou 'UNITARIO'")
+    private String modoContribuicao;
 }
