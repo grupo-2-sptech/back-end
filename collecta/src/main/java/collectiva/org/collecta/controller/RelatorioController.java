@@ -1,13 +1,13 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.domain.Relatorio;
+import collectiva.org.collecta.dto.RelatorioDTO;
 import collectiva.org.collecta.service.RelatorioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,21 +18,21 @@ public class RelatorioController {
     private RelatorioService relatorioService;
 
     @GetMapping
-    public ResponseEntity<List<Relatorio>> buscarRelatorios() {
+    public ResponseEntity<List<RelatorioDTO>> buscarRelatorios() {
         return relatorioService.buscarTodosRelatorios();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Relatorio>> buscarRelatorioPorId(@PathVariable UUID id) {
+    public ResponseEntity<RelatorioDTO> buscarRelatorioPorId(@PathVariable UUID id) {
         return relatorioService.buscarRelatorioPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Relatorio> criarRelatorio(@RequestBody Relatorio relatorio) {
-        return relatorioService.salvarRelatorio(relatorio);
+    public ResponseEntity<RelatorioDTO> criarRelatorio(@RequestBody @Valid RelatorioDTO relatorioDTO) {
+        return relatorioService.salvarRelatorio(relatorioDTO);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Relatorio> atualizarRelatorio(@PathVariable UUID id, @RequestBody Relatorio relatorio) {
-        return relatorioService.atualizarRelatorio(id, relatorio);
+    public ResponseEntity<RelatorioDTO> atualizarRelatorio(@PathVariable UUID id, @RequestBody @Valid RelatorioDTO relatorioDTO) {
+        return relatorioService.atualizarRelatorio(id, relatorioDTO);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarRelatorio(@PathVariable UUID id){
