@@ -16,7 +16,6 @@ public class DoadorDTO {
     @Size(min = 3, message = "O email deve ter no mínimo 3 caracteres")
     private String email;
 
-
     @NotBlank(message = "A senha está vazia")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
             message = "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial, um número e ter no mínimo 8 caracteres")

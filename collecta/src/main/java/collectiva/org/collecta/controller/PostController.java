@@ -1,13 +1,13 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.domain.Post;
+import collectiva.org.collecta.dto.PostDTO;
 import collectiva.org.collecta.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,21 +18,21 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<Post>> buscarPosts() {
+    public ResponseEntity<List<PostDTO>> buscarPosts() {
         return postService.buscarTodosPosts();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Post>> buscarPostPorId(@PathVariable UUID id) {
+    public ResponseEntity<PostDTO> buscarPostPorId(@PathVariable UUID id) {
         return postService.buscarPostPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Post> criarPost(@RequestBody Post post) {
-        return postService.salvarPost(post);
+    public ResponseEntity<PostDTO> criarPost(@RequestBody @Valid PostDTO postDTO) {
+        return postService.salvarPost(postDTO);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Post> atualizarPost(@PathVariable UUID id, @RequestBody Post post) {
-        return postService.atualizarPost(id, post);
+    public ResponseEntity<PostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid PostDTO postDTO) {
+        return postService.atualizarPost(id, postDTO);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPost(@PathVariable UUID id){
