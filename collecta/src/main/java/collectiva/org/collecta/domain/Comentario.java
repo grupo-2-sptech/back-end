@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,7 @@ public abstract class Comentario {
     private UUID id;
 
     private String comentario;
-    private Date data;
+    private LocalDateTime data;
 
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;

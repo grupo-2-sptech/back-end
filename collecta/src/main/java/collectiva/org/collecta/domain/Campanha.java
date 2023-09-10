@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +24,8 @@ public class Campanha {
     private String descricao;
     private BigDecimal valorMeta;
     private BigDecimal valorArrecadado;
-    private Date dataInicio;
-    private Date dataFim;
+    private LocalDateTime dataInicio;
+    private LocalDateTime dataFim;
     private String status;
 
     @ManyToOne

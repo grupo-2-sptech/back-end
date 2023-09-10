@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -16,7 +16,7 @@ public class CampanhaDTO {
     private UUID id;
 
     @NotBlank(message = "O nome esta vazio")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteresz")
+    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
 
     @NotBlank(message = "A descrição esta vazia")
@@ -33,11 +33,11 @@ public class CampanhaDTO {
 
     @NotNull(message = "A data de inicio esta vazia")
     @FutureOrPresent(message = "A data de início deve estar no futuro ou presente")
-    private Date dataInicio;
+    private LocalDateTime dataInicio;
 
     @NotNull(message = "A data do fim esta vazia")
     @Future(message = "A data de fim deve estar no futuro")
-    private Date dataFim;
+    private LocalDateTime dataFim;
 
     @NotBlank(message = "O status esta vazio")
     @Pattern(regexp = "^(ativo|inativo)$", message = "O status deve ser 'ativo' ou 'inativo'")

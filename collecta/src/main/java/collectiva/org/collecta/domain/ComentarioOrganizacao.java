@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +20,7 @@ public class ComentarioOrganizacao extends Comentario {
     private Organizacao organizacao;
 
     @Builder
-    public ComentarioOrganizacao(UUID id, String comentario, Date data, TipoConta tipoConta, Post post, Organizacao organizacao) {
+    public ComentarioOrganizacao(UUID id, String comentario, LocalDateTime data, TipoConta tipoConta, Post post, Organizacao organizacao) {
         super(id, comentario, data, tipoConta, post);
         this.organizacao = organizacao;
     }

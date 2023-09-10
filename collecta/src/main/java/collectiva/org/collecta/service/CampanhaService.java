@@ -22,7 +22,7 @@ public class CampanhaService {
     public ResponseEntity<CampanhaDTO> salvarCampanha(CampanhaDTO campanhaDTO) {
         Campanha campanha = CampanhaMapper.paraEntidade(campanhaDTO);
         campanhaRepository.save(campanha);
-        campanhaDTO.setId(campanha.getId());
+        campanhaDTO = CampanhaMapper.paraDTO(campanha);
         return ResponseEntity.status(HttpStatus.CREATED).body(campanhaDTO);
     }
 

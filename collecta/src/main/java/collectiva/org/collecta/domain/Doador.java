@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Doador extends Conta {
     private String nome;
     private String sobrenome;
-    private Date dataNascimento;
+    private LocalDateTime dataNascimento;
     private String cpf;
 
     @OneToMany(mappedBy = "doador", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -28,7 +28,7 @@ public class Doador extends Conta {
     private List<ComentarioDoador> comentarios = new ArrayList<>();
 
     @Builder
-    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, Date dataNascimento, String cpf, List<Doacao> doacoes, List<ComentarioDoador> comentarios) {
+    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf, List<Doacao> doacoes, List<ComentarioDoador> comentarios) {
         super(id, email, senha, telefone);
         this.nome = nome;
         this.sobrenome = sobrenome;
