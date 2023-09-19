@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.enums.TipoConta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public abstract class Comentario {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -27,6 +29,4 @@ public abstract class Comentario {
     @JoinColumn(name = "post")
     private Post post;
 
-    public Comentario() {
-    }
 }

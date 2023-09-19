@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -15,16 +16,17 @@ import java.util.UUID;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Doador extends Conta {
     private String nome;
     private String sobrenome;
     private LocalDateTime dataNascimento;
     private String cpf;
 
-    @OneToMany(mappedBy = "doador", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "doador")
     private List<Doacao> doacoes = new ArrayList<Doacao>();
 
-    @OneToMany(mappedBy = "doador", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "doador")
     private List<ComentarioDoador> comentarios = new ArrayList<>();
 
     @Builder
@@ -36,7 +38,5 @@ public class Doador extends Conta {
         this.cpf = cpf;
         this.doacoes = doacoes;
         this.comentarios = comentarios;
-    }
-    public Doador() {
     }
 }

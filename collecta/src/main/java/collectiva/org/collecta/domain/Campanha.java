@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Campanha {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -41,7 +43,7 @@ public class Campanha {
     @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Post> posts = new ArrayList<>();
 
-    public Campanha() {
+    @OneToMany(mappedBy = "campanha")
+    private List<Endereco> enderecos = new ArrayList<>();
 
-    }
 }
