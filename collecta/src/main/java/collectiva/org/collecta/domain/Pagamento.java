@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Pagamento {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -23,7 +25,4 @@ public class Pagamento {
     @JoinColumn(name = "doacao")
     private Doacao doacao;
 
-    public Pagamento() {
-
-    }
 }
