@@ -8,8 +8,8 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
 public class EnderecoDTO {
     private UUID id;
