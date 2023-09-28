@@ -46,7 +46,7 @@ public class RecursoService {
 
     public ResponseEntity<RecursoDTO> atualizarRecurso(UUID id, RecursoDTO recursoDTO) {
         Optional<Recurso> recursoAntigo = recursoRepository.findById(id);
-        if (!recursoAntigo.isEmpty()) {
+        if (recursoAntigo.isPresent()) {
             Recurso recurso = RecursoMapper.paraEntidade(recursoDTO);
             recurso.setId(recursoAntigo.get().getId());
             recursoDTO.setId(recursoAntigo.get().getId());
