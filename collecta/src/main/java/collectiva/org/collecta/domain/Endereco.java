@@ -24,7 +24,7 @@ public class Endereco {
     private int numero;
 
     @ManyToOne
-    @JoinColumn(name = "campanha")
-    private Campanha campanha;
+    @JoinColumn(name = "eventoCampanha")
+    private EventoCampanha eventoCampanha;
 
 }

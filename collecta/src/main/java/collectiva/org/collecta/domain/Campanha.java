@@ -34,16 +34,16 @@ public class Campanha {
     @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
 
-    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "campanha")
     private List<Doacao> doacoes = new ArrayList<Doacao>();
 
-    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "campanha")
     private List<Relatorio> relatorios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "campanha", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "campanha")
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "campanha")
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<EventoCampanha> eventoCampanhas  = new ArrayList<>();
 
 }
