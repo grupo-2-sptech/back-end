@@ -22,7 +22,7 @@ public class Relatorio {
 
     private LocalDateTime data;
     private BigDecimal valorArrecadado;
-    private int quantidadeDoacoes;
+    private int quantidadeFinanceirosCampanha;
 
     @ManyToOne
     @JoinColumn(name = "campanha")

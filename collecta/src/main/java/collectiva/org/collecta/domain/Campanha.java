@@ -24,8 +24,7 @@ public class Campanha {
 
     private String nome;
     private String descricao;
-    private BigDecimal valorMeta;
-    private BigDecimal valorArrecadado;
+
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
     private String status;
@@ -39,7 +38,7 @@ public class Campanha {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "campanha")
-    private List<Doacao> doacoes = new ArrayList<Doacao>();
+    private List<FinanceiroCampanha> financeirosCampanha = new ArrayList<FinanceiroCampanha>();
 
     @OneToMany(mappedBy = "campanha")
     private List<Relatorio> relatorios = new ArrayList<>();

@@ -1,6 +1,6 @@
 package collectiva.org.collecta.domain;
 
-import collectiva.org.collecta.domain.enums.ModoContribuição;
+import collectiva.org.collecta.domain.enums.MetaStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,26 +16,21 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Doacao {
+public class FinanceiroCampanha {
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
-    private BigDecimal valor;
-    private LocalDateTime dataHora;
+    private BigDecimal valorMeta;
+    private BigDecimal valorAtingido;
 
     @Enumerated(EnumType.STRING)
-    private ModoContribuição modoContribuicao;
-
-    @ManyToOne
-    @JoinColumn(name = "doador")
-    private Doador doador;
+    private MetaStatus metaStatus;
+    
 
     @ManyToOne
     @JoinColumn(name = "campanha")
     private Campanha campanha;
 
-    @OneToOne(mappedBy = "doacao")
-    private Pagamento pagamento;
 
 }

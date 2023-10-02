@@ -1,6 +1,6 @@
 package collectiva.org.collecta.dto;
 
-import collectiva.org.collecta.domain.enums.ModoContribuição;
+import collectiva.org.collecta.domain.enums.MetaStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
@@ -16,15 +16,19 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
-public class DoacaoDTO {
+public class FinanceiroCampanhaDTO {
     private UUID id;
-    @NotNull(message = "O valor arrecadado esta vazio")
-    @DecimalMin(value = "0.1", message = "O valor arrecadado deve ser maior que zero")
-    private BigDecimal valor;
 
-    private LocalDateTime dataHora;
+    @NotNull(message = "O valor atingido esta vazio")
+    @DecimalMin(value = "0.1", message = "O valor atingido deve ser maior que zero")
+    private BigDecimal valorAtingido;
+
+    @NotNull(message = "O valor meta esta vazio")
+    @DecimalMin(value = "0.1", message = "O valor meta deve ser maior que zero")
+    private BigDecimal valorMeta;
+
 
     @NotNull(message = "O modo de contribuição não pode ser nulo")
-    @Pattern(regexp = "^(MENSAL|UNITARIO)$", message = "O modo de contribuição deve ser 'MENSAL' ou 'UNITARIO'")
-    private String modoContribuicao;
+    @Enumerated(EnumType.STRING)
+    private MetaStatus metaStatus;
 }

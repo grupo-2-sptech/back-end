@@ -54,8 +54,6 @@ public class CampanhaService {
                 .id(campanhaExistente.getId())
                 .nome(campanhaDTO.getNome())
                 .descricao(campanhaDTO.getDescricao())
-                .valorArrecadado(campanhaDTO.getValorArrecadado())
-                .valorMeta(campanhaDTO.getValorMeta())
                 .dataInicio(campanhaDTO.getDataInicio())
                 .dataFim(campanhaDTO.getDataFim())
                 .status(campanhaDTO.getStatus())
