@@ -23,14 +23,6 @@ public class CampanhaDTO {
     @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
     private String descricao;
 
-    @NotNull(message = "O valor meta esta vazio")
-    @DecimalMin(value = "0.01", message = "O valor da meta deve ser maior que zero")
-    private BigDecimal valorMeta;
-
-    @NotNull(message = "O valor arrecadado esta vazio")
-    @DecimalMin(value = "0.1", message = "O valor arrecadado deve ser maior que zero")
-    private BigDecimal valorArrecadado;
-
     @NotNull(message = "A data de inicio esta vazia")
     @FutureOrPresent(message = "A data de início deve estar no futuro ou presente")
     private LocalDateTime dataInicio;

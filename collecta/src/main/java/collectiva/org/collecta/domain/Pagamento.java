@@ -23,6 +23,6 @@ public class Pagamento {
 
     @OneToOne
     @JoinColumn(name = "doacao")
-    private Doacao doacao;
+    private FinanceiroCampanha doacao;
 
 }

@@ -11,7 +11,7 @@ public class RelatorioMapper {
     public static Relatorio paraEntidade(RelatorioDTO relatorioDTO){
         return Relatorio.builder()
                 .valorArrecadado(relatorioDTO.getValorArrecadado())
-                .quantidadeDoacoes(relatorioDTO.getQuantidadeDoacoes())
+                .quantidadeFinanceirosCampanha(relatorioDTO.getQuantidadeFinanceirosCampanha())
                 .data(LocalDateTime.now())
                 .build();
     }
@@ -20,7 +20,7 @@ public class RelatorioMapper {
         return RelatorioDTO.builder()
                 .id(relatorio.getId())
                 .valorArrecadado(relatorio.getValorArrecadado())
-                .quantidadeDoacoes(relatorio.getQuantidadeDoacoes())
+                .quantidadeFinanceirosCampanha(relatorio.getQuantidadeFinanceirosCampanha())
                 .data(relatorio.getData())
                 .build();
     }

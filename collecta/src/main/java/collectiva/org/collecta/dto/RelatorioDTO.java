@@ -24,5 +24,5 @@ public class RelatorioDTO {
 
     @NotNull
     @Min(value = 0, message = "O número de quantidade de doações deve ser pelo menos 0")
-    private int quantidadeDoacoes;
+    private int quantidadeFinanceirosCampanha;
 }

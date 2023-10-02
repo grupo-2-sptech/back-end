@@ -23,20 +23,17 @@ public class Doador extends Conta {
     private LocalDateTime dataNascimento;
     private String cpf;
 
-    @OneToMany(mappedBy = "doador")
-    private List<Doacao> doacoes = new ArrayList<Doacao>();
 
     @OneToMany(mappedBy = "doador")
     private List<ComentarioDoador> comentarios = new ArrayList<>();
 
     @Builder
-    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf, List<Doacao> doacoes, List<ComentarioDoador> comentarios) {
+    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf, List<FinanceiroCampanha> financeirosCampanha, List<ComentarioDoador> comentarios) {
         super(id, email, senha, telefone);
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
-        this.doacoes = doacoes;
         this.comentarios = comentarios;
     }
 }

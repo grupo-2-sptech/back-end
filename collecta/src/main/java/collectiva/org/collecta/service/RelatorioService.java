@@ -54,7 +54,7 @@ public class RelatorioService {
                 .id(relatorioExistente.getId())
                 .data(relatorioExistente.getData())
                 .valorArrecadado(relatorioDTO.getValorArrecadado())
-                .quantidadeDoacoes(relatorioDTO.getQuantidadeDoacoes())
+                .quantidadeFinanceirosCampanha(relatorioDTO.getQuantidadeFinanceirosCampanha())
                 .build();
         relatorioRepository.save(relatorioAtualizado);
         relatorioDTO = RelatorioMapper.paraDTO(relatorioAtualizado);
