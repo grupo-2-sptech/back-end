@@ -55,7 +55,7 @@ public class FinanceiroCampanhaService {
                 .id(doacaoExistente.getId())
                 .valorMeta(doacaoDTO.getValorMeta())
                 .valorAtingido(doacaoDTO.getValorAtingido())
-                .metaStatus(MetaStatus.valueOf(doacaoDTO.getMetaStatus()))
+                .metaStatus(doacaoDTO.getMetaStatus())
                 .build();
 
         doacaoRepository.save(doacaoAtualizada);

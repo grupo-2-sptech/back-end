@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,7 +53,9 @@ public class PagamentoService {
         Pagamento pagamentoExistente = pagamentoAntigo.get();
         Pagamento pagamentoAtualizado = Pagamento.builder()
                 .id(pagamentoExistente.getId())
+                .plano(pagamentoDTO.getPlano())
                 .parcelas(pagamentoDTO.getParcelas())
+                .dataHora(LocalDateTime.now())
                 .formaPagamento(pagamentoDTO.getFormaPagamento())
                 .build();
 

@@ -32,7 +32,5 @@ public class FinanceiroCampanha {
     @JoinColumn(name = "campanha")
     private Campanha campanha;
 
-    @OneToOne(mappedBy = "doacao")
-    private Pagamento pagamento;
 
 }

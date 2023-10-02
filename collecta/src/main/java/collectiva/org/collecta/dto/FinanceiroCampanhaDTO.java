@@ -1,5 +1,8 @@
 package collectiva.org.collecta.dto;
 
+import collectiva.org.collecta.domain.enums.MetaStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -26,6 +29,6 @@ public class FinanceiroCampanhaDTO {
 
 
     @NotNull(message = "O modo de contribuição não pode ser nulo")
-    @Pattern(regexp = "^(NAO_INICIADO|CONCLUIDO|EM_ANDAMENTO)$", message = "O status da meta deve ser 'EM_ANDAMENTO', 'CONCLUIDO' ou 'NAO_INICIADO'")
-    private String metaStatus;
+    @Enumerated(EnumType.STRING)
+    private MetaStatus metaStatus;
 }

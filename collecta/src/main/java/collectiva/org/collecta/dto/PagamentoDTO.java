@@ -1,22 +1,36 @@
 package collectiva.org.collecta.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import collectiva.org.collecta.domain.enums.FormaPagamento;
+import collectiva.org.collecta.domain.enums.Plano;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
 public class PagamentoDTO {
     private UUID id;
-    @NotBlank(message = "A forma de pagamento está vazia")
-    @Size(min = 3, message = "A forma de pagamento deve ter no mínimo 3 caracteres")
-    private String formaPagamento;
+
+    @NotNull(message = "O plano não pode ser nulo")
+    @Enumerated(EnumType.STRING)
+    private FormaPagamento formaPagamento;
+
+    @NotNull(message = "O valor não pode ser nulo")
+    @DecimalMin(value = "0.1", message = "O valor deve ser maior que zero")
+    private BigDecimal valor;
+
+    @NotNull(message = "O plano não pode ser nulo")
+    @Enumerated(EnumType.STRING)
+    private Plano plano;
+
+    private LocalDateTime dataHora;
 
     @Min(value = 1, message = "O número de parcelas deve ser pelo menos 1")
     @Max(value = 15, message = "O número de parcelas não pode exceder 15")

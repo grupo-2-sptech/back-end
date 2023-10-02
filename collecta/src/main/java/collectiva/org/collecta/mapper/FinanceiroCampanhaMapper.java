@@ -13,7 +13,7 @@ public class FinanceiroCampanhaMapper {
         return FinanceiroCampanha.builder()
                 .valorMeta(doacaoDTO.getValorMeta())
                 .valorAtingido(doacaoDTO.getValorAtingido())
-                .metaStatus(MetaStatus.valueOf(doacaoDTO.getMetaStatus()))
+                .metaStatus(doacaoDTO.getMetaStatus())
                 .build();
     }
 
@@ -22,7 +22,7 @@ public class FinanceiroCampanhaMapper {
                 .id(doacao.getId())
                 .valorMeta(doacao.getValorMeta())
                 .valorAtingido(doacao.getValorAtingido())
-                .metaStatus(String.valueOf(doacao.getMetaStatus()))
+                .metaStatus(doacao.getMetaStatus())
                 .build();
     }
 }
