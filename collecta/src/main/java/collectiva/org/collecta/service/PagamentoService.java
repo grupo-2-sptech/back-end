@@ -47,21 +47,14 @@ public class PagamentoService {
 
     public ResponseEntity<PagamentoDTO> atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
         Optional<Pagamento> pagamentoAntigo = pagamentoRepository.findById(id);
-        if (pagamentoAntigo.isEmpty()) {
-            return ResponseEntity.noContent().build();
+        if (pagamentoAntigo.isPresent()) {
+            Pagamento pagamento = PagamentoMapper.paraEntidade(pagamentoDTO);
+            pagamentoDTO.setId(id);
+            pagamento.setId(id);
+            pagamentoRepository.save(pagamento);
+            return ResponseEntity.ok(pagamentoDTO);
         }
-        Pagamento pagamentoExistente = pagamentoAntigo.get();
-        Pagamento pagamentoAtualizado = Pagamento.builder()
-                .id(pagamentoExistente.getId())
-                .plano(pagamentoDTO.getPlano())
-                .parcelas(pagamentoDTO.getParcelas())
-                .dataHora(LocalDateTime.now())
-                .formaPagamento(pagamentoDTO.getFormaPagamento())
-                .build();
-
-        pagamentoRepository.save(pagamentoAtualizado);
-        pagamentoDTO = PagamentoMapper.paraDTO(pagamentoAtualizado);
-        return ResponseEntity.ok().body(pagamentoDTO);
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<Void> deletarPagamento(UUID id) {

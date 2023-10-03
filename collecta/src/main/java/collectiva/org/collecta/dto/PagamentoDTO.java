@@ -18,21 +18,23 @@ import java.util.UUID;
 public class PagamentoDTO {
     private UUID id;
 
-    @NotNull(message = "O plano não pode ser nulo")
-    @Enumerated(EnumType.STRING)
-    private FormaPagamento formaPagamento;
+    @NotBlank(message = "O nome do titular esta vazio")
+    @Size(min = 5, message = "O nome do titular deve ter no mínimo 5 letras")
+    private String nomeTitular;
 
-    @NotNull(message = "O valor não pode ser nulo")
-    @DecimalMin(value = "0.1", message = "O valor deve ser maior que zero")
-    private BigDecimal valor;
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 dígitos numéricos")
+    private String cpf;
 
-    @NotNull(message = "O plano não pode ser nulo")
-    @Enumerated(EnumType.STRING)
-    private Plano plano;
+    @Pattern(regexp = "\\d{16}", message = "Número do cartão deve conter exatamente 16 dígitos numéricos")
+    private String numeroCartao;
 
-    private LocalDateTime dataHora;
+    @Pattern(regexp = "\\d{2}-\\d{2}", message = "Data de validade deve estar no formato 'MM-YY'")
+    private String dataValidade;
 
-    @Min(value = 1, message = "O número de parcelas deve ser pelo menos 1")
-    @Max(value = 15, message = "O número de parcelas não pode exceder 15")
-    private int parcelas;
+    @Pattern(regexp = "\\d{3}", message = "Código de segurança deve conter exatamente 3 dígitos numéricos")
+    private String codigoSeguranca;
+
+    @NotBlank(message = "A bandeira do cartão esta vazia")
+    private String bandeiraCartao;
+
 }
