@@ -1,5 +1,6 @@
 package collectiva.org.collecta.dto;
 
+import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import collectiva.org.collecta.domain.enums.TipoRecurso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -8,32 +9,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class RecursoDTO {
+public class ContribuicaoRecursoDTO {
     private UUID id;
+
     @NotBlank(message = "O nome esta vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
 
-    @NotBlank(message = "A descrição esta vazio")
-    @Size(min = 5, message = "A descrição deve ter no mínimo 5 caracteres")
+    @NotBlank(message = "A descricao esta vazia")
+    @Size(min = 3, message = "A descricao deve ter no mínimo 3 caracteres")
     private String descricao;
 
-    @NotNull
-    @Min(value = 1, message = "A quantidade arrecadada deve ser pelo menos 1")
-    @Max(value = 99999999, message = "A quantidade arrecadada não pode exceder 99999999")
-    private int quantidadeArrecadada;
+    private LocalDateTime dataHora;
 
-    @Min(value = 1, message = "A meta deve ser pelo menos 1")
-    @Max(value = 99999999, message = "A meta não pode exceder 99999999")
-    private int quantidadeMeta;
+    @NotNull(message = "A quantidade esta vazia")
+    @Positive(message = "A quantidade devem ser maior que zero")
+    private Integer quantidade;
 
-    @NotNull(message = "A forma de pagamento esta vazio")
+    @NotNull(message = "O Tipo de recurso esta vazio")
     @Enumerated(EnumType.STRING)
     private TipoRecurso tipoRecurso;
+
+    @Enumerated(EnumType.STRING)
+    private StatusContribuicao statusContribuicao;
 
 }

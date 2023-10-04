@@ -37,7 +37,7 @@ public class DoadorDTO {
     @Past(message = "A data de nascimento deve ser no passado")
     private LocalDateTime dataNascimento;
 
-    @NotNull(message = "O CPF esta vazio")
+    @NotBlank(message = "O CPF esta vazio")
     @Size(min = 11, max = 11, message  = "CPF inválido")
     private String cpf;
 }

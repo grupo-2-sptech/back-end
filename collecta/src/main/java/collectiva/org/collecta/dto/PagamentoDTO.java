@@ -1,16 +1,10 @@
 package collectiva.org.collecta.dto;
 
-import collectiva.org.collecta.domain.enums.FormaPagamento;
-import collectiva.org.collecta.domain.enums.Plano;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 @Data
 @Builder
