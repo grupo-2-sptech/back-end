@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain;
 
+import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,8 @@ public abstract class Contribuicao {
     private String nome;
     private String descricao;
     private LocalDateTime dataHora;
+
+    @Enumerated(EnumType.STRING)
+    private StatusContribuicao statusContribuicao;
 
 }

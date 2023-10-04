@@ -1,5 +1,8 @@
 package collectiva.org.collecta.dto;
 
+import collectiva.org.collecta.domain.enums.TipoRecurso;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +31,9 @@ public class RecursoDTO {
     @Min(value = 1, message = "A meta deve ser pelo menos 1")
     @Max(value = 99999999, message = "A meta não pode exceder 99999999")
     private int quantidadeMeta;
+
+    @NotNull(message = "A forma de pagamento esta vazio")
+    @Enumerated(EnumType.STRING)
+    private TipoRecurso tipoRecurso;
 
 }

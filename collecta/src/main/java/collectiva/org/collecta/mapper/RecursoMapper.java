@@ -13,6 +13,7 @@ public class RecursoMapper {
                 .descricao(recursoDTO.getDescricao())
                 .quantidadeArrecadada(recursoDTO.getQuantidadeArrecadada())
                 .quantidadeMeta(recursoDTO.getQuantidadeMeta())
+                .tipoRecurso(recursoDTO.getTipoRecurso())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class RecursoMapper {
                 .descricao(recurso.getDescricao())
                 .quantidadeArrecadada(recurso.getQuantidadeArrecadada())
                 .quantidadeMeta(recurso.getQuantidadeMeta())
+                .tipoRecurso(recurso.getTipoRecurso())
                 .build();
     }
 

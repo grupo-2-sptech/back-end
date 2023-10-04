@@ -1,7 +1,7 @@
 package collectiva.org.collecta.dto;
 
-import collectiva.org.collecta.domain.enums.FormaPagamento;
 import collectiva.org.collecta.domain.enums.StatusContribuicao;
+import collectiva.org.collecta.domain.enums.TipoRecurso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
-public class ContribuicaoMonetariaDTO {
+public class ContribuicaoRecursoDTO {
     private UUID id;
 
     @NotBlank(message = "O nome esta vazio")
@@ -29,16 +29,13 @@ public class ContribuicaoMonetariaDTO {
 
     private LocalDateTime dataHora;
 
-    @DecimalMin(value = "0.01", message = "O valor deve ser maior ou igual a 0.01")
-    private BigDecimal valor;
+    @NotNull(message = "A quantidade esta vazia")
+    @Positive(message = "A quantidade devem ser maior que zero")
+    private Integer quantidade;
 
-    @Positive(message = "As parcelas devem ser maior que zero")
-    @Max(value =12, message = "As parcelas tem limite de 12")
-    private Integer parcelas;
-
-    @NotNull(message = "A forma de pagamento esta vazia")
+    @NotNull(message = "O Tipo de recurso esta vazio")
     @Enumerated(EnumType.STRING)
-    private FormaPagamento formaPagamento;
+    private TipoRecurso tipoRecurso;
 
     @Enumerated(EnumType.STRING)
     private StatusContribuicao statusContribuicao;

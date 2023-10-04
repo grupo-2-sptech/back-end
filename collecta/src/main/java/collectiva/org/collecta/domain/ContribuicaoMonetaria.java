@@ -1,7 +1,7 @@
 package collectiva.org.collecta.domain;
 
 import collectiva.org.collecta.domain.enums.FormaPagamento;
-import collectiva.org.collecta.domain.enums.StatusPagamento;
+import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +23,6 @@ public class ContribuicaoMonetaria extends Contribuicao{
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
-    @Enumerated(EnumType.STRING)
-    private StatusPagamento statusPagamento;
 
     @ManyToOne
     @JoinColumn(name="doador")
@@ -35,12 +33,12 @@ public class ContribuicaoMonetaria extends Contribuicao{
     private FinanceiroCampanha financeiroCampanha;
 
     @Builder
-    public ContribuicaoMonetaria(UUID id, String nome, String descricao, LocalDateTime dataHora, BigDecimal valor, Integer parcelas, FormaPagamento formaPagamento, StatusPagamento statusPagamento, Doador doador, FinanceiroCampanha financeiroCampanha) {
-        super(id, nome, descricao, dataHora);
+
+    public ContribuicaoMonetaria(UUID id, String nome, String descricao, LocalDateTime dataHora, StatusContribuicao statusContribuicao, BigDecimal valor, Integer parcelas, FormaPagamento formaPagamento, Doador doador, FinanceiroCampanha financeiroCampanha) {
+        super(id, nome, descricao, dataHora, statusContribuicao);
         this.valor = valor;
         this.parcelas = parcelas;
         this.formaPagamento = formaPagamento;
-        this.statusPagamento = statusPagamento;
         this.doador = doador;
         this.financeiroCampanha = financeiroCampanha;
     }
