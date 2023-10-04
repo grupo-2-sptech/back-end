@@ -31,4 +31,7 @@ public class EventoCampanha {
 
     @OneToMany(mappedBy = "eventoCampanha")
     private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "eventoCampanha")
+    private List<ContribuicaoServico> contribuicaoServicos = new ArrayList<>();
 }
