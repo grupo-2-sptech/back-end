@@ -2,6 +2,7 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Plano;
 import collectiva.org.collecta.dto.PlanoDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.mapper.PlanoMapper;
 import collectiva.org.collecta.repository.PlanoRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,13 @@ public class PlanoService {
         return ResponseEntity.status(HttpStatus.CREATED).body(planoDTO);
     }
 
-    public ResponseEntity<List<PlanoDTO>> buscarTodosPlanos() {
+    public List<PlanoDTO> buscarTodosPlanos() {
         List<Plano> planos = planoRepository.findAll();
-        if (planos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        List<PlanoDTO> planosDTO = planos.stream().map(PlanoMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(planosDTO);
+        planos.stream()
+                .findFirst()
+                .orElseThrow(() -> new EntidadeNaoContemElementosException("A Lista de planos"));
+
+        return planos.stream().map(PlanoMapper::paraDTO).collect(Collectors.toList());
     }
 
     public ResponseEntity<PlanoDTO> buscarPlanoPorId(UUID id) {

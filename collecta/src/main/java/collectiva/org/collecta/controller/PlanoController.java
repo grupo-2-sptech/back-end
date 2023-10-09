@@ -19,7 +19,7 @@ public class PlanoController {
 
     @GetMapping
     public ResponseEntity<List<PlanoDTO>> buscarPlanos() {
-        return planoService.buscarTodosPlanos();
+        return ResponseEntity.ok(planoService.buscarTodosPlanos());
     }
     @GetMapping("/{id}")
     public ResponseEntity<PlanoDTO> buscarPlanoPorId(@PathVariable UUID id) {
