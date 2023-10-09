@@ -19,23 +19,24 @@ public class RecursoController {
 
     @GetMapping
     public ResponseEntity<List<RecursoDTO>> buscarRecursos() {
-        return recursoService.buscarTodosRecursos();
+        return ResponseEntity.ok(recursoService.buscarTodosRecursos());
     }
     @GetMapping("/{id}")
     public ResponseEntity<RecursoDTO> buscarRecursoPorId(@PathVariable UUID id) {
-        return recursoService.buscarRecursoPorId(id);
+        return ResponseEntity.ok(recursoService.buscarRecursoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<RecursoDTO> criarRecurso(@RequestBody @Valid RecursoDTO recursoDTO) {
-        return recursoService.salvarRecurso(recursoDTO);
+        return ResponseEntity.status(201).body(recursoService.salvarRecurso(recursoDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<RecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid RecursoDTO recursoDTO) {
-        return recursoService.atualizarRecurso(id, recursoDTO);
+        return ResponseEntity.ok(recursoService.atualizarRecurso(id, recursoDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarRecurso(@PathVariable UUID id){
-        return  recursoService.deletarRecurso(id);
+        recursoService.deletarRecurso(id);
+        return ResponseEntity.noContent().build();
     }
 }

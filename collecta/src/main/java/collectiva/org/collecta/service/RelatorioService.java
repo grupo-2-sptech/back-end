@@ -38,8 +38,7 @@ public class RelatorioService {
     }
 
     public RelatorioDTO atualizarRelatorio(UUID id, RelatorioDTO relatorioDTO) {
-        relatorioRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Relatorio"));
+        buscarRelatorioPorId(id);
         Relatorio relatorioNovo = RelatorioMapper.paraEntidade(relatorioDTO);
         relatorioNovo.setId(id);
         relatorioRepository.save(relatorioNovo);

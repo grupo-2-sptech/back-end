@@ -39,8 +39,7 @@ public class PlanoService {
     }
 
     public PlanoDTO atualizarPlano(UUID id, PlanoDTO planoDTO) {
-        planoRepository.findById(id).orElseThrow(()
-                -> new EntidadeNaoEncontradaException("Plano"));
+        buscarPlanoPorId(id);
         Plano planoNovo = PlanoMapper.paraEntidade(planoDTO);
         planoNovo.setId(id);
         planoRepository.save(planoNovo);
