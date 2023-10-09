@@ -3,6 +3,7 @@ package collectiva.org.collecta.service;
 import collectiva.org.collecta.domain.Plano;
 import collectiva.org.collecta.dto.PlanoDTO;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.PlanoMapper;
 import collectiva.org.collecta.repository.PlanoRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,50 +21,40 @@ import java.util.stream.Collectors;
 public class PlanoService {
     private final PlanoRepository planoRepository;
 
-    public ResponseEntity<PlanoDTO> salvarPlano(PlanoDTO planoDTO) {
+    public PlanoDTO salvarPlano(PlanoDTO planoDTO) {
         Plano plano = PlanoMapper.paraEntidade(planoDTO);
         planoRepository.save(plano);
-        planoDTO = PlanoMapper.paraDTO(plano);
-        return ResponseEntity.status(HttpStatus.CREATED).body(planoDTO);
+        return PlanoMapper.paraDTO(plano);
     }
 
     public List<PlanoDTO> buscarTodosPlanos() {
         List<Plano> planos = planoRepository.findAll();
-        planos.stream()
-                .findFirst()
-                .orElseThrow(() -> new EntidadeNaoContemElementosException("A Lista de planos"));
+        if (planos.isEmpty()){
+            throw new EntidadeNaoContemElementosException("Planos");
+        }
 
         return planos.stream().map(PlanoMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<PlanoDTO> buscarPlanoPorId(UUID id) {
-        Optional<Plano> plano = planoRepository.findById(id);
-        if (plano.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        PlanoDTO planoDTO = PlanoMapper.paraDTO(plano.get());
-        return ResponseEntity.ok().body(planoDTO);
+    public PlanoDTO buscarPlanoPorId(UUID id) {
+        return PlanoMapper.paraDTO(planoRepository.findById(id).orElseThrow(()
+                -> new EntidadeNaoEncontradaException("Plano")));
     }
 
-    public ResponseEntity<PlanoDTO> atualizarPlano(UUID id, PlanoDTO planoDTO) {
-        Optional<Plano> planoAntigo = planoRepository.findById(id);
-        if (planoAntigo.isPresent()) {
-            Plano plano = PlanoMapper.paraEntidade(planoDTO);
-            plano.setId(planoAntigo.get().getId());
-            planoDTO.setId(planoAntigo.get().getId());
-            planoRepository.save(plano);
-            return ResponseEntity.ok().body(planoDTO);
-        }
-
-        return ResponseEntity.noContent().build();
+    public PlanoDTO atualizarPlano(UUID id, PlanoDTO planoDTO) {
+        planoRepository.findById(id).orElseThrow(()
+                -> new EntidadeNaoEncontradaException("Plano"));
+        Plano planoNovo = PlanoMapper.paraEntidade(planoDTO);
+        planoNovo.setId(id);
+        planoRepository.save(planoNovo);
+        return PlanoMapper.paraDTO(planoNovo);
     }
 
-    public ResponseEntity<Void> deletarPlano(UUID id) {
+    public void deletarPlano(UUID id) {
         if (!planoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Plano");
         }
         planoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }
 
