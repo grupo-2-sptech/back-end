@@ -4,7 +4,6 @@ import collectiva.org.collecta.dto.PlanoDTO;
 import collectiva.org.collecta.service.PlanoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
