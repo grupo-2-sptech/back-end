@@ -33,7 +33,8 @@ public class PostService {
     }
 
     public PostDTO buscarPostPorId(UUID id) {
-        return PostMapper.paraDTO(postRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Post")));
+        return PostMapper.paraDTO(postRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Post")));
     }
 
     public PostDTO atualizarPost(UUID id, PostDTO postDTO) {

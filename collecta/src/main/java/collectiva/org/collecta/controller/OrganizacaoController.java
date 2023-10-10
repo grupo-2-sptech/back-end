@@ -19,23 +19,24 @@ public class OrganizacaoController {
 
     @GetMapping
     public ResponseEntity<List<OrganizacaoDTO>> buscarOrganizacoes() {
-        return organizacaoService.buscarTodasOrganizacoes();
+        return ResponseEntity.ok(organizacaoService.buscarTodasOrganizacoes());
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrganizacaoDTO> buscarOrganizacaoPorId(@PathVariable UUID id) {
-        return organizacaoService.buscarOrganizacaoPorId(id);
+        return ResponseEntity.ok(organizacaoService.buscarOrganizacaoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<OrganizacaoDTO> criarOrganizacao(@RequestBody @Valid OrganizacaoDTO organizacaoDTO) {
-        return organizacaoService.salvarOrganizacao(organizacaoDTO);
+        return ResponseEntity.status(201).body(organizacaoService.salvarOrganizacao(organizacaoDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<OrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid OrganizacaoDTO organizacaoDTO) {
-        return organizacaoService.atualizarOrganizacao(id, organizacaoDTO);
+        return ResponseEntity.ok(organizacaoService.atualizarOrganizacao(id, organizacaoDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarOrganizacao(@PathVariable UUID id){
-        return  organizacaoService.deletarOrganizacao(id);
+        organizacaoService.deletarOrganizacao(id);
+        return ResponseEntity.noContent().build();
     }
 }

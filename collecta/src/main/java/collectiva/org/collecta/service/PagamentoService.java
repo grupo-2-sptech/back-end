@@ -34,9 +34,7 @@ public class PagamentoService {
 
     public PagamentoDTO buscarPagamentoPorId(UUID id) {
         return PagamentoMapper.paraDTO(pagamentoRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Pagamento")
-        ));
-
+                () -> new EntidadeNaoEncontradaException("Pagamento")));
     }
 
     public PagamentoDTO atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
