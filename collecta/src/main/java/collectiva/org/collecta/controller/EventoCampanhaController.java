@@ -19,23 +19,24 @@ public class EventoCampanhaController {
 
     @GetMapping
     public ResponseEntity<List<EventoCampanhaDTO>> buscarEventosCampanha() {
-        return eventoCampanhaService.buscarTodosEventosCampanha();
+        return ResponseEntity.ok(eventoCampanhaService.buscarTodosEventosCampanha());
     }
     @GetMapping("/{id}")
     public ResponseEntity<EventoCampanhaDTO> buscarEventoCampanhaPorId(@PathVariable UUID id) {
-        return eventoCampanhaService.buscarEventoCampanhaPorId(id);
+        return ResponseEntity.ok(eventoCampanhaService.buscarEventoCampanhaPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<EventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid EventoCampanhaDTO eventoCampanha) {
-        return eventoCampanhaService.salvarEventoCampanha(eventoCampanha);
+        return ResponseEntity.status(201).body(eventoCampanhaService.salvarEventoCampanha(eventoCampanha));
     }
     @PutMapping("/{id}")
     public ResponseEntity<EventoCampanhaDTO> atualizarEventoCampanha(@PathVariable UUID id, @Valid @RequestBody EventoCampanhaDTO eventoCampanhaDTO) {
-        return eventoCampanhaService.atualizarEventoCampanha(id, eventoCampanhaDTO);
+        return ResponseEntity.ok(eventoCampanhaService.atualizarEventoCampanha(id, eventoCampanhaDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEventoCampanha(@PathVariable UUID id){
-        return  eventoCampanhaService.deletarEventoCampanha(id);
+        eventoCampanhaService.deletarEventoCampanha(id);
+        return ResponseEntity.noContent().build();
     }
 }
