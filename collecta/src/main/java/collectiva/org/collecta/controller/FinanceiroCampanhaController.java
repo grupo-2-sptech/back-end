@@ -19,23 +19,24 @@ public class FinanceiroCampanhaController {
 
     @GetMapping
     public ResponseEntity<List<FinanceiroCampanhaDTO>> buscarFinanceirosCampanha() {
-        return financeiroCampanhaService.buscarTodosFinanceirosCampanha();
+        return ResponseEntity.ok(financeiroCampanhaService.buscarTodosFinanceirosCampanha());
     }
     @GetMapping("/{id}")
     public ResponseEntity<FinanceiroCampanhaDTO> buscarFinanceiroCampanhaPorId(@PathVariable UUID id) {
-        return financeiroCampanhaService.buscarFinanceiroCampanhaPorId(id);
+        return ResponseEntity.ok(financeiroCampanhaService.buscarFinanceiroCampanhaPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<FinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid FinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        return financeiroCampanhaService.salvarFinanceiroCampanha(financeiroCampanhaDTO);
+        return ResponseEntity.status(201).body(financeiroCampanhaService.salvarFinanceiroCampanha(financeiroCampanhaDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<FinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid FinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        return financeiroCampanhaService.atualizarFinanceiroCampanha(id, financeiroCampanhaDTO);
+        return ResponseEntity.ok(financeiroCampanhaService.atualizarFinanceiroCampanha(id, financeiroCampanhaDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarFinanceiroCampanha(@PathVariable UUID id){
-        return  financeiroCampanhaService.deletarFinanceiroCampanha(id);
+        financeiroCampanhaService.deletarFinanceiroCampanha(id);
+        return ResponseEntity.noContent().build();
     }
 }
