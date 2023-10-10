@@ -2,16 +2,14 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Pagamento;
 import collectiva.org.collecta.dto.PagamentoDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.PagamentoMapper;
 import collectiva.org.collecta.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -20,49 +18,40 @@ import java.util.stream.Collectors;
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public ResponseEntity<PagamentoDTO> salvarPagamento(PagamentoDTO pagamentoDTO) {
+    public PagamentoDTO salvarPagamento(PagamentoDTO pagamentoDTO) {
         Pagamento pagamento = PagamentoMapper.paraEntidade(pagamentoDTO);
         pagamentoRepository.save(pagamento);
-        pagamentoDTO = PagamentoMapper.paraDTO(pagamento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoDTO);
+        return PagamentoMapper.paraDTO(pagamento);
     }
 
-    public ResponseEntity<List<PagamentoDTO>> buscarTodosPagamentos() {
+    public List<PagamentoDTO> buscarTodosPagamentos() {
         List<Pagamento> pagamentos = pagamentoRepository.findAll();
         if (pagamentos.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            throw new EntidadeNaoContemElementosException("Pagamento");
         }
-        List<PagamentoDTO> pagamentosDTO = pagamentos.stream().map(PagamentoMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(pagamentosDTO);
+        return pagamentos.stream().map(PagamentoMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<PagamentoDTO> buscarPagamentoPorId(UUID id) {
-        Optional<Pagamento> pagamento = pagamentoRepository.findById(id);
-        if (pagamento.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        PagamentoDTO pagamentoDTO = PagamentoMapper.paraDTO(pagamento.get());
-        return ResponseEntity.ok().body(pagamentoDTO);
+    public PagamentoDTO buscarPagamentoPorId(UUID id) {
+        return PagamentoMapper.paraDTO(pagamentoRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Pagamento")
+        ));
+
     }
 
-    public ResponseEntity<PagamentoDTO> atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
-        Optional<Pagamento> pagamentoAntigo = pagamentoRepository.findById(id);
-        if (pagamentoAntigo.isPresent()) {
-            Pagamento pagamento = PagamentoMapper.paraEntidade(pagamentoDTO);
-            pagamentoDTO.setId(id);
-            pagamento.setId(id);
-            pagamentoRepository.save(pagamento);
-            return ResponseEntity.ok(pagamentoDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public PagamentoDTO atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
+        buscarPagamentoPorId(id);
+        Pagamento pagamentoNovo = PagamentoMapper.paraEntidade(pagamentoDTO);
+        pagamentoNovo.setId(id);
+        pagamentoRepository.save(pagamentoNovo);
+        return PagamentoMapper.paraDTO(pagamentoNovo);
     }
 
-    public ResponseEntity<Void> deletarPagamento(UUID id) {
+    public void deletarPagamento(UUID id) {
         if (!pagamentoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Pagamento");
         }
         pagamentoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }
 
