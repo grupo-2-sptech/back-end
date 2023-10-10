@@ -19,23 +19,24 @@ public class EnderecoController {
 
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarEnderecos() {
-        return enderecoService.buscarTodosEnderecos();
+        return ResponseEntity.ok(enderecoService.buscarTodosEnderecos());
     }
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> buscarEnderecoPorId(@PathVariable UUID id) {
-        return enderecoService.buscarEnderecoPorId(id);
+        return ResponseEntity.ok(enderecoService.buscarEnderecoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<EnderecoDTO> criarEndereco(@RequestBody @Valid EnderecoDTO enderecoDTO) {
-        return enderecoService.salvarEndereco(enderecoDTO);
+        return ResponseEntity.status(201).body(enderecoService.salvarEndereco(enderecoDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid EnderecoDTO enderecoDTO) {
-        return enderecoService.atualizarEndereco(id, enderecoDTO);
+        return ResponseEntity.ok(enderecoService.atualizarEndereco(id, enderecoDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEndereco(@PathVariable UUID id){
-        return  enderecoService.deletarEndereco(id);
+        enderecoService.deletarEndereco(id);
+        return ResponseEntity.noContent().build();
     }
 }
