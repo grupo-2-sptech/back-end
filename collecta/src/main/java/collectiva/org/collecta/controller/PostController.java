@@ -19,23 +19,24 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> buscarPosts() {
-        return postService.buscarTodosPosts();
+        return ResponseEntity.ok(postService.buscarTodosPosts());
     }
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> buscarPostPorId(@PathVariable UUID id) {
-        return postService.buscarPostPorId(id);
+        return ResponseEntity.ok(postService.buscarPostPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<PostDTO> criarPost(@RequestBody @Valid PostDTO postDTO) {
-        return postService.salvarPost(postDTO);
+        return ResponseEntity.status(201).body(postService.salvarPost(postDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid PostDTO postDTO) {
-        return postService.atualizarPost(id, postDTO);
+        return ResponseEntity.ok(postService.atualizarPost(id, postDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPost(@PathVariable UUID id){
-        return  postService.deletarPost(id);
+        postService.deletarPost(id);
+        return ResponseEntity.noContent().build();
     }
 }
