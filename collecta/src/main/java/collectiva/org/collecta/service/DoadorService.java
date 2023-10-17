@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Doador;
 import collectiva.org.collecta.dto.DoadorDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.DoadorMapper;
 import collectiva.org.collecta.repository.DoadorRepository;
@@ -26,9 +25,6 @@ public class DoadorService {
 
     public List<DoadorDTO> buscarTodosDoadores() {
         List<Doador> doadores = doadorRepository.findAll();
-        if (doadores.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Doador");
-        }
         return doadores.stream().map(DoadorMapper::paraDTO).collect(Collectors.toList());
     }
 

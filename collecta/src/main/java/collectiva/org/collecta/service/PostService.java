@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Post;
 import collectiva.org.collecta.dto.PostDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.PostMapper;
 import collectiva.org.collecta.repository.PostRepository;
@@ -26,9 +25,6 @@ public class PostService {
 
     public List<PostDTO> buscarTodosPosts() {
         List<Post> posts = postRepository.findAll();
-        if (posts.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Post");
-        }
         return posts.stream().map(PostMapper::paraDTO).collect(Collectors.toList());
     }
 

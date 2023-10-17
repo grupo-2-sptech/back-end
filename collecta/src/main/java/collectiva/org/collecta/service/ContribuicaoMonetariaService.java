@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ContribuicaoMonetaria;
 import collectiva.org.collecta.dto.ContribuicaoMonetariaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.repository.ContribuicaoMonetariaRepository;
@@ -26,9 +25,6 @@ public class ContribuicaoMonetariaService {
 
     public List<ContribuicaoMonetariaDTO> buscarTodasContribuicoesMonetarias() {
         List<ContribuicaoMonetaria> contribuicaoMonetaria = contribuicaoMonetariaRepository.findAll();
-        if (contribuicaoMonetaria.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("ContribuicaoMonetaria");
-        }
         return contribuicaoMonetaria.stream().map(ContribuicaoMonetariaMapper::paraDTO).collect(Collectors.toList());
     }
 

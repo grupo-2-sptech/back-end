@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.EnderecoDTO;
 import collectiva.org.collecta.service.EnderecoService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class EnderecoController {
 
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarEnderecos() {
-        return ResponseEntity.ok(enderecoService.buscarTodosEnderecos());
+        List<EnderecoDTO> lista = enderecoService.buscarTodosEnderecos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> buscarEnderecoPorId(@PathVariable UUID id) {

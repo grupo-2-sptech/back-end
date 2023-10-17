@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Categoria;
 import collectiva.org.collecta.dto.CategoriaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.CategoriaMapper;
 import collectiva.org.collecta.repository.CategoriaRepository;
@@ -26,9 +25,6 @@ public class CategoriaService {
 
     public List<CategoriaDTO> buscarTodasCategorias() {
         List<Categoria> categoria = categoriaRepository.findAll();
-        if (categoria.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Categoria");
-        }
         return categoria.stream().map(CategoriaMapper::paraDTO).collect(Collectors.toList());
     }
 

@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ContribuicaoServico;
 import collectiva.org.collecta.dto.ContribuicaoServicoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.ContribuicaoServicoMapper;
 import collectiva.org.collecta.repository.ContribuicaoServicoRepository;
@@ -26,9 +25,6 @@ public class ContribuicaoServicoService {
 
     public List<ContribuicaoServicoDTO> buscarTodasContribuicoesServicos() {
         List<ContribuicaoServico> contribuicaoServico = contribuicaoServicoRepository.findAll();
-        if (contribuicaoServico.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("ContribuicaoServico");
-        }
         return contribuicaoServico.stream().map(ContribuicaoServicoMapper::paraDTO).collect(Collectors.toList());
     }
 

@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ComentarioDoador;
 import collectiva.org.collecta.dto.ComentarioDoadorDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.ComentarioDoadorMapper;
 import collectiva.org.collecta.repository.ComentarioDoadorRepository;
@@ -26,9 +25,6 @@ public class ComentarioDoadorService {
 
     public List<ComentarioDoadorDTO> buscarTodosComentarios() {
         List<ComentarioDoador> comentariosDoador = comentarioDoadorRepository.findAll();
-        if (comentariosDoador.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("ComentarioDoador");
-        }
         return comentariosDoador.stream().map(ComentarioDoadorMapper::paraDTO).collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.PagamentoDTO;
 import collectiva.org.collecta.service.PagamentoService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class PagamentoController {
 
     @GetMapping
     public ResponseEntity<List<PagamentoDTO>> buscarPagamentos() {
-        return ResponseEntity.ok(pagamentoService.buscarTodosPagamentos());
+        List<PagamentoDTO> lista = pagamentoService.buscarTodosPagamentos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PagamentoDTO> buscarPagamentoPorId(@PathVariable UUID id) {

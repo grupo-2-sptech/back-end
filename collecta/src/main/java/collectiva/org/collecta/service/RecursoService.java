@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Recurso;
 import collectiva.org.collecta.dto.RecursoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.RecursoMapper;
 import collectiva.org.collecta.repository.RecursoRepository;
@@ -26,9 +25,6 @@ public class RecursoService {
 
     public List<RecursoDTO> buscarTodosRecursos() {
         List<Recurso> recursos = recursoRepository.findAll();
-        if (recursos.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Recursos");
-        }
         return recursos.stream().map(RecursoMapper::paraDTO).collect(Collectors.toList());
 
     }

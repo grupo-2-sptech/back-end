@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Relatorio;
 import collectiva.org.collecta.dto.RelatorioDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.RelatorioMapper;
 import collectiva.org.collecta.repository.RelatorioRepository;
@@ -26,9 +25,6 @@ public class RelatorioService {
 
     public List<RelatorioDTO> buscarTodosRelatorios() {
         List<Relatorio> relatorios = relatorioRepository.findAll();
-        if (relatorios.isEmpty()){
-            throw new EntidadeNaoContemElementosException("Relatorio");
-        }
         return relatorios.stream().map(RelatorioMapper::paraDTO).collect(Collectors.toList());
     }
 

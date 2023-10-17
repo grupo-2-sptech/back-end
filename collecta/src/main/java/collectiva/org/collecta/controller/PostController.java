@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.PostDTO;
 import collectiva.org.collecta.service.PostService;
 import jakarta.validation.Valid;
@@ -19,8 +20,10 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> buscarPosts() {
-        return ResponseEntity.ok(postService.buscarTodosPosts());
+        List<PostDTO> lista = postService.buscarTodosPosts();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> buscarPostPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(postService.buscarPostPorId(id));
@@ -30,12 +33,14 @@ public class PostController {
     public ResponseEntity<PostDTO> criarPost(@RequestBody @Valid PostDTO postDTO) {
         return ResponseEntity.status(201).body(postService.salvarPost(postDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid PostDTO postDTO) {
         return ResponseEntity.ok(postService.atualizarPost(id, postDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPost(@PathVariable UUID id){
+    public ResponseEntity<Void> deletarPost(@PathVariable UUID id) {
         postService.deletarPost(id);
         return ResponseEntity.noContent().build();
     }

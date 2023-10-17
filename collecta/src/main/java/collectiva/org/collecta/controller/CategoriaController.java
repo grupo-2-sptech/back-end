@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.CategoriaDTO;
 import collectiva.org.collecta.service.CategoriaService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class CategoriaController {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> buscarCategorias() {
-        return ResponseEntity.ok(categoriaService.buscarTodasCategorias());
+        List<CategoriaDTO> lista = categoriaService.buscarTodasCategorias();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> buscarCategoriaPorId(@PathVariable UUID id) {

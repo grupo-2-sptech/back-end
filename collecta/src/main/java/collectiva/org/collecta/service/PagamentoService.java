@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Pagamento;
 import collectiva.org.collecta.dto.PagamentoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.PagamentoMapper;
 import collectiva.org.collecta.repository.PagamentoRepository;
@@ -26,9 +25,6 @@ public class PagamentoService {
 
     public List<PagamentoDTO> buscarTodosPagamentos() {
         List<Pagamento> pagamentos = pagamentoRepository.findAll();
-        if (pagamentos.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Pagamento");
-        }
         return pagamentos.stream().map(PagamentoMapper::paraDTO).collect(Collectors.toList());
     }
 

@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Organizacao;
 import collectiva.org.collecta.dto.OrganizacaoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.OrganizacaoMapper;
 import collectiva.org.collecta.repository.OrganizacaoRepository;
@@ -26,9 +25,6 @@ public class OrganizacaoService {
 
     public List<OrganizacaoDTO> buscarTodasOrganizacoes() {
         List<Organizacao> organizacoes = organizacaoRepository.findAll();
-        if (organizacoes.isEmpty()){
-            throw new EntidadeNaoContemElementosException("Organizacao");
-        }
         return organizacoes.stream().map(OrganizacaoMapper::paraDTO).collect(Collectors.toList());
     }
 

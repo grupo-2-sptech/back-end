@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Endereco;
 import collectiva.org.collecta.dto.EnderecoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.EnderecoMapper;
 import collectiva.org.collecta.repository.EnderecoRepository;
@@ -26,9 +25,6 @@ public class EnderecoService {
 
     public List<EnderecoDTO> buscarTodosEnderecos() {
         List<Endereco> enderecos = enderecoRepository.findAll();
-        if (enderecos.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Endereco");
-        }
         return enderecos.stream().map(EnderecoMapper::paraDTO).collect(Collectors.toList());
     }
 

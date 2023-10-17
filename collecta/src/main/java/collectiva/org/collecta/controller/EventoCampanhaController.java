@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.EventoCampanhaDTO;
 import collectiva.org.collecta.service.EventoCampanhaService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class EventoCampanhaController {
 
     @GetMapping
     public ResponseEntity<List<EventoCampanhaDTO>> buscarEventosCampanha() {
-        return ResponseEntity.ok(eventoCampanhaService.buscarTodosEventosCampanha());
+        List<EventoCampanhaDTO> lista = eventoCampanhaService.buscarTodosEventosCampanha();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<EventoCampanhaDTO> buscarEventoCampanhaPorId(@PathVariable UUID id) {

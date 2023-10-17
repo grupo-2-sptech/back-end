@@ -2,7 +2,6 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Campanha;
 import collectiva.org.collecta.dto.CampanhaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.CampanhaMapper;
 import collectiva.org.collecta.repository.CampanhaRepository;
@@ -26,9 +25,6 @@ public class CampanhaService {
 
     public List<CampanhaDTO> buscarTodasCampanhas() {
         List<Campanha> campanha = campanhaRepository.findAll();
-        if (campanha.isEmpty()) {
-            throw new EntidadeNaoContemElementosException("Campanha");
-        }
         return campanha.stream().map(CampanhaMapper::paraDTO).collect(Collectors.toList());
     }
 

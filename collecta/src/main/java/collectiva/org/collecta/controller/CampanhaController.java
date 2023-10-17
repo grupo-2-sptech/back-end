@@ -19,7 +19,8 @@ public class CampanhaController {
 
     @GetMapping
     public ResponseEntity<List<CampanhaDTO>> buscarCampanhas() {
-        return ResponseEntity.ok(campanhaService.buscarTodasCampanhas());
+        List<CampanhaDTO> lista = campanhaService.buscarTodasCampanhas();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
 
     @GetMapping("/{id}")

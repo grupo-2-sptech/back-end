@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ComentarioOrganizacaoDTO;
 import collectiva.org.collecta.service.ComentarioOrganizacaoService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class ComentarioOrganizacaoController {
 
     @GetMapping
     public ResponseEntity<List<ComentarioOrganizacaoDTO>> buscarComentarios() {
-        return ResponseEntity.ok(comentarioService.buscarTodosComentarios());
+        List<ComentarioOrganizacaoDTO> lista = comentarioService.buscarTodosComentarios();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
 
     @GetMapping("/{id}")

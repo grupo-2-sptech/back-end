@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ContribuicaoServicoDTO;
 import collectiva.org.collecta.service.ContribuicaoServicoService;
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class ContribuicaoServicoController {
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoServicoDTO>> buscarContribuicoesServicos() {
-        return ResponseEntity.ok(contribuicaoServicoService.buscarTodasContribuicoesServicos());
+        List<ContribuicaoServicoDTO> lista = contribuicaoServicoService.buscarTodasContribuicoesServicos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoServicoDTO> buscarContribuicaoServicoPorId(@PathVariable UUID id) {
