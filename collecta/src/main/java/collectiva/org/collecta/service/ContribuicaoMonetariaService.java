@@ -2,15 +2,14 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ContribuicaoMonetaria;
 import collectiva.org.collecta.dto.ContribuicaoMonetariaDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.repository.ContribuicaoMonetariaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,50 +18,38 @@ import java.util.stream.Collectors;
 public class ContribuicaoMonetariaService {
     private final ContribuicaoMonetariaRepository contribuicaoMonetariaRepository;
 
-    public ResponseEntity<ContribuicaoMonetariaDTO> salvarContribuicaoMonetaria(ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+    public ContribuicaoMonetariaDTO salvarContribuicaoMonetaria(ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
         ContribuicaoMonetaria contribuicaoMonetaria = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO);
         contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
-        contribuicaoMonetariaDTO = ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(contribuicaoMonetariaDTO);
+        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria);
     }
 
-    public ResponseEntity<List<ContribuicaoMonetariaDTO>> buscarTodasContribuicoesMonetarias() {
+    public List<ContribuicaoMonetariaDTO> buscarTodasContribuicoesMonetarias() {
         List<ContribuicaoMonetaria> contribuicaoMonetaria = contribuicaoMonetariaRepository.findAll();
         if (contribuicaoMonetaria.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            throw new EntidadeNaoContemElementosException("ContribuicaoMonetaria");
         }
-        List<ContribuicaoMonetariaDTO> contribuicaoMonetariaDTOs = contribuicaoMonetaria.stream().map(ContribuicaoMonetariaMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(contribuicaoMonetariaDTOs);
+        return contribuicaoMonetaria.stream().map(ContribuicaoMonetariaMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<ContribuicaoMonetariaDTO> buscarContribuicaoMonetariaPorId(UUID id) {
-        Optional<ContribuicaoMonetaria> contribuicaoMonetaria = contribuicaoMonetariaRepository.findById(id);
-        if (contribuicaoMonetaria.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        ContribuicaoMonetariaDTO contribuicaoMonetariaDTO = ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria.get());
-        return ResponseEntity.ok().body(contribuicaoMonetariaDTO);
+    public ContribuicaoMonetariaDTO buscarContribuicaoMonetariaPorId(UUID id) {
+        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria")));
     }
 
-    public ResponseEntity<ContribuicaoMonetariaDTO> atualizarContribuicaoMonetaria(UUID id, ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        Optional<ContribuicaoMonetaria> contribuicaoMonetariaAntiga = contribuicaoMonetariaRepository.findById(id);
-        if (contribuicaoMonetariaAntiga.isPresent()) {
-            ContribuicaoMonetaria contribuicaoMonetaria = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO);
-            contribuicaoMonetaria.setId(contribuicaoMonetariaAntiga.get().getId());
-            contribuicaoMonetariaDTO.setId(contribuicaoMonetariaAntiga.get().getId());
-
-            contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
-            return ResponseEntity.ok().body(contribuicaoMonetariaDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public ContribuicaoMonetariaDTO atualizarContribuicaoMonetaria(UUID id, ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+        buscarContribuicaoMonetariaPorId(id);
+        ContribuicaoMonetaria contribuicaoMonetariaNova = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO);
+        contribuicaoMonetariaNova.setId(id);
+        contribuicaoMonetariaRepository.save(contribuicaoMonetariaNova);
+        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaNova);
     }
 
-    public ResponseEntity<Void> deletarContribuicaoMonetaria(UUID id) {
+    public void deletarContribuicaoMonetaria(UUID id) {
         if (!contribuicaoMonetariaRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("ContribuicaoMonetaria");
         }
         contribuicaoMonetariaRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 
