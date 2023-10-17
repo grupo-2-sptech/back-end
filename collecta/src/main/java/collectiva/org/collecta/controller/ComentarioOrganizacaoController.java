@@ -19,23 +19,27 @@ public class ComentarioOrganizacaoController {
 
     @GetMapping
     public ResponseEntity<List<ComentarioOrganizacaoDTO>> buscarComentarios() {
-        return comentarioService.buscarTodosComentarios();
+        return ResponseEntity.ok(comentarioService.buscarTodosComentarios());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ComentarioOrganizacaoDTO> buscarComentarioPorId(@PathVariable UUID id) {
-        return comentarioService.buscarComentarioPorId(id);
+        return ResponseEntity.ok(comentarioService.buscarComentarioPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid ComentarioOrganizacaoDTO ComentarioOrganizacaoDTO) {
-        return comentarioService.salvarComentario(ComentarioOrganizacaoDTO);
+        return ResponseEntity.status(201).body(comentarioService.salvarComentario(ComentarioOrganizacaoDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ComentarioOrganizacaoDTO> atualizarComentario(@PathVariable UUID id, @RequestBody @Valid ComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
-        return comentarioService.atualizarComentario(id, comentarioOrganizacaoDTO);
+        return ResponseEntity.ok(comentarioService.atualizarComentario(id, comentarioOrganizacaoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarComentario(@PathVariable UUID id){
-        return  comentarioService.deletarComentario(id);
+    public ResponseEntity<Void> deletarComentario(@PathVariable UUID id) {
+        comentarioService.deletarComentario(id);
+        return ResponseEntity.noContent().build();
     }
 }
