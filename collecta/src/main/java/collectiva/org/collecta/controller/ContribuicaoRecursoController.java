@@ -19,23 +19,27 @@ public class ContribuicaoRecursoController {
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoRecursoDTO>> buscarContribuicoesRecursos() {
-        return contribuicaoRecursoService.buscarTodasContribuicoesRecursos();
+        return ResponseEntity.ok(contribuicaoRecursoService.buscarTodasContribuicoesRecursos());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoRecursoDTO> buscarContribuicaoRecursoPorId(@PathVariable UUID id) {
-        return contribuicaoRecursoService.buscarContribuicaoRecursoPorId(id);
+        return ResponseEntity.ok(contribuicaoRecursoService.buscarContribuicaoRecursoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ContribuicaoRecursoDTO> criarContribuicaoRecurso(@RequestBody @Valid ContribuicaoRecursoDTO contribuicaoRecurso) {
-        return contribuicaoRecursoService.salvarContribuicaoRecurso(contribuicaoRecurso);
+        return ResponseEntity.status(201).body(contribuicaoRecursoService.salvarContribuicaoRecurso(contribuicaoRecurso));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ContribuicaoRecursoDTO> atualizarContribuicaoRecurso(@PathVariable UUID id, @Valid @RequestBody ContribuicaoRecursoDTO contribuicaoRecursoDTO) {
-        return contribuicaoRecursoService.atualizarContribuicaoRecurso(id, contribuicaoRecursoDTO);
+        return ResponseEntity.ok(contribuicaoRecursoService.atualizarContribuicaoRecurso(id, contribuicaoRecursoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarContribuicaoRecurso(@PathVariable UUID id){
-        return  contribuicaoRecursoService.deletarContribuicaoRecurso(id);
+    public ResponseEntity<Void> deletarContribuicaoRecurso(@PathVariable UUID id) {
+        contribuicaoRecursoService.deletarContribuicaoRecurso(id);
+        return ResponseEntity.noContent().build();
     }
 }
