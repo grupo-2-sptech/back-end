@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ContribuicaoServicoDTO;
 import collectiva.org.collecta.service.ContribuicaoServicoService;
 import jakarta.validation.Valid;
@@ -19,23 +20,25 @@ public class ContribuicaoServicoController {
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoServicoDTO>> buscarContribuicoesServicos() {
-        return contribuicaoServicoService.buscarTodasContribuicoesServicos();
+        List<ContribuicaoServicoDTO> lista = contribuicaoServicoService.buscarTodasContribuicoesServicos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoServicoDTO> buscarContribuicaoServicoPorId(@PathVariable UUID id) {
-        return contribuicaoServicoService.buscarContribuicaoServicoPorId(id);
+        return ResponseEntity.ok(contribuicaoServicoService.buscarContribuicaoServicoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid ContribuicaoServicoDTO contribuicaoServico) {
-        return contribuicaoServicoService.salvarContribuicaoServico(contribuicaoServico);
+        return ResponseEntity.status(201).body(contribuicaoServicoService.salvarContribuicaoServico(contribuicaoServico));
     }
     @PutMapping("/{id}")
     public ResponseEntity<ContribuicaoServicoDTO> atualizarContribuicaoServico(@PathVariable UUID id, @Valid @RequestBody ContribuicaoServicoDTO contribuicaoServicoDTO) {
-        return contribuicaoServicoService.atualizarContribuicaoServico(id, contribuicaoServicoDTO);
+        return ResponseEntity.ok(contribuicaoServicoService.atualizarContribuicaoServico(id, contribuicaoServicoDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarContribuicaoServico(@PathVariable UUID id){
-        return  contribuicaoServicoService.deletarContribuicaoServico(id);
+        contribuicaoServicoService.deletarContribuicaoServico(id);
+        return ResponseEntity.noContent().build();
     }
 }

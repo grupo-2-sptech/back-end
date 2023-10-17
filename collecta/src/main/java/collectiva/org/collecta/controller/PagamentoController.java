@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.PagamentoDTO;
 import collectiva.org.collecta.service.PagamentoService;
 import jakarta.validation.Valid;
@@ -19,23 +20,25 @@ public class PagamentoController {
 
     @GetMapping
     public ResponseEntity<List<PagamentoDTO>> buscarPagamentos() {
-        return pagamentoService.buscarTodosPagamentos();
+        List<PagamentoDTO> lista = pagamentoService.buscarTodosPagamentos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PagamentoDTO> buscarPagamentoPorId(@PathVariable UUID id) {
-        return pagamentoService.buscarPagamentoPorId(id);
+        return ResponseEntity.ok(pagamentoService.buscarPagamentoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<PagamentoDTO> criarPagamento(@RequestBody @Valid PagamentoDTO pagamentoDTO) {
-        return pagamentoService.salvarPagamento(pagamentoDTO);
+        return ResponseEntity.status(201).body(pagamentoService.salvarPagamento(pagamentoDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<PagamentoDTO> atualizarPagamento(@PathVariable UUID id, @RequestBody @Valid PagamentoDTO pagamentoDTO) {
-        return pagamentoService.atualizarPagamento(id, pagamentoDTO);
+        return ResponseEntity.ok(pagamentoService.atualizarPagamento(id, pagamentoDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPagamento(@PathVariable UUID id){
-        return  pagamentoService.deletarPagamento(id);
+        pagamentoService.deletarPagamento(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ContribuicaoMonetariaDTO;
 import collectiva.org.collecta.service.ContribuicaoMonetariaService;
 import jakarta.validation.Valid;
@@ -19,23 +20,28 @@ public class ContribuicaoMonetariaController {
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoMonetariaDTO>> buscarContribuicoesMonetarias() {
-        return contribuicaoMonetariaService.buscarTodasContribuicoesMonetarias();
+        List<ContribuicaoMonetariaDTO> lista = contribuicaoMonetariaService.buscarTodasContribuicoesMonetarias();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoMonetariaDTO> buscarContribuicaoMonetariaPorId(@PathVariable UUID id) {
-        return contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(id);
+        return ResponseEntity.ok(contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid ContribuicaoMonetariaDTO contribuicaoMonetaria) {
-        return contribuicaoMonetariaService.salvarContribuicaoMonetaria(contribuicaoMonetaria);
+        return ResponseEntity.status(201).body(contribuicaoMonetariaService.salvarContribuicaoMonetaria(contribuicaoMonetaria));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ContribuicaoMonetariaDTO> atualizarContribuicaoMonetaria(@PathVariable UUID id, @Valid @RequestBody ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        return contribuicaoMonetariaService.atualizarContribuicaoMonetaria(id, contribuicaoMonetariaDTO);
+        return ResponseEntity.ok(contribuicaoMonetariaService.atualizarContribuicaoMonetaria(id, contribuicaoMonetariaDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarContribuicaoMonetaria(@PathVariable UUID id){
-        return  contribuicaoMonetariaService.deletarContribuicaoMonetaria(id);
+    public ResponseEntity<Void> deletarContribuicaoMonetaria(@PathVariable UUID id) {
+        contribuicaoMonetariaService.deletarContribuicaoMonetaria(id);
+        return ResponseEntity.noContent().build();
     }
 }

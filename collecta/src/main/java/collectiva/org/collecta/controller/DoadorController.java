@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.DoadorDTO;
 import collectiva.org.collecta.service.DoadorService;
 import jakarta.validation.Valid;
@@ -19,23 +20,25 @@ public class DoadorController {
 
     @GetMapping
     public ResponseEntity<List<DoadorDTO>> buscarDoadores() {
-        return doadorService.buscarTodosDoadores();
+        List<DoadorDTO> lista = doadorService.buscarTodosDoadores();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<DoadorDTO> buscarDoadorPorId(@PathVariable UUID id) {
-        return doadorService.buscarDoadorPorId(id);
+        return ResponseEntity.ok(doadorService.buscarDoadorPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<DoadorDTO> criarDoador(@RequestBody @Valid DoadorDTO doadorDTO) {
-        return doadorService.salvarDoador(doadorDTO);
+        return ResponseEntity.status(201).body(doadorService.salvarDoador(doadorDTO));
     }
     @PutMapping("/{id}")
     public ResponseEntity<DoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid DoadorDTO doadorDTO) {
-        return doadorService.atualizarDoador(id, doadorDTO);
+        return ResponseEntity.ok(doadorService.atualizarDoador(id, doadorDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDoador(@PathVariable UUID id){
-        return  doadorService.deletarDoador(id);
+        doadorService.deletarDoador(id);
+        return ResponseEntity.noContent().build();
     }
 }

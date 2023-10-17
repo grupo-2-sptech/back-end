@@ -2,15 +2,13 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Organizacao;
 import collectiva.org.collecta.dto.OrganizacaoDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.OrganizacaoMapper;
 import collectiva.org.collecta.repository.OrganizacaoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,59 +17,35 @@ import java.util.stream.Collectors;
 public class OrganizacaoService {
     private final OrganizacaoRepository organizacaoRepository;
 
-    public ResponseEntity<OrganizacaoDTO> salvarOrganizacao(OrganizacaoDTO organizacaoDTO) {
+    public OrganizacaoDTO salvarOrganizacao(OrganizacaoDTO organizacaoDTO) {
         Organizacao organizacao = OrganizacaoMapper.paraEntidade(organizacaoDTO);
         organizacaoRepository.save(organizacao);
-        organizacaoDTO = OrganizacaoMapper.paraDTO(organizacao);
-        return ResponseEntity.status(HttpStatus.CREATED).body(organizacaoDTO);
+        return OrganizacaoMapper.paraDTO(organizacao);
     }
 
-    public ResponseEntity<List<OrganizacaoDTO>> buscarTodasOrganizacoes() {
+    public List<OrganizacaoDTO> buscarTodasOrganizacoes() {
         List<Organizacao> organizacoes = organizacaoRepository.findAll();
-        if (organizacoes.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        List<OrganizacaoDTO> organizacoesDTO = organizacoes.stream().map(OrganizacaoMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(organizacoesDTO);
+        return organizacoes.stream().map(OrganizacaoMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<OrganizacaoDTO> buscarOrganizacaoPorId(UUID id) {
-        Optional<Organizacao> organizacao = organizacaoRepository.findById(id);
-        if (organizacao.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        OrganizacaoDTO organizacaoDTO = OrganizacaoMapper.paraDTO(organizacao.get());
-        return ResponseEntity.ok().body(organizacaoDTO);
+    public OrganizacaoDTO buscarOrganizacaoPorId(UUID id) {
+        return OrganizacaoMapper.paraDTO(organizacaoRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Organizacao")));
     }
 
-    public ResponseEntity<OrganizacaoDTO> atualizarOrganizacao(UUID id, OrganizacaoDTO organizacaoDTO) {
-        Optional<Organizacao> organizacaoAntiga = organizacaoRepository.findById(id);
-        if (organizacaoAntiga.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Organizacao organizacaoExistente = organizacaoAntiga.get();
-        Organizacao organizacaoAtualizada = Organizacao.builder()
-                .id(organizacaoExistente.getId())
-                .email(organizacaoDTO.getEmail())
-                .senha(organizacaoDTO.getSenha())
-                .telefone(organizacaoDTO.getTelefone())
-                .nomeFantasia(organizacaoDTO.getNomeFantasia())
-                .nomeSocial(organizacaoDTO.getNomeSocial())
-                .cnpj(organizacaoDTO.getCnpj())
-                .dataFundacao(organizacaoDTO.getDataFundacao())
-                .build();
-
-        organizacaoRepository.save(organizacaoAtualizada);
-        organizacaoDTO = OrganizacaoMapper.paraDTO(organizacaoAtualizada);
-        return ResponseEntity.ok().body(organizacaoDTO);
+    public OrganizacaoDTO atualizarOrganizacao(UUID id, OrganizacaoDTO organizacaoDTO) {
+        buscarOrganizacaoPorId(id);
+        Organizacao organizacaoNova = OrganizacaoMapper.paraEntidade(organizacaoDTO);
+        organizacaoNova.setId(id);
+        organizacaoRepository.save(organizacaoNova);
+        return OrganizacaoMapper.paraDTO(organizacaoNova);
     }
 
-    public ResponseEntity<Void> deletarOrganizacao(UUID id) {
+    public void deletarOrganizacao(UUID id) {
         if (!organizacaoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Organizacao");
         }
         organizacaoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }
 

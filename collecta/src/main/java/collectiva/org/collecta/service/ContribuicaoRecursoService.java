@@ -2,15 +2,13 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.ContribuicaoRecurso;
 import collectiva.org.collecta.dto.ContribuicaoRecursoDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.ContribuicaoRecursoMapper;
 import collectiva.org.collecta.repository.ContribuicaoRecursoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,50 +17,35 @@ import java.util.stream.Collectors;
 public class ContribuicaoRecursoService {
     private final ContribuicaoRecursoRepository contribuicaoRecursoRepository;
 
-    public ResponseEntity<ContribuicaoRecursoDTO> salvarContribuicaoRecurso(ContribuicaoRecursoDTO contribuicaoRecursoDTO) {
+    public ContribuicaoRecursoDTO salvarContribuicaoRecurso(ContribuicaoRecursoDTO contribuicaoRecursoDTO) {
         ContribuicaoRecurso contribuicaoRecurso = ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO);
         contribuicaoRecursoRepository.save(contribuicaoRecurso);
-        contribuicaoRecursoDTO = ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso);
-        return ResponseEntity.status(HttpStatus.CREATED).body(contribuicaoRecursoDTO);
+        return ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso);
     }
 
-    public ResponseEntity<List<ContribuicaoRecursoDTO>> buscarTodasContribuicoesRecursos() {
+    public List<ContribuicaoRecursoDTO> buscarTodasContribuicoesRecursos() {
         List<ContribuicaoRecurso> contribuicaoRecurso = contribuicaoRecursoRepository.findAll();
-        if (contribuicaoRecurso.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        List<ContribuicaoRecursoDTO> contribuicaoRecursoDTOs = contribuicaoRecurso.stream().map(ContribuicaoRecursoMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(contribuicaoRecursoDTOs);
+        return contribuicaoRecurso.stream().map(ContribuicaoRecursoMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<ContribuicaoRecursoDTO> buscarContribuicaoRecursoPorId(UUID id) {
-        Optional<ContribuicaoRecurso> contribuicaoRecurso = contribuicaoRecursoRepository.findById(id);
-        if (contribuicaoRecurso.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        ContribuicaoRecursoDTO contribuicaoRecursoDTO = ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso.get());
-        return ResponseEntity.ok().body(contribuicaoRecursoDTO);
+    public ContribuicaoRecursoDTO buscarContribuicaoRecursoPorId(UUID id) {
+        return ContribuicaoRecursoMapper.paraDTO(contribuicaoRecursoRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("ContribuicaoRecurso")));
     }
 
-    public ResponseEntity<ContribuicaoRecursoDTO> atualizarContribuicaoRecurso(UUID id, ContribuicaoRecursoDTO contribuicaoRecursoDTO) {
-        Optional<ContribuicaoRecurso> contribuicaoRecursoAntiga = contribuicaoRecursoRepository.findById(id);
-        if (contribuicaoRecursoAntiga.isPresent()) {
-            ContribuicaoRecurso contribuicaoRecurso = ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO);
-            contribuicaoRecurso.setId(contribuicaoRecursoAntiga.get().getId());
-            contribuicaoRecursoDTO.setId(contribuicaoRecursoAntiga.get().getId());
-
-            contribuicaoRecursoRepository.save(contribuicaoRecurso);
-            return ResponseEntity.ok().body(contribuicaoRecursoDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public ContribuicaoRecursoDTO atualizarContribuicaoRecurso(UUID id, ContribuicaoRecursoDTO contribuicaoRecursoDTO) {
+        buscarContribuicaoRecursoPorId(id);
+        ContribuicaoRecurso contribuicaoRecursoNovo = ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO);
+        contribuicaoRecursoNovo.setId(id);
+        contribuicaoRecursoRepository.save(contribuicaoRecursoNovo);
+        return ContribuicaoRecursoMapper.paraDTO(contribuicaoRecursoNovo);
     }
 
-    public ResponseEntity<Void> deletarContribuicaoRecurso(UUID id) {
+    public void deletarContribuicaoRecurso(UUID id) {
         if (!contribuicaoRecursoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("ContribuicaoRecurso");
         }
         contribuicaoRecursoRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

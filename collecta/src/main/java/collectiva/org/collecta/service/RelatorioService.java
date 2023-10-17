@@ -2,15 +2,13 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Relatorio;
 import collectiva.org.collecta.dto.RelatorioDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.RelatorioMapper;
 import collectiva.org.collecta.repository.RelatorioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,54 +17,35 @@ import java.util.stream.Collectors;
 public class RelatorioService {
     private final RelatorioRepository relatorioRepository;
 
-    public ResponseEntity<RelatorioDTO> salvarRelatorio(RelatorioDTO relatorioDTO) {
+    public RelatorioDTO salvarRelatorio(RelatorioDTO relatorioDTO) {
         Relatorio relatorio = RelatorioMapper.paraEntidade(relatorioDTO);
         relatorioRepository.save(relatorio);
-        relatorioDTO = RelatorioMapper.paraDTO(relatorio);
-        return ResponseEntity.status(HttpStatus.CREATED).body(relatorioDTO);
+        return RelatorioMapper.paraDTO(relatorio);
     }
 
-    public ResponseEntity<List<RelatorioDTO>> buscarTodosRelatorios() {
+    public List<RelatorioDTO> buscarTodosRelatorios() {
         List<Relatorio> relatorios = relatorioRepository.findAll();
-        if (relatorios.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        List<RelatorioDTO> relatoriosDTO = relatorios.stream().map(RelatorioMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(relatoriosDTO);
+        return relatorios.stream().map(RelatorioMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<RelatorioDTO> buscarRelatorioPorId(UUID id) {
-        Optional<Relatorio> relatorio = relatorioRepository.findById(id);
-        if (relatorio.isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
-        RelatorioDTO relatorioDTO = RelatorioMapper.paraDTO(relatorio.get());
-        return ResponseEntity.ok().body(relatorioDTO);
+    public RelatorioDTO buscarRelatorioPorId(UUID id) {
+        return RelatorioMapper.paraDTO(relatorioRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Relatorio")));
     }
 
-    public ResponseEntity<RelatorioDTO> atualizarRelatorio(UUID id, RelatorioDTO relatorioDTO) {
-        Optional<Relatorio> relatorioAntigo = relatorioRepository.findById(id);
-        if (relatorioAntigo.isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
-        Relatorio relatorioExistente = relatorioAntigo.get();
-        Relatorio relatorioAtualizado = Relatorio.builder()
-                .id(relatorioExistente.getId())
-                .data(relatorioExistente.getData())
-                .valorArrecadado(relatorioDTO.getValorArrecadado())
-                .quantidadeFinanceirosCampanha(relatorioDTO.getQuantidadeFinanceirosCampanha())
-                .build();
-        relatorioRepository.save(relatorioAtualizado);
-        relatorioDTO = RelatorioMapper.paraDTO(relatorioAtualizado);
-        return ResponseEntity.ok().body(relatorioDTO);
+    public RelatorioDTO atualizarRelatorio(UUID id, RelatorioDTO relatorioDTO) {
+        buscarRelatorioPorId(id);
+        Relatorio relatorioNovo = RelatorioMapper.paraEntidade(relatorioDTO);
+        relatorioNovo.setId(id);
+        relatorioRepository.save(relatorioNovo);
+        return RelatorioMapper.paraDTO(relatorioNovo);
     }
 
-    public ResponseEntity<Void> deletarRelatorio(UUID id) {
+    public void deletarRelatorio(UUID id) {
         if (!relatorioRepository.existsById(id)){
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Relatorio");
         }
         relatorioRepository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }
 

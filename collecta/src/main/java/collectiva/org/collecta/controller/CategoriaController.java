@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.CategoriaDTO;
 import collectiva.org.collecta.service.CategoriaService;
 import jakarta.validation.Valid;
@@ -19,23 +20,25 @@ public class CategoriaController {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> buscarCategorias() {
-        return categoriaService.buscarTodasCategorias();
+        List<CategoriaDTO> lista = categoriaService.buscarTodasCategorias();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> buscarCategoriaPorId(@PathVariable UUID id) {
-        return categoriaService.buscarCategoriaPorId(id);
+        return ResponseEntity.ok(categoriaService.buscarCategoriaPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<CategoriaDTO> criarCategoria(@RequestBody @Valid CategoriaDTO categoria) {
-        return categoriaService.salvarCategoria(categoria);
+        return ResponseEntity.status(201).body(categoriaService.salvarCategoria(categoria));
     }
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaDTO> atualizarCategoria(@PathVariable UUID id, @Valid @RequestBody CategoriaDTO categoriaDTO) {
-        return categoriaService.atualizarCategoria(id, categoriaDTO);
+        return ResponseEntity.ok(categoriaService.atualizarCategoria(id, categoriaDTO));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCategoria(@PathVariable UUID id){
-        return  categoriaService.deletarCategoria(id);
+        categoriaService.deletarCategoria(id);
+        return ResponseEntity.noContent().build();
     }
 }

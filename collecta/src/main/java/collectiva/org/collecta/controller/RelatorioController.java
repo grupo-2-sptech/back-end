@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.RelatorioDTO;
 import collectiva.org.collecta.service.RelatorioService;
 import jakarta.validation.Valid;
@@ -19,23 +20,28 @@ public class RelatorioController {
 
     @GetMapping
     public ResponseEntity<List<RelatorioDTO>> buscarRelatorios() {
-        return relatorioService.buscarTodosRelatorios();
+        List<RelatorioDTO> lista = relatorioService.buscarTodosRelatorios();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<RelatorioDTO> buscarRelatorioPorId(@PathVariable UUID id) {
-        return relatorioService.buscarRelatorioPorId(id);
+        return ResponseEntity.ok(relatorioService.buscarRelatorioPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<RelatorioDTO> criarRelatorio(@RequestBody @Valid RelatorioDTO relatorioDTO) {
-        return relatorioService.salvarRelatorio(relatorioDTO);
+        return ResponseEntity.status(201).body(relatorioService.salvarRelatorio(relatorioDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<RelatorioDTO> atualizarRelatorio(@PathVariable UUID id, @RequestBody @Valid RelatorioDTO relatorioDTO) {
-        return relatorioService.atualizarRelatorio(id, relatorioDTO);
+        return ResponseEntity.ok(relatorioService.atualizarRelatorio(id, relatorioDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRelatorio(@PathVariable UUID id){
-        return  relatorioService.deletarRelatorio(id);
+    public ResponseEntity<Void> deletarRelatorio(@PathVariable UUID id) {
+        relatorioService.deletarRelatorio(id);
+        return ResponseEntity.noContent().build();
     }
 }

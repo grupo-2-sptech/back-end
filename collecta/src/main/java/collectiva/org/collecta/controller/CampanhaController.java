@@ -19,23 +19,28 @@ public class CampanhaController {
 
     @GetMapping
     public ResponseEntity<List<CampanhaDTO>> buscarCampanhas() {
-        return campanhaService.buscarTodasCampanhas();
+        List<CampanhaDTO> lista = campanhaService.buscarTodasCampanhas();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<CampanhaDTO> buscarCampanhaPorId(@PathVariable UUID id) {
-        return campanhaService.buscarCampanhaPorId(id);
+        return ResponseEntity.ok(campanhaService.buscarCampanhaPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<CampanhaDTO> criarCampanha(@RequestBody @Valid CampanhaDTO campanha) {
-        return campanhaService.salvarCampanha(campanha);
+        return ResponseEntity.status(201).body(campanhaService.salvarCampanha(campanha));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<CampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody CampanhaDTO campanhaDTO) {
-        return campanhaService.atualizarCampanha(id, campanhaDTO);
+        return ResponseEntity.ok(campanhaService.atualizarCampanha(id, campanhaDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id){
-        return  campanhaService.deletarCampanha(id);
+    public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id) {
+        campanhaService.deletarCampanha(id);
+        return ResponseEntity.noContent().build();
     }
 }

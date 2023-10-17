@@ -2,15 +2,13 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.EventoCampanha;
 import collectiva.org.collecta.dto.EventoCampanhaDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.repository.EventoCampanhaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,50 +17,35 @@ import java.util.stream.Collectors;
 public class EventoCampanhaService {
     private final EventoCampanhaRepository eventoCampanhaRepository;
 
-    public ResponseEntity<EventoCampanhaDTO> salvarEventoCampanha(EventoCampanhaDTO eventoCampanhaDTO) {
+    public EventoCampanhaDTO salvarEventoCampanha(EventoCampanhaDTO eventoCampanhaDTO) {
         EventoCampanha eventoCampanha = EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO);
         eventoCampanhaRepository.save(eventoCampanha);
-        eventoCampanhaDTO = EventoCampanhaMapper.paraDTO(eventoCampanha);
-        return ResponseEntity.status(HttpStatus.CREATED).body(eventoCampanhaDTO);
+        return EventoCampanhaMapper.paraDTO(eventoCampanha);
     }
 
-    public ResponseEntity<List<EventoCampanhaDTO>> buscarTodosEventosCampanha() {
+    public List<EventoCampanhaDTO> buscarTodosEventosCampanha() {
         List<EventoCampanha> eventoCampanha = eventoCampanhaRepository.findAll();
-        if (eventoCampanha.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        List<EventoCampanhaDTO> eventoCampanhaDTOs = eventoCampanha.stream().map(EventoCampanhaMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(eventoCampanhaDTOs);
+        return eventoCampanha.stream().map(EventoCampanhaMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<EventoCampanhaDTO> buscarEventoCampanhaPorId(UUID id) {
-        Optional<EventoCampanha> eventoCampanha = eventoCampanhaRepository.findById(id);
-        if (eventoCampanha.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        EventoCampanhaDTO eventoCampanhaDTO = EventoCampanhaMapper.paraDTO(eventoCampanha.get());
-        return ResponseEntity.ok().body(eventoCampanhaDTO);
+    public EventoCampanhaDTO buscarEventoCampanhaPorId(UUID id) {
+        return EventoCampanhaMapper.paraDTO(eventoCampanhaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Evento")));
     }
 
-    public ResponseEntity<EventoCampanhaDTO> atualizarEventoCampanha(UUID id, EventoCampanhaDTO eventoCampanhaDTO) {
-        Optional<EventoCampanha> eventoCampanhaAntiga = eventoCampanhaRepository.findById(id);
-        if (eventoCampanhaAntiga.isPresent()) {
-            EventoCampanha eventoCampanha = EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO);
-            eventoCampanha.setId(eventoCampanhaAntiga.get().getId());
-            eventoCampanhaDTO.setId(eventoCampanhaAntiga.get().getId());
-
-            eventoCampanhaRepository.save(eventoCampanha);
-            return ResponseEntity.ok().body(eventoCampanhaDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public EventoCampanhaDTO atualizarEventoCampanha(UUID id, EventoCampanhaDTO eventoCampanhaDTO) {
+        buscarEventoCampanhaPorId(id);
+        EventoCampanha eventoNovo = EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO);
+        eventoNovo.setId(id);
+        eventoCampanhaRepository.save(eventoNovo);
+        return EventoCampanhaMapper.paraDTO(eventoNovo);
     }
 
-    public ResponseEntity<Void> deletarEventoCampanha(UUID id) {
+    public void deletarEventoCampanha(UUID id) {
         if (!eventoCampanhaRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Evento");
         }
         eventoCampanhaRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

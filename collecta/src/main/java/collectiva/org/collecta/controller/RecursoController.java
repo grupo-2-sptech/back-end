@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.RecursoDTO;
 import collectiva.org.collecta.service.RecursoService;
 import jakarta.validation.Valid;
@@ -19,23 +20,28 @@ public class RecursoController {
 
     @GetMapping
     public ResponseEntity<List<RecursoDTO>> buscarRecursos() {
-        return recursoService.buscarTodosRecursos();
+        List<RecursoDTO> lista = recursoService.buscarTodosRecursos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<RecursoDTO> buscarRecursoPorId(@PathVariable UUID id) {
-        return recursoService.buscarRecursoPorId(id);
+        return ResponseEntity.ok(recursoService.buscarRecursoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<RecursoDTO> criarRecurso(@RequestBody @Valid RecursoDTO recursoDTO) {
-        return recursoService.salvarRecurso(recursoDTO);
+        return ResponseEntity.status(201).body(recursoService.salvarRecurso(recursoDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<RecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid RecursoDTO recursoDTO) {
-        return recursoService.atualizarRecurso(id, recursoDTO);
+        return ResponseEntity.ok(recursoService.atualizarRecurso(id, recursoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRecurso(@PathVariable UUID id){
-        return  recursoService.deletarRecurso(id);
+    public ResponseEntity<Void> deletarRecurso(@PathVariable UUID id) {
+        recursoService.deletarRecurso(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,6 @@
 package collectiva.org.collecta.controller;
 
+import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.PlanoDTO;
 import collectiva.org.collecta.service.PlanoService;
 import jakarta.validation.Valid;
@@ -19,23 +20,28 @@ public class PlanoController {
 
     @GetMapping
     public ResponseEntity<List<PlanoDTO>> buscarPlanos() {
-        return planoService.buscarTodosPlanos();
+        List<PlanoDTO> lista = planoService.buscarTodosPlanos();
+        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<PlanoDTO> buscarPlanoPorId(@PathVariable UUID id) {
-        return planoService.buscarPlanoPorId(id);
+        return ResponseEntity.ok(planoService.buscarPlanoPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<PlanoDTO> criarPlano(@RequestBody @Valid PlanoDTO planoDTO) {
-        return planoService.salvarPlano(planoDTO);
+        return ResponseEntity.status(201).body(planoService.salvarPlano(planoDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<PlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid PlanoDTO planoDTO) {
-        return planoService.atualizarPlano(id, planoDTO);
+        return ResponseEntity.ok(planoService.atualizarPlano(id, planoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPlano(@PathVariable UUID id){
-        return  planoService.deletarPlano(id);
+    public ResponseEntity<Void> deletarPlano(@PathVariable UUID id) {
+        planoService.deletarPlano(id);
+        return ResponseEntity.noContent().build();
     }
 }
