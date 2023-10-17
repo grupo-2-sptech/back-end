@@ -2,15 +2,14 @@ package collectiva.org.collecta.service;
 
 import collectiva.org.collecta.domain.Categoria;
 import collectiva.org.collecta.dto.CategoriaDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoContemElementosException;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.mapper.CategoriaMapper;
 import collectiva.org.collecta.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,50 +18,38 @@ import java.util.stream.Collectors;
 public class CategoriaService {
     private final CategoriaRepository categoriaRepository;
 
-    public ResponseEntity<CategoriaDTO> salvarCategoria(CategoriaDTO categoriaDTO) {
+    public CategoriaDTO salvarCategoria(CategoriaDTO categoriaDTO) {
         Categoria categoria = CategoriaMapper.paraEntidade(categoriaDTO);
         categoriaRepository.save(categoria);
-        categoriaDTO = CategoriaMapper.paraDTO(categoria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaDTO);
+        return CategoriaMapper.paraDTO(categoria);
     }
 
-    public ResponseEntity<List<CategoriaDTO>> buscarTodasCategorias() {
+    public List<CategoriaDTO> buscarTodasCategorias() {
         List<Categoria> categoria = categoriaRepository.findAll();
         if (categoria.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            throw new EntidadeNaoContemElementosException("Categoria");
         }
-        List<CategoriaDTO> categoriaDTOs = categoria.stream().map(CategoriaMapper::paraDTO).collect(Collectors.toList());
-        return ResponseEntity.ok().body(categoriaDTOs);
+        return categoria.stream().map(CategoriaMapper::paraDTO).collect(Collectors.toList());
     }
 
-    public ResponseEntity<CategoriaDTO> buscarCategoriaPorId(UUID id) {
-        Optional<Categoria> categoria = categoriaRepository.findById(id);
-        if (categoria.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        CategoriaDTO categoriaDTO = CategoriaMapper.paraDTO(categoria.get());
-        return ResponseEntity.ok().body(categoriaDTO);
+    public CategoriaDTO buscarCategoriaPorId(UUID id) {
+        return CategoriaMapper.paraDTO(categoriaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Categoria")));
     }
 
-    public ResponseEntity<CategoriaDTO> atualizarCategoria(UUID id, CategoriaDTO categoriaDTO) {
-        Optional<Categoria> categoriaAntiga = categoriaRepository.findById(id);
-        if (categoriaAntiga.isPresent()) {
-            Categoria categoria = CategoriaMapper.paraEntidade(categoriaDTO);
-            categoria.setId(categoriaAntiga.get().getId());
-            categoriaDTO.setId(categoriaAntiga.get().getId());
-
-            categoriaRepository.save(categoria);
-            return ResponseEntity.ok().body(categoriaDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public CategoriaDTO atualizarCategoria(UUID id, CategoriaDTO categoriaDTO) {
+        buscarCategoriaPorId(id);
+        Categoria categoriaNova = CategoriaMapper.paraEntidade(categoriaDTO);
+        categoriaNova.setId(id);
+        categoriaRepository.save(categoriaNova);
+        return CategoriaMapper.paraDTO(categoriaNova);
     }
 
-    public ResponseEntity<Void> deletarCategoria(UUID id) {
+    public void deletarCategoria(UUID id) {
         if (!categoriaRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            throw new EntidadeNaoEncontradaException("Categoria");
         }
         categoriaRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 
