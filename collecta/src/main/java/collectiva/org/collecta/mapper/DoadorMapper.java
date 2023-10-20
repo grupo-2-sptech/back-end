@@ -1,5 +1,6 @@
 package collectiva.org.collecta.mapper;
 
+import collectiva.org.collecta.authentication.dto.DoadorTokenDTO;
 import collectiva.org.collecta.domain.Doador;
 import collectiva.org.collecta.dto.DoadorDTO;
 
@@ -26,6 +27,15 @@ public class DoadorMapper {
                 .telefone(doador.getTelefone())
                 .nome(doador.getNome())
                 .sobrenome(doador.getSobrenome())
+                .build();
+    }
+
+    public static DoadorTokenDTO paraToken(Doador doador, String token) {
+        return DoadorTokenDTO.builder()
+                .id(doador.getId())
+                .email(doador.getEmail())
+                .nome(doador.getNome())
+                .token(token)
                 .build();
     }
 }
