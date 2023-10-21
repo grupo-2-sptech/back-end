@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class EnderecoController {
 
     @Autowired
     private EnderecoService enderecoService;
+    private static final String cepUrl = "https://viacep.com.br/ws/";
 
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarEnderecos() {
@@ -40,5 +42,10 @@ public class EnderecoController {
     public ResponseEntity<Void> deletarEndereco(@PathVariable UUID id){
         enderecoService.deletarEndereco(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{cep}")
+    public EnderecoDTO buscaCep(@PathVariable String cep) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(cepUrl + cep + "/json/", EnderecoDTO.class);
     }
 }
