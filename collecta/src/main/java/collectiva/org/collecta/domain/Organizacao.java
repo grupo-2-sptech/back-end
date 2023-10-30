@@ -1,20 +1,17 @@
 package collectiva.org.collecta.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Organizacao extends Conta {
@@ -29,9 +26,7 @@ public class Organizacao extends Conta {
     @OneToMany(mappedBy = "organizacao")
     private List<ComentarioOrganizacao> comentarios = new ArrayList<>();
 
-
     @Builder
-
     public Organizacao(UUID id, String email, String senha, String telefone, String nomeSocial, String nomeFantasia, String cnpj, LocalDateTime dataFundacao) {
         super(id, email, senha, telefone);
         this.nomeSocial = nomeSocial;

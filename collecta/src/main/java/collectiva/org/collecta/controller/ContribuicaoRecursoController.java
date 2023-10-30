@@ -1,10 +1,9 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ContribuicaoRecursoDTO;
 import collectiva.org.collecta.service.ContribuicaoRecursoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +12,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/contribuicoes/recursos")
+@RequiredArgsConstructor
 public class ContribuicaoRecursoController {
-
-    @Autowired
-    private ContribuicaoRecursoService contribuicaoRecursoService;
+    private final ContribuicaoRecursoService contribuicaoRecursoService;
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoRecursoDTO>> buscarContribuicoesRecursos() {
         List<ContribuicaoRecursoDTO> lista = contribuicaoRecursoService.buscarTodasContribuicoesRecursos();
-        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
+        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
     }
 
     @GetMapping("/{id}")

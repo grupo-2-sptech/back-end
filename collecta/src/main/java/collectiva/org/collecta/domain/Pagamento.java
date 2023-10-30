@@ -3,16 +3,14 @@ package collectiva.org.collecta.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pagamento {
@@ -25,6 +23,5 @@ public class Pagamento {
     private String dataValidade;
     private String codigoSeguranca;
     private String bandeiraCartao;
-
 
 }

@@ -3,7 +3,7 @@ package collectiva.org.collecta.controller;
 import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.service.CampanhaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +12,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/campanhas")
+@RequiredArgsConstructor
 public class CampanhaController {
-
-    @Autowired
-    private CampanhaService campanhaService;
+    private final CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<CampanhaDTO>> buscarCampanhas() {
         List<CampanhaDTO> lista = campanhaService.buscarTodasCampanhas();
-        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
+        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
     }
 
     @GetMapping("/{id}")

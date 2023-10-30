@@ -6,7 +6,7 @@ import collectiva.org.collecta.dto.DoadorDTO;
 import collectiva.org.collecta.service.DoadorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/doadores")
+@RequiredArgsConstructor
 public class DoadorController {
-
-    @Autowired
-    private DoadorService doadorService;
+    private final DoadorService doadorService;
 
     @GetMapping
     public ResponseEntity<List<DoadorDTO>> buscarDoadores() {

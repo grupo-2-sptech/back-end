@@ -2,15 +2,16 @@ package collectiva.org.collecta.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Conta {

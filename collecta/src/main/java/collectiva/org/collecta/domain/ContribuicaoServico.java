@@ -4,30 +4,28 @@ import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContribuicaoServico extends Contribuicao{
+public class ContribuicaoServico extends Contribuicao {
 
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
     private Integer avaliacao;
 
     @ManyToOne
-    @JoinColumn(name="doador")
+    @JoinColumn(name = "doador")
     private Doador doador;
 
     @ManyToOne
-    @JoinColumn(name="eventoCampanha")
+    @JoinColumn(name = "eventoCampanha")
     private EventoCampanha eventoCampanha;
 
     @Builder

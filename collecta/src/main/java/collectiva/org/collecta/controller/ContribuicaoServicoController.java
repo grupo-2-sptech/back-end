@@ -1,10 +1,9 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.ContribuicaoServicoDTO;
 import collectiva.org.collecta.service.ContribuicaoServicoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +12,16 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/contribuicoes/servicos")
+@RequiredArgsConstructor
 public class ContribuicaoServicoController {
-
-    @Autowired
-    private ContribuicaoServicoService contribuicaoServicoService;
+    private final ContribuicaoServicoService contribuicaoServicoService;
 
     @GetMapping
     public ResponseEntity<List<ContribuicaoServicoDTO>> buscarContribuicoesServicos() {
         List<ContribuicaoServicoDTO> lista = contribuicaoServicoService.buscarTodasContribuicoesServicos();
-        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
+        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoServicoDTO> buscarContribuicaoServicoPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(contribuicaoServicoService.buscarContribuicaoServicoPorId(id));
@@ -32,12 +31,14 @@ public class ContribuicaoServicoController {
     public ResponseEntity<ContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid ContribuicaoServicoDTO contribuicaoServico) {
         return ResponseEntity.status(201).body(contribuicaoServicoService.salvarContribuicaoServico(contribuicaoServico));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ContribuicaoServicoDTO> atualizarContribuicaoServico(@PathVariable UUID id, @Valid @RequestBody ContribuicaoServicoDTO contribuicaoServicoDTO) {
         return ResponseEntity.ok(contribuicaoServicoService.atualizarContribuicaoServico(id, contribuicaoServicoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarContribuicaoServico(@PathVariable UUID id){
+    public ResponseEntity<Void> deletarContribuicaoServico(@PathVariable UUID id) {
         contribuicaoServicoService.deletarContribuicaoServico(id);
         return ResponseEntity.noContent().build();
     }

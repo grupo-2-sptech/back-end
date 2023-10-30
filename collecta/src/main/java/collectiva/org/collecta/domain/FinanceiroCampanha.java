@@ -2,10 +2,7 @@ package collectiva.org.collecta.domain;
 
 import collectiva.org.collecta.domain.enums.MetaStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,8 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FinanceiroCampanha {
@@ -35,6 +33,5 @@ public class FinanceiroCampanha {
     @ManyToOne
     @JoinColumn(name = "campanha")
     private Campanha campanha;
-
 
 }

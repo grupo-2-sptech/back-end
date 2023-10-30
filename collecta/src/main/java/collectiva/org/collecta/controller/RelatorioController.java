@@ -4,6 +4,7 @@ import collectiva.org.collecta.controller.utils.ListaObj;
 import collectiva.org.collecta.dto.RelatorioDTO;
 import collectiva.org.collecta.service.RelatorioService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/relatorios")
+@RequiredArgsConstructor
 public class RelatorioController {
-
-    @Autowired
-    private RelatorioService relatorioService;
+    private final RelatorioService relatorioService;
 
     @GetMapping
     public ResponseEntity<List<RelatorioDTO>> buscarRelatorios() {

@@ -3,19 +3,17 @@ package collectiva.org.collecta.domain;
 import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import collectiva.org.collecta.domain.enums.TipoRecurso;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContribuicaoRecurso extends Contribuicao{
+public class ContribuicaoRecurso extends Contribuicao {
 
     private Integer quantidade;
 
@@ -23,11 +21,11 @@ public class ContribuicaoRecurso extends Contribuicao{
     private TipoRecurso tipoRecurso;
 
     @ManyToOne
-    @JoinColumn(name="doador")
+    @JoinColumn(name = "doador")
     private Doador doador;
 
     @ManyToOne
-    @JoinColumn(name="recurso")
+    @JoinColumn(name = "recurso")
     private Recurso recurso;
 
     @Builder

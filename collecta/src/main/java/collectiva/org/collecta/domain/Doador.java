@@ -2,10 +2,7 @@ package collectiva.org.collecta.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Doador extends Conta {
@@ -38,7 +36,6 @@ public class Doador extends Conta {
     private List<Plano> planos;
 
     @Builder
-
     public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf) {
         super(id, email, senha, telefone);
         this.nome = nome;

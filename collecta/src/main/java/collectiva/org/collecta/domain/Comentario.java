@@ -3,15 +3,17 @@ package collectiva.org.collecta.domain;
 import collectiva.org.collecta.domain.enums.TipoConta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Comentario {

@@ -4,7 +4,7 @@ import collectiva.org.collecta.dto.EnderecoDTO;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.service.EnderecoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -14,10 +14,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/enderecos")
+@RequiredArgsConstructor
 public class EnderecoController {
-
-    @Autowired
-    private EnderecoService enderecoService;
+    private final EnderecoService enderecoService;
     private static final String cepUrl = "https://viacep.com.br/ws/";
 
     @GetMapping
@@ -51,7 +50,7 @@ public class EnderecoController {
     public EnderecoDTO buscaCep(@PathVariable String cep) {
         RestTemplate restTemplate = new RestTemplate();
         EnderecoDTO enderecoDTO = restTemplate.getForObject(cepUrl + cep + "/json/", EnderecoDTO.class);
-        if(enderecoDTO.getCep() == null) {
+        if (enderecoDTO.getCep() == null) {
             throw new EntidadeNaoEncontradaException("Cep");
         }
         return restTemplate.getForObject(cepUrl + cep + "/json/", EnderecoDTO.class);
