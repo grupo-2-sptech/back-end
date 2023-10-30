@@ -15,8 +15,6 @@ public class DoadorTokenDTO {
     @NotBlank(message = "O email esta vazio")
     private String email;
 
-    @NotBlank(message = "A senha está vazia")
-    private String senha;
 
     @NotBlank(message = "O nome esta vazio")
     private String nome;

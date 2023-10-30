@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -49,7 +50,20 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 ("Valor inválido para o ENUM: '" + ex.getPath().get(0).getFieldName() + "'"),
-               RequestPath.getRequestPath(request));
+                RequestPath.getRequestPath(request));
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<MessageErrorResponse> erroEnum(HttpClientErrorException ex, HttpServletRequest request) {
+        MessageErrorResponse response = new MessageErrorResponse(
+                new Timestamp(System.currentTimeMillis()),
+                ex.getStatusCode().value(),
+                ex.getStatusText(),
+                "Ocorreu um erro durante a solicitação.",
+                RequestPath.getRequestPath(request));
 
         return ResponseEntity.badRequest().body(response);
     }

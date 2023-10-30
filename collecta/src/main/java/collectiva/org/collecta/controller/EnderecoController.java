@@ -1,7 +1,7 @@
 package collectiva.org.collecta.controller;
 
-import collectiva.org.collecta.dto.CampanhaDTO;
 import collectiva.org.collecta.dto.EnderecoDTO;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.service.EnderecoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,9 @@ public class EnderecoController {
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarEnderecos() {
         List<EnderecoDTO> lista = enderecoService.buscarTodosEnderecos();
-        return ResponseEntity.status(lista.isEmpty()? 204 : 200).body(lista);
+        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> buscarEnderecoPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(enderecoService.buscarEnderecoPorId(id));
@@ -34,18 +35,25 @@ public class EnderecoController {
     public ResponseEntity<EnderecoDTO> criarEndereco(@RequestBody @Valid EnderecoDTO enderecoDTO) {
         return ResponseEntity.status(201).body(enderecoService.salvarEndereco(enderecoDTO));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid EnderecoDTO enderecoDTO) {
         return ResponseEntity.ok(enderecoService.atualizarEndereco(id, enderecoDTO));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarEndereco(@PathVariable UUID id){
+    public ResponseEntity<Void> deletarEndereco(@PathVariable UUID id) {
         enderecoService.deletarEndereco(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/{cep}")
+
+    @GetMapping("cep/{cep}")
     public EnderecoDTO buscaCep(@PathVariable String cep) {
         RestTemplate restTemplate = new RestTemplate();
+        EnderecoDTO enderecoDTO = restTemplate.getForObject(cepUrl + cep + "/json/", EnderecoDTO.class);
+        if(enderecoDTO.getCep() == null) {
+            throw new EntidadeNaoEncontradaException("Cep");
+        }
         return restTemplate.getForObject(cepUrl + cep + "/json/", EnderecoDTO.class);
     }
 }
