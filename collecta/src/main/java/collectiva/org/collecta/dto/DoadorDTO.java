@@ -1,19 +1,18 @@
 package collectiva.org.collecta.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Data
 @Builder
-@AllArgsConstructor
 public class DoadorDTO {
     private UUID id;
-    @NotBlank(message = "O email esta vazio")
-    @Size(min = 3, message = "O email deve ter no mínimo 3 caracteres")
+    @NotBlank(message = "O Email está vazio")
+    @Size(min = 3, message = "O Email deve ter no mínimo 3 caracteres")
     private String email;
 
     @NotBlank(message = "A senha está vazia")
@@ -25,11 +24,11 @@ public class DoadorDTO {
     @Size(min = 11, max = 11, message = "Telefone inválido")
     private String telefone;
 
-    @NotBlank(message = "O nome esta vazio")
+    @NotBlank(message = "O nome está vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
 
-    @NotBlank(message = "O sobrenome esta vazio")
+    @NotBlank(message = "O sobrenome está vazio")
     @Size(min = 3, message = "O sobrenome deve ter no mínimo 3 caracteres")
     private String sobrenome;
 
@@ -38,6 +37,6 @@ public class DoadorDTO {
     private LocalDateTime dataNascimento;
 
     @NotBlank(message = "O CPF esta vazio")
-    @Size(min = 11, max = 11, message  = "CPF inválido")
+    @Size(min = 11, max = 11, message = "CPF inválido")
     private String cpf;
 }

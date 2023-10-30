@@ -5,7 +5,6 @@ import collectiva.org.collecta.domain.enums.StatusContribuicao;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,16 +14,15 @@ import java.util.UUID;
 
 @Data
 @Builder
-@AllArgsConstructor
 public class ContribuicaoMonetariaDTO {
     private UUID id;
 
-    @NotBlank(message = "O nome esta vazio")
+    @NotBlank(message = "O nome está vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
 
-    @NotBlank(message = "A descricao esta vazia")
-    @Size(min = 3, message = "A descricao deve ter no mínimo 3 caracteres")
+    @NotBlank(message = "A descrição esta vazia")
+    @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
     private String descricao;
 
     private LocalDateTime dataHora;
@@ -33,13 +31,14 @@ public class ContribuicaoMonetariaDTO {
     private BigDecimal valor;
 
     @Positive(message = "As parcelas devem ser maior que zero")
-    @Max(value =12, message = "As parcelas tem limite de 12")
+    @Max(value = 12, message = "As parcelas tem limite de 12")
     private Integer parcelas;
 
-    @NotNull(message = "A forma de pagamento esta vazia")
+    @NotNull(message = "A forma de pagamento está vazia")
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
+    @NotNull(message = "O status da contribuição está vazio")
     @Enumerated(EnumType.STRING)
     private StatusContribuicao statusContribuicao;
 

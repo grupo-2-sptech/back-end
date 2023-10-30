@@ -1,18 +1,19 @@
 package collectiva.org.collecta.dto;
 
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
+
 @Data
 @Builder
-@AllArgsConstructor
 public class PagamentoDTO {
     private UUID id;
 
-    @NotBlank(message = "O nome do titular esta vazio")
+    @NotBlank(message = "O nome do titular está vazio")
     @Size(min = 5, message = "O nome do titular deve ter no mínimo 5 letras")
     private String nomeTitular;
 

@@ -2,7 +2,6 @@ package collectiva.org.collecta.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +10,6 @@ import java.util.UUID;
 
 @Data
 @Builder
-@AllArgsConstructor
 public class PostDTO {
     private UUID id;
 
@@ -19,8 +17,8 @@ public class PostDTO {
     @Size(min = 3, message = "O titulo deve ter no mínimo 3 caracteres")
     private String titulo;
 
-    @NotBlank(message = "O conteudo está vazio")
-    @Size(min = 3, message = "O conteudo deve ter no mínimo 3 caracteres")
+    @NotBlank(message = "O conteúdo está vazio")
+    @Size(min = 3, message = "O conteúdo deve ter no mínimo 3 caracteres")
     private String conteudo;
     private LocalDateTime data;
 }
