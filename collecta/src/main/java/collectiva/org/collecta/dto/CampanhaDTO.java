@@ -1,5 +1,6 @@
 package collectiva.org.collecta.dto;
 
+import collectiva.org.collecta.domain.enums.CategoriaCampanha;
 import collectiva.org.collecta.domain.enums.StatusCampanha;
 import collectiva.org.collecta.domain.enums.TipoCampanha;
 import jakarta.persistence.EnumType;
@@ -32,6 +33,10 @@ public class CampanhaDTO {
     @Future(message = "A data de fim deve estar no futuro")
     private LocalDateTime dataFim;
 
+    @NotNull(message = "A categoria da campanha está vazia")
+    @Enumerated(EnumType.STRING)
+    private CategoriaCampanha categoriaCampanha;
+
     @NotNull(message = "O status da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private StatusCampanha statusCampanha;
@@ -39,4 +44,5 @@ public class CampanhaDTO {
     @NotNull(message = "O tipo da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
+
 }

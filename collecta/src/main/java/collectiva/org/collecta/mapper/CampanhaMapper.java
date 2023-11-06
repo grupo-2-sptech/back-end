@@ -15,6 +15,7 @@ public class CampanhaMapper {
                 .descricao(campanhaDTO.getDescricao())
                 .dataInicio(campanhaDTO.getDataInicio())
                 .dataFim(campanhaDTO.getDataFim())
+                .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
                 .statusCampanha(campanhaDTO.getStatusCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
                 .build();
@@ -27,6 +28,7 @@ public class CampanhaMapper {
                 .descricao(campanha.getDescricao())
                 .dataInicio(campanha.getDataInicio())
                 .dataFim(campanha.getDataFim())
+                .categoriaCampanha(campanha.getCategoriaCampanha())
                 .statusCampanha(campanha.getStatusCampanha())
                 .tipoCampanha(campanha.getTipoCampanha())
                 .build();

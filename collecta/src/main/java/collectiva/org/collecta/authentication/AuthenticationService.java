@@ -17,7 +17,7 @@ public class AuthenticationService implements UserDetailsService {
     private final DoadorRepository doadorRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws EntidadeNaoEncontradaException {
         Doador doador = doadorRepository.findByEmail(username).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Username")
         );

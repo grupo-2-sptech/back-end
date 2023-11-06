@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain;
 
+import collectiva.org.collecta.domain.enums.CategoriaCampanha;
 import collectiva.org.collecta.domain.enums.StatusCampanha;
 import collectiva.org.collecta.domain.enums.TipoCampanha;
 import jakarta.persistence.*;
@@ -26,17 +27,21 @@ public class Campanha {
 
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
+
+    @Enumerated(EnumType.STRING)
     private StatusCampanha statusCampanha;
+
+    @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
+
+    @Enumerated(EnumType.STRING)
+    private CategoriaCampanha categoriaCampanha;
+
     private int visualizacoes;
 
     @ManyToOne
     @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
-
-    @ManyToOne
-    @JoinColumn(name = "categoria")
-    private Categoria categoria;
 
     @OneToMany(mappedBy = "campanha")
     private List<FinanceiroCampanha> financeirosCampanha = new ArrayList<FinanceiroCampanha>();
