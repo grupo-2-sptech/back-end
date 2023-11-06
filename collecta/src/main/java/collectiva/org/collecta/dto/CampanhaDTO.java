@@ -1,5 +1,9 @@
 package collectiva.org.collecta.dto;
 
+import collectiva.org.collecta.domain.enums.StatusCampanha;
+import collectiva.org.collecta.domain.enums.TipoCampanha;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
@@ -28,8 +32,11 @@ public class CampanhaDTO {
     @Future(message = "A data de fim deve estar no futuro")
     private LocalDateTime dataFim;
 
-    @NotBlank(message = "O status está vazio")
-    @Pattern(regexp = "^(ATIVO|INATIVO)$", message = "O status deve ser 'ATIVO' ou 'INATIVO'")
-    @Size(min = 3, message = "O status deve ter no mínimo 3 caracteres")
-    private String status;
+    @NotNull(message = "O status da campanha está vazio")
+    @Enumerated(EnumType.STRING)
+    private StatusCampanha statusCampanha;
+
+    @NotNull(message = "O tipo da campanha está vazio")
+    @Enumerated(EnumType.STRING)
+    private TipoCampanha tipoCampanha;
 }

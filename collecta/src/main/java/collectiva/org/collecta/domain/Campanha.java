@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain;
 
+import collectiva.org.collecta.domain.enums.StatusCampanha;
+import collectiva.org.collecta.domain.enums.TipoCampanha;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +26,9 @@ public class Campanha {
 
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
-    private String status;
+    private StatusCampanha statusCampanha;
+    private TipoCampanha tipoCampanha;
+    private int visualizacoes;
 
     @ManyToOne
     @JoinColumn(name = "organizacao")
