@@ -1,6 +1,6 @@
 package collectiva.org.collecta.authentication.dto;
 
-import collectiva.org.collecta.domain.Doador;
+import collectiva.org.collecta.domain.conta.Doador.Doador;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
