@@ -19,7 +19,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ComentarioOrganizacao extends Comentario {
     @ManyToOne
-    @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
 
     @Builder

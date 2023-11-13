@@ -27,7 +27,6 @@ public class Recurso {
     private TipoRecurso tipoRecurso;
 
     @ManyToOne
-    @JoinColumn(name = "campanha")
     private Campanha campanha;
 
     @OneToMany(mappedBy = "recurso")

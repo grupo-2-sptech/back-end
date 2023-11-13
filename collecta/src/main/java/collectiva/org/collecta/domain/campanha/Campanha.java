@@ -45,11 +45,10 @@ public class Campanha {
     private int visualizacoes;
 
     @ManyToOne
-    @JoinColumn(name = "organizacao")
     private Organizacao organizacao;
 
-    @OneToMany(mappedBy = "campanha")
-    private List<FinanceiroCampanha> financeirosCampanha = new ArrayList<FinanceiroCampanha>();
+    @OneToOne(mappedBy = "campanha")
+    private FinanceiroCampanha financeirosCampanha;
 
     @OneToMany(mappedBy = "campanha")
     private List<Relatorio> relatorios = new ArrayList<>();

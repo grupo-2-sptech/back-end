@@ -23,7 +23,6 @@ public class Post {
     private LocalDateTime data;
 
     @ManyToOne
-    @JoinColumn(name = "campanha")
     private Campanha campanha;
 
 }

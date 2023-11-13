@@ -31,8 +31,7 @@ public class FinanceiroCampanha {
     @OneToMany(mappedBy = "financeiroCampanha")
     private List<ContribuicaoMonetaria> contribuicaoMonetarias = new ArrayList();
 
-    @ManyToOne
-    @JoinColumn(name = "campanha")
+    @OneToOne
     private Campanha campanha;
 
 }

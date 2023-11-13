@@ -24,11 +24,9 @@ public class ContribuicaoRecurso extends Contribuicao {
     private TipoRecurso tipoRecurso;
 
     @ManyToOne
-    @JoinColumn(name = "doador")
     private Doador doador;
 
     @ManyToOne
-    @JoinColumn(name = "recurso")
     private Recurso recurso;
 
     @Builder

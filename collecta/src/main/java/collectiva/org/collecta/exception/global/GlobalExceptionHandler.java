@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(HttpClientErrorException.class)
-    public ResponseEntity<MessageErrorResponse> erroEnum(HttpClientErrorException ex, HttpServletRequest request) {
+    public ResponseEntity<MessageErrorResponse> httpClientErrorException(HttpClientErrorException ex, HttpServletRequest request) {
         MessageErrorResponse response = new MessageErrorResponse(
                 new Timestamp(System.currentTimeMillis()),
                 ex.getStatusCode().value(),

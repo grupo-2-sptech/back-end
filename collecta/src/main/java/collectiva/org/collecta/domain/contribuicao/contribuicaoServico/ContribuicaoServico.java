@@ -24,11 +24,9 @@ public class ContribuicaoServico extends Contribuicao {
     private Integer avaliacao;
 
     @ManyToOne
-    @JoinColumn(name = "doador")
     private Doador doador;
 
     @ManyToOne
-    @JoinColumn(name = "eventoCampanha")
     private EventoCampanha eventoCampanha;
 
     @Builder

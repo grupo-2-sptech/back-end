@@ -20,7 +20,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ComentarioDoador extends Comentario {
     @ManyToOne
-    @JoinColumn(name = "doador")
     private Doador doador;
 
     @Builder

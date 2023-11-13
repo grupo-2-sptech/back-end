@@ -8,6 +8,7 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.Contribui
 import collectiva.org.collecta.domain.plano.Plano;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -38,20 +39,21 @@ public class Doador extends Conta {
     @OneToMany(mappedBy = "doador")
     private List<ContribuicaoRecurso> contribuicaoRecursos;
 
-    @OneToMany(mappedBy = "doador")
-    private List<Plano> planos;
+    @OneToOne(mappedBy = "doador")
+    private Plano planos;
 
     @Builder
-    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf) {
+
+    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf, List<ComentarioDoador> comentarios, List<ContribuicaoMonetaria> contribuicaoMonetarias, List<ContribuicaoServico> contribuicaoServico, List<ContribuicaoRecurso> contribuicaoRecursos, Plano planos) {
         super(id, email, senha, telefone);
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
-        this.comentarios = new ArrayList<>();
-        this.contribuicaoServico = new ArrayList();
-        this.contribuicaoRecursos = new ArrayList();
-        this.contribuicaoMonetarias = new ArrayList();
-        this.planos = new ArrayList<>();
+        this.comentarios = comentarios;
+        this.contribuicaoMonetarias = contribuicaoMonetarias;
+        this.contribuicaoServico = contribuicaoServico;
+        this.contribuicaoRecursos = contribuicaoRecursos;
+        this.planos = planos;
     }
 }

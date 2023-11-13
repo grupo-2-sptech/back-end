@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class ErrorExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<MessageErrorResponse> integracaoException(EntidadeNaoEncontradaException ex, HttpServletRequest request) {
+    public ResponseEntity<MessageErrorResponse> entidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, HttpServletRequest request) {
         MessageErrorResponse response = new MessageErrorResponse(
                 new Timestamp(System.currentTimeMillis()),
                 HttpStatus.NOT_FOUND.value(),

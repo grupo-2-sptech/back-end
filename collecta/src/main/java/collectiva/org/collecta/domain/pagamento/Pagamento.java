@@ -1,8 +1,8 @@
 package collectiva.org.collecta.domain.pagamento;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
+import collectiva.org.collecta.domain.plano.Plano;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -23,5 +23,8 @@ public class Pagamento {
     private String dataValidade;
     private String codigoSeguranca;
     private String bandeiraCartao;
+
+    @OneToOne(mappedBy = "pagamento")
+    private ContribuicaoMonetaria contribuicaoMonetaria;
 
 }

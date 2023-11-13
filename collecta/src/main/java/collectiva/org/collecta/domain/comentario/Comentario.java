@@ -29,7 +29,6 @@ public abstract class Comentario {
     private TipoConta tipoConta;
 
     @ManyToOne
-    @JoinColumn(name = "post")
     private Post post;
 
 }

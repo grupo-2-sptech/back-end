@@ -24,7 +24,6 @@ public class Relatorio {
     private int quantidadeFinanceirosCampanha;
 
     @ManyToOne
-    @JoinColumn(name = "campanha")
     private Campanha campanha;
 
 }

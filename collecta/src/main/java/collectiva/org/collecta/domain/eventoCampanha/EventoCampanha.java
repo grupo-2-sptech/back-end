@@ -26,7 +26,6 @@ public class EventoCampanha {
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @JoinColumn(name = "campanha")
     private Campanha campanha;
 
     @OneToMany(mappedBy = "eventoCampanha")

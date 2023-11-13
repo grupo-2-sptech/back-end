@@ -28,8 +28,7 @@ public class Plano {
     @Enumerated(EnumType.STRING)
     private StatusPlano statusPlano;
 
-    @ManyToOne
-    @JoinColumn(name = "doador")
+    @OneToOne
     private Doador doador;
 
 }
