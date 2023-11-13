@@ -1,6 +1,6 @@
 package collectiva.org.collecta.authentication.dto;
 
-import collectiva.org.collecta.domain.Doador;
+import collectiva.org.collecta.domain.conta.Doador.Doador;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.Collection;
 @Builder
 @AllArgsConstructor
 public class DoadorDetalheDTO implements UserDetails {
-    @NotBlank(message = "O email esta vazio")
+    @NotBlank(message = "O Email está vazio")
     private String email;
 
     @NotBlank(message = "A senha está vazia")
@@ -26,9 +26,8 @@ public class DoadorDetalheDTO implements UserDetails {
         this.nome = doador.getNome();
     }
 
-    @NotBlank(message = "O nome esta vazio")
+    @NotBlank(message = "O nome está vazio")
     private String nome;
-
 
 
     @Override

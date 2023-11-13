@@ -12,15 +12,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DoadorTokenDTO {
     private UUID id;
-    @NotBlank(message = "O email esta vazio")
+    @NotBlank(message = "O Email está vazio")
     private String email;
 
-    @NotBlank(message = "A senha está vazia")
-    private String senha;
-
-    @NotBlank(message = "O nome esta vazio")
+    @NotBlank(message = "O nome está vazio")
     private String nome;
 
-    @NotBlank(message = "O token esta vazio")
+    @NotBlank(message = "O token está vazio")
     private String token;
 }

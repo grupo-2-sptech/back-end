@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class DoadorLoginDTO {
-    @NotBlank(message = "O email esta vazio")
+    @NotBlank(message = "O Email está vazio")
     private String email;
 
     @NotBlank(message = "A senha está vazia")

@@ -11,31 +11,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AutenticacaoProvider implements AuthenticationProvider {
 
-  private final AuthenticationService usuarioAutorizacaoService;
-  private final PasswordEncoder passwordEncoder;
+    private final AuthenticationService usuarioAutorizacaoService;
+    private final PasswordEncoder passwordEncoder;
+    private String password;
 
-  public AutenticacaoProvider(AuthenticationService usuarioAutorizacaoService, PasswordEncoder passwordEncoder) {
-    this.usuarioAutorizacaoService = usuarioAutorizacaoService;
-    this.passwordEncoder = passwordEncoder;
-  }
-
-  @Override
-  public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-
-    final String username = authentication.getName();
-    final String password = authentication.getCredentials().toString();
-
-    UserDetails userDetails = this.usuarioAutorizacaoService.loadUserByUsername(username);
-
-    if (this.passwordEncoder.matches(password, userDetails.getPassword())) {
-      return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    } else {
-      throw new BadCredentialsException("Usuário ou Senha inválidos");
+    public AutenticacaoProvider(AuthenticationService usuarioAutorizacaoService, PasswordEncoder passwordEncoder) {
+        this.usuarioAutorizacaoService = usuarioAutorizacaoService;
+        this.passwordEncoder = passwordEncoder;
     }
-  }
 
-  @Override
-  public boolean supports(final Class<?> authentication) {
-    return authentication.equals(UsernamePasswordAuthenticationToken.class);
-  }
+    @Override
+    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
+
+        final String username = authentication.getName();
+        final String password = authentication.getCredentials().toString();
+
+        UserDetails userDetails = this.usuarioAutorizacaoService.loadUserByUsername(username);
+
+        if (this.passwordEncoder.matches(password, userDetails.getPassword())) {
+            return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        } else {
+            throw new BadCredentialsException("Usuário ou Senha inválidos");
+        }
+    }
+
+    @Override
+    public boolean supports(final Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
 }
