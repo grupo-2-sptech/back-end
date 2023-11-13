@@ -39,5 +39,10 @@ public class CampanhaService {
         }
         campanhaRepository.deleteById(id);
     }
+    public void incrementarVisualizacao(Campanha campanha) {
+        campanha.setVisualizacoes(campanha.getVisualizacoes() + 1);
+        campanhaRepository.save(campanha);
+    }
+
 }
 
