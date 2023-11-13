@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain.plano.controller;
 
+import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.dto.PlanoDTO;
+import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
 import collectiva.org.collecta.domain.plano.service.PlanoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +20,26 @@ public class PlanoController {
 
     @GetMapping
     public ResponseEntity<List<PlanoDTO>> buscarPlanos() {
-        List<PlanoDTO> lista = planoService.buscarTodosPlanos();
-        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
+        List<PlanoDTO> listaDTO = planoService.buscarTodosPlanos().stream()
+                .map(PlanoMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanoDTO> buscarPlanoPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(planoService.buscarPlanoPorId(id));
+        return ResponseEntity.ok(PlanoMapper.paraDTO(planoService.buscarPlanoPorId(id)));
     }
 
     @PostMapping
     public ResponseEntity<PlanoDTO> criarPlano(@RequestBody @Valid PlanoDTO planoDTO) {
-        return ResponseEntity.status(201).body(planoService.salvarPlano(planoDTO));
+        Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO));
+        return ResponseEntity.status(201).body(PlanoMapper.paraDTO(plano));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid PlanoDTO planoDTO) {
-        return ResponseEntity.ok(planoService.atualizarPlano(id, planoDTO));
+        Plano plano = planoService.atualizarPlano(id, PlanoMapper.paraEntidade(planoDTO));
+        return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
     }
 
     @DeleteMapping("/{id}")

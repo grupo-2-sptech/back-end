@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         List<String> errorMessages = ex.getBindingResult().getFieldErrors()
                 .stream()
                 .map(fieldError -> fieldError.getDefaultMessage())
-                .collect(Collectors.toList());
+                .toList();
 
         MessageErrorResponseList response = new MessageErrorResponseList(
                 new Timestamp(System.currentTimeMillis()),

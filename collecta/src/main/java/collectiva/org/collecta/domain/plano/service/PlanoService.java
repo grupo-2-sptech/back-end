@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.plano.service;
 
 import collectiva.org.collecta.domain.plano.Plano;
-import collectiva.org.collecta.domain.plano.dto.PlanoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
 import collectiva.org.collecta.domain.plano.repository.PlanoRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PlanoService {
     private final PlanoRepository planoRepository;
 
-    public PlanoDTO salvarPlano(PlanoDTO planoDTO) {
-        Plano plano = PlanoMapper.paraEntidade(planoDTO);
-        planoRepository.save(plano);
-        return PlanoMapper.paraDTO(plano);
+    public Plano salvarPlano(Plano plano) {
+        return planoRepository.save(plano);
     }
 
-    public List<PlanoDTO> buscarTodosPlanos() {
-        List<Plano> planos = planoRepository.findAll();
-        return planos.stream().map(PlanoMapper::paraDTO).collect(Collectors.toList());
+    public List<Plano> buscarTodosPlanos() {
+        return planoRepository.findAll();
     }
 
-    public PlanoDTO buscarPlanoPorId(UUID id) {
-        return PlanoMapper.paraDTO(planoRepository.findById(id).orElseThrow(()
-                -> new EntidadeNaoEncontradaException("Plano")));
+    public Plano buscarPlanoPorId(UUID id) {
+        return planoRepository.findById(id).orElseThrow(()
+                -> new EntidadeNaoEncontradaException("Plano"));
     }
 
-    public PlanoDTO atualizarPlano(UUID id, PlanoDTO planoDTO) {
+    public Plano atualizarPlano(UUID id, Plano plano) {
         buscarPlanoPorId(id);
-        Plano planoNovo = PlanoMapper.paraEntidade(planoDTO);
-        planoNovo.setId(id);
-        planoRepository.save(planoNovo);
-        return PlanoMapper.paraDTO(planoNovo);
+        plano.setId(id);
+        return planoRepository.save(plano);
     }
 
     public void deletarPlano(UUID id) {

@@ -1,45 +1,36 @@
 package collectiva.org.collecta.domain.recurso.service;
 
 import collectiva.org.collecta.domain.recurso.Recurso;
-import collectiva.org.collecta.domain.recurso.dto.RecursoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.recurso.mapper.RecursoMapper;
 import collectiva.org.collecta.domain.recurso.repository.RecursoRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RecursoService {
     private final RecursoRepository recursoRepository;
 
-    public RecursoDTO salvarRecurso(RecursoDTO recursoDTO) {
-        Recurso recurso = RecursoMapper.paraEntidade(recursoDTO);
-        recursoRepository.save(recurso);
-        return RecursoMapper.paraDTO(recurso);
+    public Recurso salvarRecurso(Recurso recurso) {
+        return recursoRepository.save(recurso);
     }
 
-    public List<RecursoDTO> buscarTodosRecursos() {
-        List<Recurso> recursos = recursoRepository.findAll();
-        return recursos.stream().map(RecursoMapper::paraDTO).collect(Collectors.toList());
-
+    public List<Recurso> buscarTodosRecursos() {
+        return recursoRepository.findAll();
     }
 
-    public RecursoDTO buscarRecursoPorId(UUID id) {
-        return RecursoMapper.paraDTO(recursoRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Recurso")));
+    public Recurso buscarRecursoPorId(UUID id) {
+        return recursoRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Recurso"));
     }
 
-    public RecursoDTO atualizarRecurso(UUID id, RecursoDTO recursoDTO) {
+    public Recurso atualizarRecurso(UUID id, Recurso recurso) {
         buscarRecursoPorId(id);
-        Recurso recursoNovo = RecursoMapper.paraEntidade(recursoDTO);
-        recursoNovo.setId(id);
-        recursoRepository.save(recursoNovo);
-        return RecursoMapper.paraDTO(recursoNovo);
+        recurso.setId(id);
+        return recursoRepository.save(recurso);
     }
 
     public void deletarRecurso(UUID id) {

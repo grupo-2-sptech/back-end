@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.pagamento.service;
 
 import collectiva.org.collecta.domain.pagamento.Pagamento;
-import collectiva.org.collecta.domain.pagamento.dto.PagamentoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.pagamento.mapper.PagamentoMapper;
 import collectiva.org.collecta.domain.pagamento.repository.PagamentoRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public PagamentoDTO salvarPagamento(PagamentoDTO pagamentoDTO) {
-        Pagamento pagamento = PagamentoMapper.paraEntidade(pagamentoDTO);
-        pagamentoRepository.save(pagamento);
-        return PagamentoMapper.paraDTO(pagamento);
+    public Pagamento salvarPagamento(Pagamento pagamento) {
+        return pagamentoRepository.save(pagamento);
     }
 
-    public List<PagamentoDTO> buscarTodosPagamentos() {
-        List<Pagamento> pagamentos = pagamentoRepository.findAll();
-        return pagamentos.stream().map(PagamentoMapper::paraDTO).collect(Collectors.toList());
+    public List<Pagamento> buscarTodosPagamentos() {
+        return pagamentoRepository.findAll();
     }
 
-    public PagamentoDTO buscarPagamentoPorId(UUID id) {
-        return PagamentoMapper.paraDTO(pagamentoRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Pagamento")));
+    public Pagamento buscarPagamentoPorId(UUID id) {
+        return pagamentoRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Pagamento"));
     }
 
-    public PagamentoDTO atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO) {
+    public Pagamento atualizarPagamento(UUID id, Pagamento pagamento) {
         buscarPagamentoPorId(id);
-        Pagamento pagamentoNovo = PagamentoMapper.paraEntidade(pagamentoDTO);
-        pagamentoNovo.setId(id);
-        pagamentoRepository.save(pagamentoNovo);
-        return PagamentoMapper.paraDTO(pagamentoNovo);
+        pagamento.setId(id);
+        return pagamentoRepository.save(pagamento);
     }
 
     public void deletarPagamento(UUID id) {

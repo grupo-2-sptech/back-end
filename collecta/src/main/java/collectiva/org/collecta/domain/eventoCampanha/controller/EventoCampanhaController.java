@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain.eventoCampanha.controller;
 
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.eventoCampanha.dto.EventoCampanhaDTO;
+import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/eventos")
@@ -18,23 +21,26 @@ public class EventoCampanhaController {
 
     @GetMapping
     public ResponseEntity<List<EventoCampanhaDTO>> buscarEventosCampanha() {
-        List<EventoCampanhaDTO> lista = eventoCampanhaService.buscarTodosEventosCampanha();
-        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
+        List<EventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarTodosEventosCampanha().stream()
+                .map(EventoCampanhaMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventoCampanhaDTO> buscarEventoCampanhaPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(eventoCampanhaService.buscarEventoCampanhaPorId(id));
+        return ResponseEntity.ok(EventoCampanhaMapper.paraDTO(eventoCampanhaService.buscarEventoCampanhaPorId(id)));
     }
 
     @PostMapping
-    public ResponseEntity<EventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid EventoCampanhaDTO eventoCampanha) {
-        return ResponseEntity.status(201).body(eventoCampanhaService.salvarEventoCampanha(eventoCampanha));
+    public ResponseEntity<EventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid EventoCampanhaDTO eventoCampanhaDTO) {
+        EventoCampanha eventoCampanha = eventoCampanhaService.salvarEventoCampanha(EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO));
+        return ResponseEntity.status(201).body(EventoCampanhaMapper.paraDTO(eventoCampanha));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EventoCampanhaDTO> atualizarEventoCampanha(@PathVariable UUID id, @Valid @RequestBody EventoCampanhaDTO eventoCampanhaDTO) {
-        return ResponseEntity.ok(eventoCampanhaService.atualizarEventoCampanha(id, eventoCampanhaDTO));
+        EventoCampanha eventoCampanha = eventoCampanhaService.atualizarEventoCampanha(id, EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO));
+        return ResponseEntity.ok(EventoCampanhaMapper.paraDTO(eventoCampanha));
     }
 
     @DeleteMapping("/{id}")

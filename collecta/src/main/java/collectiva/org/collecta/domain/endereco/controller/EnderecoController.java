@@ -1,8 +1,10 @@
 package collectiva.org.collecta.domain.endereco.controller;
 
+import collectiva.org.collecta.domain.endereco.Endereco;
 import collectiva.org.collecta.domain.endereco.dto.EnderecoDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
+import collectiva.org.collecta.domain.endereco.mapper.EnderecoMapper;
 import collectiva.org.collecta.domain.endereco.service.EnderecoService;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/enderecos")
@@ -21,23 +24,26 @@ public class EnderecoController {
 
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarEnderecos() {
-        List<EnderecoDTO> lista = enderecoService.buscarTodosEnderecos();
-        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
+        List<EnderecoDTO> listaDTO = enderecoService.buscarTodosEnderecos().stream()
+                .map(EnderecoMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> buscarEnderecoPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(enderecoService.buscarEnderecoPorId(id));
+        return ResponseEntity.ok(EnderecoMapper.paraDTO(enderecoService.buscarEnderecoPorId(id)));
     }
 
     @PostMapping
     public ResponseEntity<EnderecoDTO> criarEndereco(@RequestBody @Valid EnderecoDTO enderecoDTO) {
-        return ResponseEntity.status(201).body(enderecoService.salvarEndereco(enderecoDTO));
+        Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO));
+        return ResponseEntity.status(201).body(EnderecoMapper.paraDTO(endereco));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid EnderecoDTO enderecoDTO) {
-        return ResponseEntity.ok(enderecoService.atualizarEndereco(id, enderecoDTO));
+        Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidade(enderecoDTO));
+        return ResponseEntity.ok(EnderecoMapper.paraDTO(endereco));
     }
 
     @DeleteMapping("/{id}")

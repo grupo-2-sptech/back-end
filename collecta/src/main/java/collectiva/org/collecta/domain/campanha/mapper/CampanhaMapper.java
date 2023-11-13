@@ -18,6 +18,7 @@ public class CampanhaMapper {
                 .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
                 .statusCampanha(campanhaDTO.getStatusCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
+                .visualizacoes(campanhaDTO.getVisulizacoes())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class CampanhaMapper {
                 .categoriaCampanha(campanha.getCategoriaCampanha())
                 .statusCampanha(campanha.getStatusCampanha())
                 .tipoCampanha(campanha.getTipoCampanha())
+                .visulizacoes(campanha.getVisualizacoes())
                 .build();
     }
 

@@ -1,45 +1,36 @@
 package collectiva.org.collecta.domain.comentario.comentarioDoador.service;
 
 import collectiva.org.collecta.domain.comentario.comentarioDoador.ComentarioDoador;
-import collectiva.org.collecta.domain.comentario.comentarioDoador.dto.ComentarioDoadorDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.comentario.comentarioDoador.mapper.ComentarioDoadorMapper;
 import collectiva.org.collecta.domain.comentario.comentarioDoador.repository.ComentarioDoadorRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ComentarioDoadorService {
     private final ComentarioDoadorRepository comentarioDoadorRepository;
 
-    public ComentarioDoadorDTO salvarComentario(ComentarioDoadorDTO comentarioDoadorDTO) {
-        ComentarioDoador comentarioDoador = ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO);
-        comentarioDoadorRepository.save(comentarioDoador);
-        return ComentarioDoadorMapper.paraDTO(comentarioDoador);
+    public ComentarioDoador salvarComentario(ComentarioDoador comentarioDoador) {
+        return comentarioDoadorRepository.save(comentarioDoador);
     }
 
-    public List<ComentarioDoadorDTO> buscarTodosComentarios() {
-        List<ComentarioDoador> comentariosDoador = comentarioDoadorRepository.findAll();
-        return comentariosDoador.stream().map(ComentarioDoadorMapper::paraDTO).collect(Collectors.toList());
+    public List<ComentarioDoador> buscarTodosComentarios() {
+        return comentarioDoadorRepository.findAll();
     }
 
-
-    public ComentarioDoadorDTO buscarComentarioPorId(UUID id) {
-        return ComentarioDoadorMapper.paraDTO(comentarioDoadorRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("ComentarioDoador")));
+    public ComentarioDoador buscarComentarioPorId(UUID id) {
+        return comentarioDoadorRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("ComentarioDoador"));
     }
 
-    public ComentarioDoadorDTO atualizarComentario(UUID id, ComentarioDoadorDTO comentarioDoadorDTO) {
+    public ComentarioDoador atualizarComentario(UUID id, ComentarioDoador comentarioDoador) {
         buscarComentarioPorId(id);
-        ComentarioDoador comentarioDoadorNovo = ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO);
-        comentarioDoadorNovo.setId(id);
-        comentarioDoadorRepository.save(comentarioDoadorNovo);
-        return ComentarioDoadorMapper.paraDTO(comentarioDoadorNovo);
+        comentarioDoador.setId(id);
+        return comentarioDoadorRepository.save(comentarioDoador);
     }
 
     public void deletarComentario(UUID id) {

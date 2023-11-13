@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.eventoCampanha.service;
 
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
-import collectiva.org.collecta.domain.eventoCampanha.dto.EventoCampanhaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.domain.eventoCampanha.repository.EventoCampanhaRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class EventoCampanhaService {
     private final EventoCampanhaRepository eventoCampanhaRepository;
 
-    public EventoCampanhaDTO salvarEventoCampanha(EventoCampanhaDTO eventoCampanhaDTO) {
-        EventoCampanha eventoCampanha = EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO);
-        eventoCampanhaRepository.save(eventoCampanha);
-        return EventoCampanhaMapper.paraDTO(eventoCampanha);
+    public EventoCampanha salvarEventoCampanha(EventoCampanha eventoCampanha) {
+        return eventoCampanhaRepository.save(eventoCampanha);
     }
 
-    public List<EventoCampanhaDTO> buscarTodosEventosCampanha() {
-        List<EventoCampanha> eventoCampanha = eventoCampanhaRepository.findAll();
-        return eventoCampanha.stream().map(EventoCampanhaMapper::paraDTO).collect(Collectors.toList());
+    public List<EventoCampanha> buscarTodosEventosCampanha() {
+        return eventoCampanhaRepository.findAll();
     }
 
-    public EventoCampanhaDTO buscarEventoCampanhaPorId(UUID id) {
-        return EventoCampanhaMapper.paraDTO(eventoCampanhaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Evento")));
+    public EventoCampanha buscarEventoCampanhaPorId(UUID id) {
+        return eventoCampanhaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Evento"));
     }
 
-    public EventoCampanhaDTO atualizarEventoCampanha(UUID id, EventoCampanhaDTO eventoCampanhaDTO) {
+    public EventoCampanha atualizarEventoCampanha(UUID id, EventoCampanha eventoCampanha) {
         buscarEventoCampanhaPorId(id);
-        EventoCampanha eventoNovo = EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO);
-        eventoNovo.setId(id);
-        eventoCampanhaRepository.save(eventoNovo);
-        return EventoCampanhaMapper.paraDTO(eventoNovo);
+        eventoCampanha.setId(id);
+        return eventoCampanhaRepository.save(eventoCampanha);
     }
 
     public void deletarEventoCampanha(UUID id) {

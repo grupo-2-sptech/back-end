@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.campanha.service;
 
 import collectiva.org.collecta.domain.campanha.Campanha;
-import collectiva.org.collecta.domain.campanha.dto.CampanhaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
 import collectiva.org.collecta.domain.campanha.repository.CampanhaRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CampanhaService {
     private final CampanhaRepository campanhaRepository;
 
-    public CampanhaDTO salvarCampanha(CampanhaDTO campanhaDTO) {
-        Campanha campanha = CampanhaMapper.paraEntidade(campanhaDTO);
-        campanhaRepository.save(campanha);
-        return CampanhaMapper.paraDTO(campanha);
+    public Campanha salvarCampanha(Campanha campanha) {
+        return campanhaRepository.save(campanha);
     }
 
-    public List<CampanhaDTO> buscarTodasCampanhas() {
-        List<Campanha> campanha = campanhaRepository.findAll();
-        return campanha.stream().map(CampanhaMapper::paraDTO).collect(Collectors.toList());
+    public List<Campanha> buscarTodasCampanhas() {
+        return campanhaRepository.findAll();
     }
 
-    public CampanhaDTO buscarCampanhaPorId(UUID id) {
-        return CampanhaMapper.paraDTO(campanhaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Campanha")));
+    public Campanha buscarCampanhaPorId(UUID id) {
+        return campanhaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Campanha"));
     }
 
-    public CampanhaDTO atualizarCampanha(UUID id, CampanhaDTO campanhaDTO) {
+    public Campanha atualizarCampanha(UUID id, Campanha campanha) {
         buscarCampanhaPorId(id);
-        Campanha campanhaNova = CampanhaMapper.paraEntidade(campanhaDTO);
-        campanhaNova.setId(id);
-        campanhaRepository.save(campanhaNova);
-        return CampanhaMapper.paraDTO(campanhaNova);
+        campanha.setId(id);
+        return campanhaRepository.save(campanha);
     }
 
     public void deletarCampanha(UUID id) {

@@ -5,9 +5,9 @@ import collectiva.org.collecta.authentication.dto.DoadorTokenDTO;
 import collectiva.org.collecta.authentication.jwt.GerenciadorTokenJwt;
 import collectiva.org.collecta.domain.conta.Doador.Doador;
 import collectiva.org.collecta.domain.conta.Doador.dto.DoadorDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.domain.conta.Doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.conta.Doador.repository.DoadorRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,30 +28,25 @@ public class DoadorService {
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
     private final AuthenticationManager authenticationManager;
 
-    public DoadorTokenDTO salvarDoador(DoadorDTO doadorDTO) {
-        Doador doador = DoadorMapper.paraEntidade(doadorDTO);
+    public Doador salvarDoador(Doador doador) {
         String senhaCriptografada = passwordEncoder.encode(doador.getSenha());
         doador.setSenha(senhaCriptografada);
-        doadorRepository.save(doador);
-        return DoadorMapper.paraToken(doador, senhaCriptografada);
+        return doadorRepository.save(doador);
     }
 
-    public List<DoadorDTO> buscarTodosDoadores() {
-        List<Doador> doadores = doadorRepository.findAll();
-        return doadores.stream().map(DoadorMapper::paraDTO).collect(Collectors.toList());
+    public List<Doador> buscarTodosDoadores() {
+        return doadorRepository.findAll();
     }
 
-    public DoadorDTO buscarDoadorPorId(UUID id) {
-        return DoadorMapper.paraDTO(doadorRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Doador")));
+    public Doador buscarDoadorPorId(UUID id) {
+        return doadorRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Doador"));
     }
 
-    public DoadorDTO atualizarDoador(UUID id, DoadorDTO doadorDTO) {
+    public Doador atualizarDoador(UUID id, Doador doador) {
         buscarDoadorPorId(id);
-        Doador doadorNovo = DoadorMapper.paraEntidade(doadorDTO);
-        doadorNovo.setId(id);
-        doadorRepository.save(doadorNovo);
-        return DoadorMapper.paraDTO(doadorNovo);
+        doador.setId(id);
+        return doadorRepository.save(doador);
     }
 
     public void deletarDoador(UUID id) {
@@ -72,7 +66,7 @@ public class DoadorService {
         Doador doadorAutenticado =
                 doadorRepository.findByEmail(usuarioLoginDto.getEmail())
                         .orElseThrow(
-                                () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
+                                () -> new EntidadeNaoEncontradaException("Email")
                         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

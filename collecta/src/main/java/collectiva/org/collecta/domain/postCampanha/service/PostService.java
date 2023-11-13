@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.postCampanha.service;
 
 import collectiva.org.collecta.domain.postCampanha.Post;
-import collectiva.org.collecta.domain.postCampanha.dto.PostDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.postCampanha.mapper.PostMapper;
 import collectiva.org.collecta.domain.postCampanha.repository.PostRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostDTO salvarPost(PostDTO postDTO) {
-        Post post = PostMapper.paraEntidade(postDTO);
-        postRepository.save(post);
-        return PostMapper.paraDTO(post);
+    public Post salvarPost(Post post) {
+        return postRepository.save(post);
     }
 
-    public List<PostDTO> buscarTodosPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(PostMapper::paraDTO).collect(Collectors.toList());
+    public List<Post> buscarTodosPosts() {
+        return postRepository.findAll();
     }
 
-    public PostDTO buscarPostPorId(UUID id) {
-        return PostMapper.paraDTO(postRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Post")));
+    public Post buscarPostPorId(UUID id) {
+        return postRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Post"));
     }
 
-    public PostDTO atualizarPost(UUID id, PostDTO postDTO) {
+    public Post atualizarPost(UUID id, Post post) {
         buscarPostPorId(id);
-        Post postNovo = PostMapper.paraEntidade(postDTO);
-        postNovo.setId(id);
-        postRepository.save(postNovo);
-        return PostMapper.paraDTO(postNovo);
+        post.setId(id);
+        return postRepository.save(post);
     }
 
     public void deletarPost(UUID id) {

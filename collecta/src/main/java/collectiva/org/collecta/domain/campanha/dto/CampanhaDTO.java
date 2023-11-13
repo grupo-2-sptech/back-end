@@ -45,4 +45,6 @@ public class CampanhaDTO {
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
 
+    private int visulizacoes;
+
 }

@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain.postCampanha.controller;
 
+import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.PostDTO;
+import collectiva.org.collecta.domain.postCampanha.mapper.PostMapper;
 import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +20,26 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> buscarPosts() {
-        List<PostDTO> lista = postService.buscarTodosPosts();
-        return ResponseEntity.status(lista.isEmpty() ? 204 : 200).body(lista);
+        List<PostDTO> listaDTO = postService.buscarTodosPosts().stream()
+                .map(PostMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> buscarPostPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(postService.buscarPostPorId(id));
+        return ResponseEntity.ok(PostMapper.paraDTO(postService.buscarPostPorId(id)));
     }
 
     @PostMapping
     public ResponseEntity<PostDTO> criarPost(@RequestBody @Valid PostDTO postDTO) {
-        return ResponseEntity.status(201).body(postService.salvarPost(postDTO));
+        Post post = postService.salvarPost(PostMapper.paraEntidade(postDTO));
+        return ResponseEntity.status(201).body(PostMapper.paraDTO(post));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid PostDTO postDTO) {
-        return ResponseEntity.ok(postService.atualizarPost(id, postDTO));
+        Post post = postService.atualizarPost(id, PostMapper.paraEntidade(postDTO));
+        return ResponseEntity.ok(PostMapper.paraDTO(post));
     }
 
     @DeleteMapping("/{id}")

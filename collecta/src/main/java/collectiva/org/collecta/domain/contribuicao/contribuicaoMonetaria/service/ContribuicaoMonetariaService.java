@@ -1,44 +1,36 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service;
 
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ContribuicaoMonetariaDTO;
-import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.repository.ContribuicaoMonetariaRepository;
+import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ContribuicaoMonetariaService {
     private final ContribuicaoMonetariaRepository contribuicaoMonetariaRepository;
 
-    public ContribuicaoMonetariaDTO salvarContribuicaoMonetaria(ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        ContribuicaoMonetaria contribuicaoMonetaria = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO);
-        contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
-        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria);
+    public ContribuicaoMonetaria salvarContribuicaoMonetaria(ContribuicaoMonetaria contribuicaoMonetaria) {
+        return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
-    public List<ContribuicaoMonetariaDTO> buscarTodasContribuicoesMonetarias() {
-        List<ContribuicaoMonetaria> contribuicaoMonetaria = contribuicaoMonetariaRepository.findAll();
-        return contribuicaoMonetaria.stream().map(ContribuicaoMonetariaMapper::paraDTO).collect(Collectors.toList());
+    public List<ContribuicaoMonetaria> buscarTodasContribuicoesMonetarias() {
+        return contribuicaoMonetariaRepository.findAll();
     }
 
-    public ContribuicaoMonetariaDTO buscarContribuicaoMonetariaPorId(UUID id) {
-        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria")));
+    public ContribuicaoMonetaria buscarContribuicaoMonetariaPorId(UUID id) {
+        return contribuicaoMonetariaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
     }
 
-    public ContribuicaoMonetariaDTO atualizarContribuicaoMonetaria(UUID id, ContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+    public ContribuicaoMonetaria atualizarContribuicaoMonetaria(UUID id, ContribuicaoMonetaria contribuicaoMonetaria) {
         buscarContribuicaoMonetariaPorId(id);
-        ContribuicaoMonetaria contribuicaoMonetariaNova = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO);
-        contribuicaoMonetariaNova.setId(id);
-        contribuicaoMonetariaRepository.save(contribuicaoMonetariaNova);
-        return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaNova);
+        contribuicaoMonetaria.setId(id);
+        return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
     public void deletarContribuicaoMonetaria(UUID id) {
