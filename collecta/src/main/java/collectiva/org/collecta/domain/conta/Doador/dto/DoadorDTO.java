@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -34,7 +34,7 @@ public class DoadorDTO {
 
     @NotNull(message = "A data de nascimento está vazia")
     @Past(message = "A data de nascimento deve ser no passado")
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
 
     @NotBlank(message = "O CPF esta vazio")
     @Size(min = 11, max = 11, message = "CPF inválido")
