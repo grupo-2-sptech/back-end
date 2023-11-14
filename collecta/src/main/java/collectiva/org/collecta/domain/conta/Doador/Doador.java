@@ -6,13 +6,13 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.Contrib
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.plano.Plano;
+import collectiva.org.collecta.domain.postLike.PostLike;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,11 +24,14 @@ import java.util.UUID;
 public class Doador extends Conta {
     private String nome;
     private String sobrenome;
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
     private String cpf;
 
     @OneToMany(mappedBy = "doador")
     private List<ComentarioDoador> comentarios;
+
+    @OneToMany(mappedBy = "doador")
+    private List<PostLike> postLikes;
 
     @OneToMany(mappedBy = "doador")
     private List<ContribuicaoMonetaria> contribuicaoMonetarias;
@@ -44,7 +47,7 @@ public class Doador extends Conta {
 
     @Builder
 
-    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDateTime dataNascimento, String cpf, List<ComentarioDoador> comentarios, List<ContribuicaoMonetaria> contribuicaoMonetarias, List<ContribuicaoServico> contribuicaoServico, List<ContribuicaoRecurso> contribuicaoRecursos, Plano planos) {
+    public Doador(UUID id, String email, String senha, String telefone, String nome, String sobrenome, LocalDate dataNascimento, String cpf, List<ComentarioDoador> comentarios, List<ContribuicaoMonetaria> contribuicaoMonetarias, List<ContribuicaoServico> contribuicaoServico, List<ContribuicaoRecurso> contribuicaoRecursos, Plano planos) {
         super(id, email, senha, telefone);
         this.nome = nome;
         this.sobrenome = sobrenome;
