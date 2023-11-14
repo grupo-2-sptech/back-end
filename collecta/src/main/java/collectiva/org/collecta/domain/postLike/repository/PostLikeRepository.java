@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @Repository
 public interface PostLikeRepository extends JpaRepository<PostLike, UUID> {
-    void deleteByPostAndAndDoador(Doador doador, Post post);
+    boolean existsByDoadorAndPost(Doador doador, Post post);
+    void deleteByDoadorAndPost(Doador doador, Post post);
     int countByPost(Post post);
     List<PostLike> findByDoador(Doador doador);
     List<PostLike> findByPost(Post post);
