@@ -1,11 +1,10 @@
 package collectiva.org.collecta.domain.comentario.comentarioOrganizacao;
 
 import collectiva.org.collecta.domain.comentario.Comentario;
-import collectiva.org.collecta.domain.conta.Organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.enums.TipoConta;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 

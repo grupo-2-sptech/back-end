@@ -1,5 +1,6 @@
 package collectiva.org.collecta.exception.error;
 
+import collectiva.org.collecta.exception.exceptions.ConflitoEntidadeException;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import collectiva.org.collecta.exception.utils.MessageErrorResponse;
 import collectiva.org.collecta.exception.utils.RequestPath;
@@ -25,6 +26,18 @@ public class ErrorExceptionHandler {
                 RequestPath.getRequestPath(request));
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(ConflitoEntidadeException.class)
+    public ResponseEntity<MessageErrorResponse> conflitoEntidadeException(ConflitoEntidadeException ex, HttpServletRequest request) {
+        MessageErrorResponse response = new MessageErrorResponse(
+                new Timestamp(System.currentTimeMillis()),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                RequestPath.getRequestPath(request));
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
 }

@@ -1,9 +1,9 @@
 package collectiva.org.collecta.authentication;
 
-import collectiva.org.collecta.authentication.dto.DoadorDetalheDTO;
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.authentication.dto.ContaDetalheDTO;
+import collectiva.org.collecta.domain.conta.usuario.Conta;
+import collectiva.org.collecta.domain.conta.usuario.repository.ContaRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
-import collectiva.org.collecta.domain.conta.Doador.repository.DoadorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
-    private final DoadorRepository doadorRepository;
+    private final ContaRepository contaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws EntidadeNaoEncontradaException {
-        Doador doador = doadorRepository.findByEmail(username).orElseThrow(
+        Conta conta = contaRepository.findByEmail(username).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Username")
         );
-        return new DoadorDetalheDTO(doador);
+        return new ContaDetalheDTO(conta);
     }
 }

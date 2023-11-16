@@ -1,7 +1,7 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria;
 
 import collectiva.org.collecta.domain.contribuicao.Contribuicao;
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.pagamento.Pagamento;
 import collectiva.org.collecta.enums.FormaPagamento;
