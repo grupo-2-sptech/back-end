@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface DoadorRepository extends JpaRepository<Doador, UUID> {
     Optional<Doador> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
