@@ -1,11 +1,10 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico;
 
 import collectiva.org.collecta.domain.contribuicao.Contribuicao;
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 

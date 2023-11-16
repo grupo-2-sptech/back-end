@@ -1,7 +1,7 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso;
 
 import collectiva.org.collecta.domain.contribuicao.Contribuicao;
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.recurso.Recurso;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.enums.TipoRecurso;

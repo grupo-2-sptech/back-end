@@ -1,6 +1,6 @@
 package collectiva.org.collecta.domain.campanha;
 
-import collectiva.org.collecta.domain.conta.Organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.postCampanha.Post;

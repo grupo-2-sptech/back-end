@@ -1,6 +1,6 @@
 package collectiva.org.collecta.domain.postLike.repository;
 
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postLike.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package collectiva.org.collecta.domain.postLike.controller;
 
-import collectiva.org.collecta.domain.conta.Doador.Doador;
-import collectiva.org.collecta.domain.conta.Doador.service.DoadorService;
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.postLike.dto.RespostaPostLikeDTO;
 import collectiva.org.collecta.domain.postLike.mapper.PostLikeMapper;
 import collectiva.org.collecta.domain.postLike.service.PostLikeService;
