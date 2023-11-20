@@ -50,7 +50,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/api/public/authenticate"),
             new AntPathRequestMatcher("/webjars/**"),
             new AntPathRequestMatcher("/v3/api-docs/**"),
-            new AntPathRequestMatcher("/actuator/*"),
+            new AntPathRequestMatcher("/actuator/**"),
             new AntPathRequestMatcher("/doadores/**"),
             new AntPathRequestMatcher("/doadores"),
             new AntPathRequestMatcher("/organizacoes"),
@@ -115,6 +115,8 @@ public class SecurityConfiguracao {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracao = new CorsConfiguration();
         configuracao.applyPermitDefaultValues();
+        configuracao.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuracao.setAllowCredentials(true);
         configuracao.setAllowedMethods(
                 Arrays.asList(
                         HttpMethod.GET.name(),
@@ -129,7 +131,7 @@ public class SecurityConfiguracao {
         configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
 
         UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
-        origem.registerCorsConfiguration("/h2-console/**", configuracao);
+        origem.registerCorsConfiguration("/**", configuracao);
 
         return origem;
     }
