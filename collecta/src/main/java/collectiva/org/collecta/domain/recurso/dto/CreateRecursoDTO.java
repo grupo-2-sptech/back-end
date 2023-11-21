@@ -7,12 +7,9 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Builder
-public class RecursoDTO {
-    private UUID id;
+public class CreateRecursoDTO {
     @NotBlank(message = "O nome está vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;

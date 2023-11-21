@@ -1,14 +1,14 @@
 package collectiva.org.collecta.domain.postLike.mapper;
 
 import collectiva.org.collecta.domain.postLike.PostLike;
-import collectiva.org.collecta.domain.postLike.dto.RespostaPostLikeDTO;
+import collectiva.org.collecta.domain.postLike.dto.ResponsePostLikeDTO;
 
 public class PostLikeMapper {
     private PostLikeMapper() {
     }
 
-    public static RespostaPostLikeDTO paraRespostaDTO(PostLike postLike){
-        return RespostaPostLikeDTO.builder()
+    public static ResponsePostLikeDTO paraRespostaDTO(PostLike postLike){
+        return ResponsePostLikeDTO.builder()
                 .id(postLike.getId())
                 .email(postLike.getDoador().getEmail())
                 .postId(postLike.getPost().getId())

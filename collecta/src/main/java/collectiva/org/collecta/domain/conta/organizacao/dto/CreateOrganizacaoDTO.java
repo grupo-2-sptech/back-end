@@ -5,12 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
-public class OrganizacaoDTO {
-    private UUID id;
+public class CreateOrganizacaoDTO {
     @NotBlank(message = "O Email está vazio")
     @Size(min = 3, message = "O email deve ter no mínimo 3 caracteres")
     private String email;

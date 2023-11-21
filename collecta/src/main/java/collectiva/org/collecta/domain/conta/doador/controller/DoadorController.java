@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.conta.doador.controller;
 
 import collectiva.org.collecta.domain.conta.doador.Doador;
-import collectiva.org.collecta.domain.conta.doador.dto.DoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,26 +21,26 @@ public class DoadorController {
     private final DoadorService doadorService;
 
     @GetMapping
-    public ResponseEntity<List<DoadorDTO>> buscarDoadores() {
-        List<DoadorDTO> listaDTO = doadorService.buscarTodosDoadores().stream()
+    public ResponseEntity<List<ResponseDoadorDTO>> buscarDoadores() {
+        List<ResponseDoadorDTO> listaDTO = doadorService.buscarTodosDoadores().stream()
                 .map(DoadorMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DoadorDTO> buscarDoadorPorId(@PathVariable UUID id) {
+    public ResponseEntity<ResponseDoadorDTO> buscarDoadorPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(DoadorMapper.paraDTO(doadorService.buscarDoadorPorId(id)));
     }
 
     @PostMapping
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<DoadorDTO> criarDoador(@RequestBody @Valid DoadorDTO doadorDTO) {
+    public ResponseEntity<ResponseDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
         Doador doador = doadorService.salvarDoador(DoadorMapper.paraEntidade(doadorDTO));
         return ResponseEntity.status(201).body(DoadorMapper.paraDTO(doador));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid DoadorDTO doadorDTO) {
+    public ResponseEntity<ResponseDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid CreateDoadorDTO doadorDTO) {
         Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidade(doadorDTO));
         return ResponseEntity.ok(DoadorMapper.paraDTO(doador));
     }

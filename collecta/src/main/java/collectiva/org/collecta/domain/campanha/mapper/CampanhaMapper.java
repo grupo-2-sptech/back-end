@@ -1,29 +1,27 @@
 package collectiva.org.collecta.domain.campanha.mapper;
 
 import collectiva.org.collecta.domain.campanha.Campanha;
-import collectiva.org.collecta.domain.campanha.dto.CampanhaDTO;
+import collectiva.org.collecta.domain.campanha.dto.CreateCampanhaDTO;
+import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
 
 public class CampanhaMapper {
 
     private CampanhaMapper() {
     }
 
-    public static Campanha paraEntidade(CampanhaDTO campanhaDTO){
+    public static Campanha paraEntidade(CreateCampanhaDTO campanhaDTO){
         return Campanha.builder()
-                .id(campanhaDTO.getId())
                 .nome(campanhaDTO.getNome())
                 .descricao(campanhaDTO.getDescricao())
                 .dataInicio(campanhaDTO.getDataInicio())
                 .dataFim(campanhaDTO.getDataFim())
                 .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
-                .statusCampanha(campanhaDTO.getStatusCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
-                .visualizacoes(campanhaDTO.getVisulizacoes())
                 .build();
     }
 
-    public static CampanhaDTO paraDTO(Campanha campanha){
-        return CampanhaDTO.builder()
+    public static ResponseCampanhaDTO paraDTO(Campanha campanha){
+        return ResponseCampanhaDTO.builder()
                 .id(campanha.getId())
                 .nome(campanha.getNome())
                 .descricao(campanha.getDescricao())

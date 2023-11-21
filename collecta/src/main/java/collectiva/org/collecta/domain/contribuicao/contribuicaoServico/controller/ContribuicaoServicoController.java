@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.controller;
 
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ContribuicaoServicoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.CreateContribuicaoServicoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper.ContribuicaoServicoMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service.ContribuicaoServicoService;
 import jakarta.validation.Valid;
@@ -19,25 +20,25 @@ public class ContribuicaoServicoController {
     private final ContribuicaoServicoService contribuicaoServicoService;
 
     @GetMapping
-    public ResponseEntity<List<ContribuicaoServicoDTO>> buscarContribuicoesServicos() {
-        List<ContribuicaoServicoDTO> listaDTO = contribuicaoServicoService.buscarTodasContribuicoesServicos().stream()
+    public ResponseEntity<List<ResponseContribuicaoServicoDTO>> buscarContribuicoesServicos() {
+        List<ResponseContribuicaoServicoDTO> listaDTO = contribuicaoServicoService.buscarTodasContribuicoesServicos().stream()
                 .map(ContribuicaoServicoMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContribuicaoServicoDTO> buscarContribuicaoServicoPorId(@PathVariable UUID id) {
+    public ResponseEntity<ResponseContribuicaoServicoDTO> buscarContribuicaoServicoPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(ContribuicaoServicoMapper.paraDTO(contribuicaoServicoService.buscarContribuicaoServicoPorId(id)));
     }
 
     @PostMapping
-    public ResponseEntity<ContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid ContribuicaoServicoDTO contribuicaoServicoDTO) {
+    public ResponseEntity<ResponseContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid CreateContribuicaoServicoDTO contribuicaoServicoDTO) {
         ContribuicaoServico contribuicaoServico = contribuicaoServicoService.salvarContribuicaoServico(ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO));
         return ResponseEntity.status(201).body(ContribuicaoServicoMapper.paraDTO(contribuicaoServico));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ContribuicaoServicoDTO> atualizarContribuicaoServico(@PathVariable UUID id, @Valid @RequestBody ContribuicaoServicoDTO contribuicaoServicoDTO) {
+    public ResponseEntity<ResponseContribuicaoServicoDTO> atualizarContribuicaoServico(@PathVariable UUID id, @Valid @RequestBody CreateContribuicaoServicoDTO contribuicaoServicoDTO) {
         ContribuicaoServico contribuicaoServico = contribuicaoServicoService.atualizarContribuicaoServico(id, ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO));
         return ResponseEntity.ok(ContribuicaoServicoMapper.paraDTO(contribuicaoServico));
     }

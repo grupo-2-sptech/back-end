@@ -9,13 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @Builder
-public class FinanceiroCampanhaDTO {
-    private UUID id;
-
+public class CreateFinanceiroCampanhaDTO {
     @NotNull(message = "O valor atingido está vazio")
     @DecimalMin(value = "0.1", message = "O valor atingido deve ser maior que zero")
     private BigDecimal valorAtingido;

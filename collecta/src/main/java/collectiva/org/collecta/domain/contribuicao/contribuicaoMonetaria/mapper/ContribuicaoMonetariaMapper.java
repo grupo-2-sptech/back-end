@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper;
 
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ContribuicaoMonetariaDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.CreateContribuicaoMonetariaDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +10,7 @@ public class ContribuicaoMonetariaMapper {
     private ContribuicaoMonetariaMapper() {
     }
 
-    public static ContribuicaoMonetaria paraEntidade(ContribuicaoMonetariaDTO contribuicaoMonetariaDTO){
+    public static ContribuicaoMonetaria paraEntidade(CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO){
         return ContribuicaoMonetaria.builder()
                 .nome(contribuicaoMonetariaDTO.getNome())
                 .descricao(contribuicaoMonetariaDTO.getDescricao())
@@ -21,8 +22,8 @@ public class ContribuicaoMonetariaMapper {
                 .build();
     }
 
-    public static ContribuicaoMonetariaDTO paraDTO(ContribuicaoMonetaria contribuicaoMonetaria){
-        return ContribuicaoMonetariaDTO.builder()
+    public static ResponseContribuicaoMonetariaDTO paraDTO(ContribuicaoMonetaria contribuicaoMonetaria){
+        return ResponseContribuicaoMonetariaDTO.builder()
                 .id(contribuicaoMonetaria.getId())
                 .nome(contribuicaoMonetaria.getNome())
                 .descricao(contribuicaoMonetaria.getDescricao())

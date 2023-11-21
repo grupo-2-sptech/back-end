@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.mapper;
 
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.ContribuicaoRecursoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.CreateContribuicaoRecursoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.ResponseContribuicaoRecursoDTO;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +10,7 @@ public class ContribuicaoRecursoMapper {
     private ContribuicaoRecursoMapper() {
     }
 
-    public static ContribuicaoRecurso paraEntidade(ContribuicaoRecursoDTO contribuicaoRecursoDTO){
+    public static ContribuicaoRecurso paraEntidade(CreateContribuicaoRecursoDTO contribuicaoRecursoDTO){
         return ContribuicaoRecurso.builder()
                 .nome(contribuicaoRecursoDTO.getNome())
                 .descricao(contribuicaoRecursoDTO.getDescricao())
@@ -20,8 +21,8 @@ public class ContribuicaoRecursoMapper {
                 .build();
     }
 
-    public static ContribuicaoRecursoDTO paraDTO(ContribuicaoRecurso contribuicaoRecurso){
-        return ContribuicaoRecursoDTO.builder()
+    public static ResponseContribuicaoRecursoDTO paraDTO(ContribuicaoRecurso contribuicaoRecurso){
+        return ResponseContribuicaoRecursoDTO.builder()
                 .id(contribuicaoRecurso.getId())
                 .nome(contribuicaoRecurso.getNome())
                 .descricao(contribuicaoRecurso.getDescricao())
