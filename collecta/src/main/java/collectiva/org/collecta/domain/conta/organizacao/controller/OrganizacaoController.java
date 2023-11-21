@@ -32,13 +32,6 @@ public class OrganizacaoController {
         return ResponseEntity.ok(OrganizacaoMapper.paraDTO(organizacaoService.buscarOrganizacaoPorId(id)));
     }
 
-    @PostMapping
-    @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ResponseOrganizacaoDTO> criarOrganizacao(@RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
-        Organizacao organizacao = organizacaoService.salvarOrganizacao(OrganizacaoMapper.paraEntidade(organizacaoDTO));
-        return ResponseEntity.status(201).body(OrganizacaoMapper.paraDTO(organizacao));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<ResponseOrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
         Organizacao organizacao = organizacaoService.atualizarOrganizacao(id, OrganizacaoMapper.paraEntidade(organizacaoDTO));

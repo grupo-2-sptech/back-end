@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.conta.organizacao.dto;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.time.LocalDateTime;
 
@@ -10,9 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 public class CreateOrganizacaoDTO {
     @NotBlank(message = "O Email está vazio")
-    @Size(min = 3, message = "O email deve ter no mínimo 3 caracteres")
+    @Email(message = "O Email está inválido")
     private String email;
-
 
     @NotBlank(message = "A senha está vazia")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
@@ -36,6 +36,6 @@ public class CreateOrganizacaoDTO {
     private LocalDateTime dataFundacao;
 
     @NotNull(message = "O CNPJ está vazio")
-    @Size(min = 11, max = 11, message = "CNPJ inválido")
+    @CNPJ(message = "CNPJ inválido")
     private String cnpj;
 }

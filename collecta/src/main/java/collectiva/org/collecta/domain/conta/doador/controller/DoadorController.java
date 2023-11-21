@@ -32,13 +32,6 @@ public class DoadorController {
         return ResponseEntity.ok(DoadorMapper.paraDTO(doadorService.buscarDoadorPorId(id)));
     }
 
-    @PostMapping
-    @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ResponseDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
-        Doador doador = doadorService.salvarDoador(DoadorMapper.paraEntidade(doadorDTO));
-        return ResponseEntity.status(201).body(DoadorMapper.paraDTO(doador));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid CreateDoadorDTO doadorDTO) {
         Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidade(doadorDTO));

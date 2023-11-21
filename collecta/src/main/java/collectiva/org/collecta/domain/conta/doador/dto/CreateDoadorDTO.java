@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class CreateDoadorDTO {
     @NotBlank(message = "O Email está vazio")
-    @Size(min = 3, message = "O Email deve ter no mínimo 3 caracteres")
+    @Email(message = "O Email está inválido")
     private String email;
 
     @NotBlank(message = "A senha está vazia")
