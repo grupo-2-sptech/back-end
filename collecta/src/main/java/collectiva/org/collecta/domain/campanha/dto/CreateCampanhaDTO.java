@@ -14,9 +14,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CampanhaDTO {
-    private UUID id;
-
+public class CreateCampanhaDTO {
     @NotBlank(message = "O nome está vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
@@ -37,14 +35,8 @@ public class CampanhaDTO {
     @Enumerated(EnumType.STRING)
     private CategoriaCampanha categoriaCampanha;
 
-    @NotNull(message = "O status da campanha está vazio")
-    @Enumerated(EnumType.STRING)
-    private StatusCampanha statusCampanha;
-
     @NotNull(message = "O tipo da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
-
-    private int visulizacoes;
 
 }

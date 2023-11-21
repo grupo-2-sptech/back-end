@@ -7,15 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
-public class RelatorioDTO {
-    private UUID id;
-    private LocalDateTime data;
-
+public class CreateRelatorioDTO {
     @NotNull(message = "O valor arrecadado está vazio")
     @DecimalMin(value = "0.1", message = "O valor arrecadado deve ser maior que zero")
     private BigDecimal valorArrecadado;

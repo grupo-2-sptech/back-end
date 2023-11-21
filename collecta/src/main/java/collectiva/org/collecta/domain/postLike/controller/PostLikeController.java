@@ -2,7 +2,7 @@ package collectiva.org.collecta.domain.postLike.controller;
 
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
-import collectiva.org.collecta.domain.postLike.dto.RespostaPostLikeDTO;
+import collectiva.org.collecta.domain.postLike.dto.ResponsePostLikeDTO;
 import collectiva.org.collecta.domain.postLike.mapper.PostLikeMapper;
 import collectiva.org.collecta.domain.postLike.service.PostLikeService;
 import collectiva.org.collecta.domain.postCampanha.Post;
@@ -45,17 +45,17 @@ public class PostLikeController {
     }
 
     @GetMapping("/post/{postID}")
-    public ResponseEntity<List<RespostaPostLikeDTO>> buscarPostLikesPost(@PathVariable UUID postID){
+    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesPost(@PathVariable UUID postID){
         Post post = postService.buscarPostPorId(postID);
-        List<RespostaPostLikeDTO> listaDTO = postLikeService.buscarPostLikesPost(post).stream()
+        List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesPost(post).stream()
                 .map(PostLikeMapper::paraRespostaDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/doador/{doadorID}")
-    public ResponseEntity<List<RespostaPostLikeDTO>> buscarPostLikesDoador(@PathVariable UUID doadorID){
+    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesDoador(@PathVariable UUID doadorID){
         Doador doador = doadorService.buscarDoadorPorId(doadorID);
-        List<RespostaPostLikeDTO> listaDTO = postLikeService.buscarPostLikesDoador(doador).stream()
+        List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesDoador(doador).stream()
                 .map(PostLikeMapper::paraRespostaDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }

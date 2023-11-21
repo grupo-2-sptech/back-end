@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper;
 
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ContribuicaoServicoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.CreateContribuicaoServicoDTO;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +10,7 @@ public class ContribuicaoServicoMapper {
     private ContribuicaoServicoMapper() {
     }
 
-    public static ContribuicaoServico paraEntidade(ContribuicaoServicoDTO contribuicaoServicoDTO){
+    public static ContribuicaoServico paraEntidade(CreateContribuicaoServicoDTO contribuicaoServicoDTO){
         return ContribuicaoServico.builder()
                 .nome(contribuicaoServicoDTO.getNome())
                 .descricao(contribuicaoServicoDTO.getDescricao())
@@ -21,8 +22,8 @@ public class ContribuicaoServicoMapper {
                 .build();
     }
 
-    public static ContribuicaoServicoDTO paraDTO(ContribuicaoServico contribuicaoServico){
-        return ContribuicaoServicoDTO.builder()
+    public static ResponseContribuicaoServicoDTO paraDTO(ContribuicaoServico contribuicaoServico){
+        return ResponseContribuicaoServicoDTO.builder()
                 .id(contribuicaoServico.getId())
                 .nome(contribuicaoServico.getNome())
                 .descricao(contribuicaoServico.getDescricao())

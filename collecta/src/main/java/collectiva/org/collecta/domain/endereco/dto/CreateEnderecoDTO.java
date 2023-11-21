@@ -8,15 +8,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnderecoDTO {
-    private UUID id;
-
+public class CreateEnderecoDTO {
     @NotBlank(message = "O logradouro está vazio")
     @Size(min = 4, message = "O logradouro deve ter no mínimo 4 caracteres")
     private String logradouro;

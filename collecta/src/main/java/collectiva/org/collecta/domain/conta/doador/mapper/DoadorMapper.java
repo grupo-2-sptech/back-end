@@ -1,14 +1,15 @@
 package collectiva.org.collecta.domain.conta.doador.mapper;
 
-import collectiva.org.collecta.domain.conta.doador.dto.DoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
 import collectiva.org.collecta.enums.TipoConta;
 
 public class DoadorMapper {
     private DoadorMapper() {
     }
 
-    public static Doador paraEntidade(DoadorDTO doadorDTO) {
+    public static Doador paraEntidade(CreateDoadorDTO doadorDTO) {
         return Doador.builder()
                 .email(doadorDTO.getEmail())
                 .senha(doadorDTO.getSenha())
@@ -21,8 +22,8 @@ public class DoadorMapper {
                 .build();
     }
 
-    public static DoadorDTO paraDTO(Doador doador) {
-        return DoadorDTO.builder()
+    public static ResponseDoadorDTO paraDTO(Doador doador) {
+        return ResponseDoadorDTO.builder()
                 .id(doador.getId())
                 .email(doador.getEmail())
                 .telefone(doador.getTelefone())

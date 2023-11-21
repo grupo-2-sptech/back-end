@@ -1,12 +1,13 @@
 package collectiva.org.collecta.domain.financeiroCampanha.mapper;
 
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
-import collectiva.org.collecta.domain.financeiroCampanha.dto.FinanceiroCampanhaDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.CreateFinanceiroCampanhaDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.ResponseFinanceiroCampanhaDTO;
 
 public class FinanceiroCampanhaMapper {
     private FinanceiroCampanhaMapper() {
     }
-    public static FinanceiroCampanha paraEntidade(FinanceiroCampanhaDTO doacaoDTO){
+    public static FinanceiroCampanha paraEntidade(CreateFinanceiroCampanhaDTO doacaoDTO){
         return FinanceiroCampanha.builder()
                 .valorMeta(doacaoDTO.getValorMeta())
                 .valorAtingido(doacaoDTO.getValorAtingido())
@@ -14,8 +15,8 @@ public class FinanceiroCampanhaMapper {
                 .build();
     }
 
-    public static FinanceiroCampanhaDTO paraDTO(FinanceiroCampanha doacao){
-        return FinanceiroCampanhaDTO.builder()
+    public static ResponseFinanceiroCampanhaDTO paraDTO(FinanceiroCampanha doacao){
+        return ResponseFinanceiroCampanhaDTO.builder()
                 .id(doacao.getId())
                 .valorMeta(doacao.getValorMeta())
                 .valorAtingido(doacao.getValorAtingido())

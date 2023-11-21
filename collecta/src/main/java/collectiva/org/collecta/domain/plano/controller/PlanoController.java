@@ -1,7 +1,8 @@
 package collectiva.org.collecta.domain.plano.controller;
 
 import collectiva.org.collecta.domain.plano.Plano;
-import collectiva.org.collecta.domain.plano.dto.PlanoDTO;
+import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
+import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
 import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
 import collectiva.org.collecta.domain.plano.service.PlanoService;
 import jakarta.validation.Valid;
@@ -19,25 +20,25 @@ public class PlanoController {
     private final PlanoService planoService;
 
     @GetMapping
-    public ResponseEntity<List<PlanoDTO>> buscarPlanos() {
-        List<PlanoDTO> listaDTO = planoService.buscarTodosPlanos().stream()
+    public ResponseEntity<List<ResponsePlanoDTO>> buscarPlanos() {
+        List<ResponsePlanoDTO> listaDTO = planoService.buscarTodosPlanos().stream()
                 .map(PlanoMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanoDTO> buscarPlanoPorId(@PathVariable UUID id) {
+    public ResponseEntity<ResponsePlanoDTO> buscarPlanoPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(PlanoMapper.paraDTO(planoService.buscarPlanoPorId(id)));
     }
 
     @PostMapping
-    public ResponseEntity<PlanoDTO> criarPlano(@RequestBody @Valid PlanoDTO planoDTO) {
+    public ResponseEntity<ResponsePlanoDTO> criarPlano(@RequestBody @Valid CreatePlanoDTO planoDTO) {
         Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO));
         return ResponseEntity.status(201).body(PlanoMapper.paraDTO(plano));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid PlanoDTO planoDTO) {
+    public ResponseEntity<ResponsePlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid CreatePlanoDTO planoDTO) {
         Plano plano = planoService.atualizarPlano(id, PlanoMapper.paraEntidade(planoDTO));
         return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
     }

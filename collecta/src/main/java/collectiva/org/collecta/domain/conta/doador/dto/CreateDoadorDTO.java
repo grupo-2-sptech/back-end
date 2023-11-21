@@ -3,14 +3,13 @@ package collectiva.org.collecta.domain.conta.doador.dto;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
-public class DoadorDTO {
-    private UUID id;
+public class CreateDoadorDTO {
     @NotBlank(message = "O Email está vazio")
     @Size(min = 3, message = "O Email deve ter no mínimo 3 caracteres")
     private String email;
@@ -36,7 +35,7 @@ public class DoadorDTO {
     @Past(message = "A data de nascimento deve ser no passado")
     private LocalDate dataNascimento;
 
-    @NotBlank(message = "O CPF esta vazio")
-    @Size(min = 11, max = 11, message = "CPF inválido")
+    @NotBlank(message = "O CPF está vazio")
+    @CPF(message = "O CPF está inválido")
     private String cpf;
 }

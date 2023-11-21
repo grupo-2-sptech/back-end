@@ -15,22 +15,10 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class PlanoDTO {
+public class ResponsePlanoDTO {
     private UUID id;
-
-    @NotNull(message = "A data do inicio está vazia")
-    @PastOrPresent(message = "A data do inicio deve estar no passado ou presente")
     private LocalDateTime dataInicio;
-
-    @NotNull(message = "A data do fim está vazia")
-    @Future(message = "A data do fim deve estar no futuro")
     private LocalDateTime dataFim;
-
-    @NotNull(message = "O tipo de plano está vazio")
-    @Enumerated(EnumType.STRING)
     private TipoPlano tipoPlano;
-
-    @NotNull(message = "O status do plano está vazio")
-    @Enumerated(EnumType.STRING)
     private StatusPlano statusPlano;
 }

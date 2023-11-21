@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class RespostaPostLikeDTO {
+public class ResponsePostLikeDTO {
     private UUID id;
     private String email;
     private UUID postId;
