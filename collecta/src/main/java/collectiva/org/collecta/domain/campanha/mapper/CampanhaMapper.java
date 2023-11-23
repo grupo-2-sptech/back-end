@@ -3,6 +3,10 @@ package collectiva.org.collecta.domain.campanha.mapper;
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.dto.CreateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
+import collectiva.org.collecta.domain.campanha.dto.UpdateCampanhaDTO;
+import collectiva.org.collecta.enums.StatusCampanha;
+
+import java.time.LocalDateTime;
 
 public class CampanhaMapper {
 
@@ -13,10 +17,23 @@ public class CampanhaMapper {
         return Campanha.builder()
                 .nome(campanhaDTO.getNome())
                 .descricao(campanhaDTO.getDescricao())
-                .dataInicio(campanhaDTO.getDataInicio())
+                .dataInicio(LocalDateTime.now())
                 .dataFim(campanhaDTO.getDataFim())
                 .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
+                .statusCampanha(StatusCampanha.ATIVA)
+                .build();
+    }
+
+    public static Campanha paraEntidadeUpdate(UpdateCampanhaDTO campanhaDTO){
+        return Campanha.builder()
+                .nome(campanhaDTO.getNome())
+                .descricao(campanhaDTO.getDescricao())
+                .dataInicio(LocalDateTime.now())
+                .dataFim(campanhaDTO.getDataFim())
+                .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
+                .tipoCampanha(campanhaDTO.getTipoCampanha())
+                .statusCampanha(StatusCampanha.ATIVA)
                 .build();
     }
 

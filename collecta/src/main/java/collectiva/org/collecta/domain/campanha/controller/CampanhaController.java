@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.campanha.controller;
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.dto.CreateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
+import collectiva.org.collecta.domain.campanha.dto.UpdateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import jakarta.validation.Valid;
@@ -38,8 +39,8 @@ public class CampanhaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseCampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody CreateCampanhaDTO campanhaDTO) {
-        Campanha novaCampanha = campanhaService.atualizarCampanha(id, CampanhaMapper.paraEntidade(campanhaDTO));
+    public ResponseEntity<ResponseCampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody UpdateCampanhaDTO campanhaDTO) {
+        Campanha novaCampanha = campanhaService.atualizarCampanha(id, CampanhaMapper.paraEntidadeUpdate(campanhaDTO));
         return ResponseEntity.ok(CampanhaMapper.paraDTO(novaCampanha));
     }
 

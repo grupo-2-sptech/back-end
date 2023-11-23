@@ -1,7 +1,6 @@
 package collectiva.org.collecta.domain.campanha.dto;
 
 import collectiva.org.collecta.enums.CategoriaCampanha;
-import collectiva.org.collecta.enums.StatusCampanha;
 import collectiva.org.collecta.enums.TipoCampanha;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreateCampanhaDTO {
+public class UpdateCampanhaDTO {
     @NotBlank(message = "O nome está vazio")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
     private String nome;
@@ -23,9 +22,6 @@ public class CreateCampanhaDTO {
     @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
     private String descricao;
 
-    @NotNull(message = "A data de inicio está vazia")
-    @FutureOrPresent(message = "A data de início deve estar no futuro ou presente")
-    private LocalDateTime dataInicio;
 
     @NotNull(message = "A data do fim está vazia")
     @Future(message = "A data de fim deve estar no futuro")
@@ -38,8 +34,5 @@ public class CreateCampanhaDTO {
     @NotNull(message = "O tipo da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
-
-    @NotNull(message = "O id da organização está vazio")
-    private UUID idOrganizacao;
 
 }
