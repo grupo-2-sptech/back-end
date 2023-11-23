@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
                 new Timestamp(System.currentTimeMillis()),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ("Valor inválido para o ENUM: '" + ex.getPath().get(0).getFieldName() + "'"),
+                ("Valor inválido para o campo: '" + ex.getPath().get(0).getFieldName() + "'"),
                 RequestPath.getRequestPath(request));
 
         return ResponseEntity.badRequest().body(response);

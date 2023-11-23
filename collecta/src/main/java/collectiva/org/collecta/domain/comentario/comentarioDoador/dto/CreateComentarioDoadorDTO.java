@@ -1,9 +1,12 @@
 package collectiva.org.collecta.domain.comentario.comentarioDoador.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.UUID;
 
 @Data
 @Builder
@@ -13,5 +16,6 @@ public class CreateComentarioDoadorDTO {
     @Size(max = 255, message = "O comentário deve ter no máximo 255 caracteres")
     private String comentario;
 
-
+    @NotNull(message = "O id do doador está vazio")
+    private UUID idDoador;
 }

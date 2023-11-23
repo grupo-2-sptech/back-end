@@ -23,7 +23,6 @@ public class CreateCampanhaDTO {
     @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
     private String descricao;
 
-
     @NotNull(message = "A data do fim está vazia")
     @Future(message = "A data de fim deve estar no futuro")
     private LocalDateTime dataFim;
