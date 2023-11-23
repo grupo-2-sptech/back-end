@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.pagamento.service;
 
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.pagamento.Pagamento;
 import collectiva.org.collecta.domain.pagamento.repository.PagamentoRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public Pagamento salvarPagamento(Pagamento pagamento) {
+    public Pagamento salvarPagamento(Pagamento pagamento, ContribuicaoMonetaria contribuicaoMonetaria) {
+        pagamento.setContribuicaoMonetaria(contribuicaoMonetaria);
         return pagamentoRepository.save(pagamento);
     }
 
