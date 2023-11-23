@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.plano.controller;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PlanoController {
     private final PlanoService planoService;
+    private final DoadorService doadorService;
 
     @GetMapping
     public ResponseEntity<List<ResponsePlanoDTO>> buscarPlanos() {
@@ -33,7 +36,8 @@ public class PlanoController {
 
     @PostMapping
     public ResponseEntity<ResponsePlanoDTO> criarPlano(@RequestBody @Valid CreatePlanoDTO planoDTO) {
-        Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO));
+        Doador doador = doadorService.buscarDoadorPorId(planoDTO.getIdDoador());
+        Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO), doador);
         return ResponseEntity.status(201).body(PlanoMapper.paraDTO(plano));
     }
 

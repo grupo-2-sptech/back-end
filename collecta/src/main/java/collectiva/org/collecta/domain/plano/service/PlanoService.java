@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.plano.service;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.repository.PlanoRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +16,8 @@ import java.util.UUID;
 public class PlanoService {
     private final PlanoRepository planoRepository;
 
-    public Plano salvarPlano(Plano plano) {
+    public Plano salvarPlano(Plano plano, Doador doador) {
+        plano.setDoador(doador);
         return planoRepository.save(plano);
     }
 

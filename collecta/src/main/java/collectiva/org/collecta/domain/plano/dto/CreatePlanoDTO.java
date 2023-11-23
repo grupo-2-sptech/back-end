@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -25,4 +26,7 @@ public class CreatePlanoDTO {
     @NotNull(message = "O status do plano está vazio")
     @Enumerated(EnumType.STRING)
     private StatusPlano statusPlano;
+
+    @NotNull(message = "O id do doador está vazio")
+    private UUID idDoador;
 }
