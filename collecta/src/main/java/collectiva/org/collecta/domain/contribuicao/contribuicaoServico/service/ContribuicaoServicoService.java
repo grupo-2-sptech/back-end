@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.repository.ContribuicaoServicoRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class ContribuicaoServicoService {
     private final ContribuicaoServicoRepository contribuicaoServicoRepository;
 
-    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico) {
+    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador) {
+        contribuicaoServico.setDoador(doador);
         return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 
@@ -28,17 +30,5 @@ public class ContribuicaoServicoService {
 
     }
 
-    public ContribuicaoServico atualizarContribuicaoServico(UUID id, ContribuicaoServico contribuicaoServico) {
-        buscarContribuicaoServicoPorId(id);
-        contribuicaoServico.setId(id);
-        return contribuicaoServicoRepository.save(contribuicaoServico);
-    }
-
-    public void deletarContribuicaoServico(UUID id) {
-        if (!contribuicaoServicoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ContribuicaoServico");
-        }
-        contribuicaoServicoRepository.deleteById(id);
-    }
 }
 
