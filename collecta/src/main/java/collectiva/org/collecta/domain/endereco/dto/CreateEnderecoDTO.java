@@ -38,6 +38,6 @@ public class CreateEnderecoDTO {
     @Max(value = 999999, message = "O número de parcelas não pode exceder 999999")
     private int numero;
 
-    @NotNull(message = "O id da organização está vazio")
+    @NotNull(message = "O id do evento está vazio")
     private UUID idEventoCampanha;
 }
