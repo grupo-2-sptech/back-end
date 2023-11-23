@@ -29,11 +29,6 @@ public class ComentarioDoadorService {
                 () -> new EntidadeNaoEncontradaException("ComentarioDoador"));
     }
 
-    public ComentarioDoador atualizarComentario(UUID id, ComentarioDoador comentarioDoador) {
-        buscarComentarioPorId(id);
-        comentarioDoador.setId(id);
-        return comentarioDoadorRepository.save(comentarioDoador);
-    }
 
     public void deletarComentario(UUID id) {
         if (!comentarioDoadorRepository.existsById(id)) {

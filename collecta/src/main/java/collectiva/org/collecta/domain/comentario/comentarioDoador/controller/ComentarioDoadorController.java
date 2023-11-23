@@ -42,11 +42,6 @@ public class ComentarioDoadorController {
         return ResponseEntity.status(201).body(ComentarioDoadorMapper.paraDTO(comentarioDoador));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseComentarioDoadorDTO> atualizarComentario(@PathVariable UUID id, @RequestBody @Valid CreateComentarioDoadorDTO comentarioDoadorDTO) {
-        ComentarioDoador comentarioDoador = comentarioService.atualizarComentario(id, ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO));
-        return ResponseEntity.ok(ComentarioDoadorMapper.paraDTO(comentarioDoador));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarComentario(@PathVariable UUID id) {
