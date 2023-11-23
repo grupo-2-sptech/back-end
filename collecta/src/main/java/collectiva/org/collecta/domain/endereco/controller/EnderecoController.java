@@ -5,6 +5,8 @@ import collectiva.org.collecta.domain.endereco.dto.CreateEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.dto.ResponseEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.mapper.EnderecoMapper;
 import collectiva.org.collecta.domain.endereco.service.EnderecoService;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
+import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EnderecoController {
     private final EnderecoService enderecoService;
+    private final EventoCampanhaService eventoCampanhaService;
     private static final String cepUrl = "https://viacep.com.br/ws/";
 
     @GetMapping
@@ -36,7 +39,8 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<ResponseEnderecoDTO> criarEndereco(@RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO));
+        EventoCampanha eventoCampanha = eventoCampanhaService.buscarEventoCampanhaPorId(enderecoDTO.getIdEventoCampanha());
+        Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO), eventoCampanha);
         return ResponseEntity.status(201).body(EnderecoMapper.paraDTO(endereco));
     }
 
