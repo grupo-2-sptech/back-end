@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.mapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.CreateContribuicaoRecursoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.ResponseContribuicaoRecursoDTO;
+import collectiva.org.collecta.enums.StatusContribuicao;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class ContribuicaoRecursoMapper {
                 .dataHora(LocalDateTime.now())
                 .quantidade(contribuicaoRecursoDTO.getQuantidade())
                 .tipoRecurso(contribuicaoRecursoDTO.getTipoRecurso())
-                .statusContribuicao(contribuicaoRecursoDTO.getStatusContribuicao())
+                .statusContribuicao(StatusContribuicao.PENDENTE)
                 .build();
     }
 

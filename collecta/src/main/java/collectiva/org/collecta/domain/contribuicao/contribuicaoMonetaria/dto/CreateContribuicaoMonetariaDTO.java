@@ -1,7 +1,6 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto;
 
 import collectiva.org.collecta.enums.FormaPagamento;
-import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
@@ -35,10 +34,6 @@ public class CreateContribuicaoMonetariaDTO {
     @NotNull(message = "A forma de pagamento está vazia")
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
-
-    @NotNull(message = "O status da contribuição está vazio")
-    @Enumerated(EnumType.STRING)
-    private StatusContribuicao statusContribuicao;
 
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;

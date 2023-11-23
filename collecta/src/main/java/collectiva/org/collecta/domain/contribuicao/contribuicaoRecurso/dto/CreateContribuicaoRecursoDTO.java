@@ -1,6 +1,5 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto;
 
-import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.enums.TipoRecurso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,9 +34,6 @@ public class CreateContribuicaoRecursoDTO {
     @Enumerated(EnumType.STRING)
     private TipoRecurso tipoRecurso;
 
-    @NotNull(message = "O status da contribuição está vazio")
-    @Enumerated(EnumType.STRING)
-    private StatusContribuicao statusContribuicao;
 
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;

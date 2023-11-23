@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.servic
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.repository.ContribuicaoMonetariaRepository;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,12 @@ public class ContribuicaoMonetariaService {
     public ContribuicaoMonetaria buscarContribuicaoMonetariaPorId(UUID id) {
         return contribuicaoMonetariaRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
+    }
+
+    public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao){
+        ContribuicaoMonetaria contribuicaoMonetaria = buscarContribuicaoMonetariaPorId(id);
+        contribuicaoMonetaria.setStatusContribuicao(statusContribuicao);
+        return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
 }

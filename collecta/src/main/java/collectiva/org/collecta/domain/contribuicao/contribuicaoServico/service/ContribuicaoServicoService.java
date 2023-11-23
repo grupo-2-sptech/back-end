@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.repository.ContribuicaoServicoRepository;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,12 @@ public class ContribuicaoServicoService {
         return contribuicaoServicoRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("ContribuicaoServico"));
 
+    }
+
+    public ContribuicaoServico atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
+        ContribuicaoServico contribuicaoServico = buscarContribuicaoServicoPorId(id);
+        contribuicaoServico.setStatusContribuicao(statusContribuicao);
+        return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 
 }

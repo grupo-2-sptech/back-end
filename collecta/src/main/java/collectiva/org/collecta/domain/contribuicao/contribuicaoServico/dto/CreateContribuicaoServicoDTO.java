@@ -1,8 +1,5 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto;
 
-import collectiva.org.collecta.enums.StatusContribuicao;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
@@ -35,10 +32,6 @@ public class CreateContribuicaoServicoDTO {
     @Positive(message = "A avaliação devem ser entre 0 a 10")
     @Max(value = 10, message = "A avaliação devem ser entre 0 a 10")
     private Integer avaliacao;
-
-    @NotNull(message = "O status da contribuição está vazio")
-    @Enumerated(EnumType.STRING)
-    private StatusContribuicao statusContribuicao;
 
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;

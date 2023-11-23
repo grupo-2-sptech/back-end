@@ -7,6 +7,7 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.Creat
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper.ContribuicaoServicoMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service.ContribuicaoServicoService;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,12 @@ public class ContribuicaoServicoController {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoServicoDTO.getIdDoador());
         ContribuicaoServico contribuicaoServico = contribuicaoServicoService.salvarContribuicaoServico(ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO), doador);
         return ResponseEntity.status(201).body(ContribuicaoServicoMapper.paraDTO(contribuicaoServico));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseContribuicaoServicoDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao) {
+        ResponseContribuicaoServicoDTO responseDTO = ContribuicaoServicoMapper.paraDTO(contribuicaoServicoService.atualizarStatusContribuicao(id, statusContribuicao));
+        return ResponseEntity.ok(responseDTO);
     }
 
 }

@@ -7,6 +7,7 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.Cre
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service.ContribuicaoMonetariaService;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,12 @@ public class ContribuicaoMonetariaController {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoMonetariaDTO.getIdDoador());
         ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria(ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador);
         return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseContribuicaoMonetariaDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao){
+        ResponseContribuicaoMonetariaDTO responseDTO = ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaService.atualizarStatusContribuicao(id, statusContribuicao));
+        return ResponseEntity.ok(responseDTO);
     }
 
 }

@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.CreateContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
+import collectiva.org.collecta.enums.StatusContribuicao;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ public class ContribuicaoServicoMapper {
                 .horaInicio(contribuicaoServicoDTO.getHoraInicio())
                 .horaFim(contribuicaoServicoDTO.getHoraFim())
                 .avaliacao(contribuicaoServicoDTO.getAvaliacao())
-                .statusContribuicao(contribuicaoServicoDTO.getStatusContribuicao())
+                .statusContribuicao(StatusContribuicao.EM_AGUARDO)
                 .build();
     }
 
