@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -38,5 +39,8 @@ public class CreateContribuicaoMonetariaDTO {
     @NotNull(message = "O status da contribuição está vazio")
     @Enumerated(EnumType.STRING)
     private StatusContribuicao statusContribuicao;
+
+    @NotNull(message = "O id do doador está vazio")
+    private UUID idDoador;
 
 }

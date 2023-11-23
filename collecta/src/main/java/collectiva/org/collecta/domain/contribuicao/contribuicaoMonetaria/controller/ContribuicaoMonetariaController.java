@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.controller;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.CreateContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoMonetariaController {
     private final ContribuicaoMonetariaService contribuicaoMonetariaService;
+    private final DoadorService doadorService;
 
     @GetMapping
     public ResponseEntity<List<ResponseContribuicaoMonetariaDTO>> buscarContribuicoesMonetarias() {
@@ -33,19 +36,9 @@ public class ContribuicaoMonetariaController {
 
     @PostMapping
     public ResponseEntity<ResponseContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria(ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO));
+        Doador doador = doadorService.buscarDoadorPorId(contribuicaoMonetariaDTO.getIdDoador());
+        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria(ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador);
         return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseContribuicaoMonetariaDTO> atualizarContribuicaoMonetaria(@PathVariable UUID id, @Valid @RequestBody CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.atualizarContribuicaoMonetaria(id, ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO));
-        return ResponseEntity.ok(ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarContribuicaoMonetaria(@PathVariable UUID id) {
-        contribuicaoMonetariaService.deletarContribuicaoMonetaria(id);
-        return ResponseEntity.noContent().build();
-    }
 }
