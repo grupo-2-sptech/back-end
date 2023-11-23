@@ -24,7 +24,7 @@ public class Pagamento {
     private String codigoSeguranca;
     private String bandeiraCartao;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne
     private ContribuicaoMonetaria contribuicaoMonetaria;
 
 }

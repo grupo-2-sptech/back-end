@@ -31,7 +31,7 @@ public class ContribuicaoMonetaria extends Contribuicao {
     @ManyToOne
     private FinanceiroCampanha financeiroCampanha;
 
-    @OneToOne
+    @OneToOne(mappedBy = "contribuicaoMonetaria")
     private Pagamento pagamento;
 
     @Builder

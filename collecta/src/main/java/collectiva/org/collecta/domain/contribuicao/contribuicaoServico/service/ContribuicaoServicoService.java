@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.repository.ContribuicaoServicoRepository;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,9 @@ import java.util.UUID;
 public class ContribuicaoServicoService {
     private final ContribuicaoServicoRepository contribuicaoServicoRepository;
 
-    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador) {
+    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
         contribuicaoServico.setDoador(doador);
+        contribuicaoServico.setEventoCampanha(eventoCampanha);
         return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 

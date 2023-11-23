@@ -34,8 +34,10 @@ public class CreateContribuicaoRecursoDTO {
     @Enumerated(EnumType.STRING)
     private TipoRecurso tipoRecurso;
 
-
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;
+
+    @NotNull(message = "O id do recurso está vazio")
+    private UUID idRecurso;
 
 }

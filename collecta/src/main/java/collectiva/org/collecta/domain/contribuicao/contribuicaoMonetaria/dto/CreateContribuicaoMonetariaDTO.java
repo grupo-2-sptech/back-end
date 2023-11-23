@@ -38,4 +38,7 @@ public class CreateContribuicaoMonetariaDTO {
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;
 
+    @NotNull(message = "O id do financeiro está vazio")
+    private UUID idFinanceiro;
+
 }

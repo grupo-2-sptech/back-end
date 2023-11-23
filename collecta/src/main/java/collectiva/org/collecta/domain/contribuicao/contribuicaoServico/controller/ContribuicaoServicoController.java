@@ -7,6 +7,8 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.Creat
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper.ContribuicaoServicoMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service.ContribuicaoServicoService;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
+import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class ContribuicaoServicoController {
     private final ContribuicaoServicoService contribuicaoServicoService;
     private final DoadorService doadorService;
+    private final EventoCampanhaService eventoCampanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseContribuicaoServicoDTO>> buscarContribuicoesServicos() {
@@ -38,7 +41,9 @@ public class ContribuicaoServicoController {
     @PostMapping
     public ResponseEntity<ResponseContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid CreateContribuicaoServicoDTO contribuicaoServicoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoServicoDTO.getIdDoador());
-        ContribuicaoServico contribuicaoServico = contribuicaoServicoService.salvarContribuicaoServico(ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO), doador);
+        EventoCampanha eventoCampanha = eventoCampanhaService.buscarEventoCampanhaPorId(contribuicaoServicoDTO.getIdEvento());
+        ContribuicaoServico contribuicaoServico = contribuicaoServicoService.salvarContribuicaoServico
+                (ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO), doador, eventoCampanha);
         return ResponseEntity.status(201).body(ContribuicaoServicoMapper.paraDTO(contribuicaoServico));
     }
 

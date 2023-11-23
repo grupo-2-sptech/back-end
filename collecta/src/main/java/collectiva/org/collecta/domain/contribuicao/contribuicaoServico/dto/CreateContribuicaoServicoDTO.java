@@ -18,8 +18,6 @@ public class CreateContribuicaoServicoDTO {
     @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
     private String descricao;
 
-    private LocalDateTime dataHora;
-
     @NotNull(message = "A data de inicio está vazia")
     @Past(message = "A data de inicio deve estar no passado ")
     private LocalDateTime horaInicio;
@@ -35,5 +33,8 @@ public class CreateContribuicaoServicoDTO {
 
     @NotNull(message = "O id do doador está vazio")
     private UUID idDoador;
+
+    @NotNull(message = "O id do evento está vazio")
+    private UUID idEvento;
 
 }

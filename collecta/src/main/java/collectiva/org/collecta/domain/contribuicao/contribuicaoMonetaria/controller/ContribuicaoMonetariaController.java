@@ -7,6 +7,8 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.Cre
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service.ContribuicaoMonetariaService;
+import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
+import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class ContribuicaoMonetariaController {
     private final ContribuicaoMonetariaService contribuicaoMonetariaService;
     private final DoadorService doadorService;
+    private final FinanceiroCampanhaService financeiroCampanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseContribuicaoMonetariaDTO>> buscarContribuicoesMonetarias() {
@@ -38,7 +41,9 @@ public class ContribuicaoMonetariaController {
     @PostMapping
     public ResponseEntity<ResponseContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoMonetariaDTO.getIdDoador());
-        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria(ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador);
+        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.buscarFinanceiroCampanhaPorId(contribuicaoMonetariaDTO.getIdFinanceiro());
+        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria
+                (ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador, financeiroCampanha);
         return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria));
     }
 

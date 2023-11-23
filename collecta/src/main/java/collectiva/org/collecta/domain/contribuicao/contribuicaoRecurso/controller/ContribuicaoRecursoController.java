@@ -7,6 +7,8 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.Creat
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.ResponseContribuicaoRecursoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.mapper.ContribuicaoRecursoMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.service.ContribuicaoRecursoService;
+import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.service.RecursoService;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class ContribuicaoRecursoController {
     private final ContribuicaoRecursoService contribuicaoRecursoService;
     private final DoadorService doadorService;
+    private final RecursoService recursoService;
 
     @GetMapping
     public ResponseEntity<List<ResponseContribuicaoRecursoDTO>> buscarContribuicoesRecursos() {
@@ -38,7 +41,9 @@ public class ContribuicaoRecursoController {
     @PostMapping
     public ResponseEntity<ResponseContribuicaoRecursoDTO> criarContribuicaoRecurso(@RequestBody @Valid CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoRecursoDTO.getIdDoador());
-        ContribuicaoRecurso contribuicaoRecurso = contribuicaoRecursoService.salvarContribuicaoRecurso(ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO), doador);
+        Recurso recurso = recursoService.buscarRecursoPorId(contribuicaoRecursoDTO.getIdRecurso());
+        ContribuicaoRecurso contribuicaoRecurso = contribuicaoRecursoService.salvarContribuicaoRecurso
+                (ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO), doador, recurso);
         return ResponseEntity.status(201).body(ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso));
     }
 
