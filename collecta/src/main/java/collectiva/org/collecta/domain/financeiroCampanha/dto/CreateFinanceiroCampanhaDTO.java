@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -21,8 +22,10 @@ public class CreateFinanceiroCampanhaDTO {
     @DecimalMin(value = "0.1", message = "O valor meta deve ser maior que zero")
     private BigDecimal valorMeta;
 
-
     @NotNull(message = "O modo de contribuição não pode ser nulo")
     @Enumerated(EnumType.STRING)
     private MetaStatus metaStatus;
+
+    @NotNull(message = "O id da campanha está vazio")
+    private UUID idCampanha;
 }

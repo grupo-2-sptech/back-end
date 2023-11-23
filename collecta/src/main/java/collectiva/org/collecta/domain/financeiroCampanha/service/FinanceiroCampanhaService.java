@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.financeiroCampanha.service;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.repository.FinanceiroCampanhaRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class FinanceiroCampanhaService {
     private final FinanceiroCampanhaRepository finaceiroCampanhaRepository;
 
-    public FinanceiroCampanha salvarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha) {
+    public FinanceiroCampanha salvarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha, Campanha campanha) {
+        finaceiroCampanha.setCampanha(campanha);
         return finaceiroCampanhaRepository.save(finaceiroCampanha);
     }
 
