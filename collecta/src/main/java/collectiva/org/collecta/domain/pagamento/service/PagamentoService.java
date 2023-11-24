@@ -29,11 +29,6 @@ public class PagamentoService {
                 () -> new EntidadeNaoEncontradaException("Pagamento"));
     }
 
-    public Pagamento atualizarPagamento(UUID id, Pagamento pagamento) {
-        buscarPagamentoPorId(id);
-        pagamento.setId(id);
-        return pagamentoRepository.save(pagamento);
-    }
 
     public void deletarPagamento(UUID id) {
         if (!pagamentoRepository.existsById(id)) {

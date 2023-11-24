@@ -6,6 +6,7 @@ import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.CreateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.ResponseFinanceiroCampanhaDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.UpdateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.mapper.FinanceiroCampanhaMapper;
 import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
 import jakarta.validation.Valid;
@@ -43,8 +44,8 @@ public class FinanceiroCampanhaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO));
+    public ResponseEntity<ResponseFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
+        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidadeUpdate(financeiroCampanhaDTO));
         return ResponseEntity.ok(FinanceiroCampanhaMapper.paraDTO(financeiroCampanha));
     }
 

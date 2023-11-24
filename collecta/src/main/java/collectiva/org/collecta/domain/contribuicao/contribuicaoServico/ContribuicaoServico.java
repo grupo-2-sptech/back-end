@@ -29,8 +29,9 @@ public class ContribuicaoServico extends Contribuicao {
     private EventoCampanha eventoCampanha;
 
     @Builder
-    public ContribuicaoServico(UUID id, String nome, String descricao, LocalDateTime dataHora, StatusContribuicao statusContribuicao, LocalDateTime horaInicio, LocalDateTime horaFim, Integer avaliacao, Doador doador, EventoCampanha eventoCampanha) {
-        super(id, nome, descricao, dataHora, statusContribuicao);
+
+    public ContribuicaoServico(UUID id, LocalDateTime dataHora, StatusContribuicao statusContribuicao, LocalDateTime horaInicio, LocalDateTime horaFim, Integer avaliacao, Doador doador, EventoCampanha eventoCampanha) {
+        super(id, dataHora, statusContribuicao);
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.avaliacao = avaliacao;

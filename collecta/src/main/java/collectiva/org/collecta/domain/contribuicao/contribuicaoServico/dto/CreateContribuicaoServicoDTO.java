@@ -10,14 +10,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class CreateContribuicaoServicoDTO {
-    @NotBlank(message = "O nome está vazio")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
-    private String nome;
-
-    @NotBlank(message = "A descrição está vazia")
-    @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
-    private String descricao;
-
     @NotNull(message = "A data de inicio está vazia")
     @Past(message = "A data de inicio deve estar no passado ")
     private LocalDateTime horaInicio;

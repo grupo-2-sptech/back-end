@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.repository.ContribuicaoRecursoRepository;
 import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.service.RecursoService;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoRecursoService {
     private final ContribuicaoRecursoRepository contribuicaoRecursoRepository;
+    private final RecursoService recursoService;
 
     public ContribuicaoRecurso salvarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
         contribuicaoRecurso.setDoador(doador);
         contribuicaoRecurso.setRecurso(recurso);
+        recursoService.somarContribuicao(recurso, contribuicaoRecurso.getQuantidade());
         return contribuicaoRecursoRepository.save(contribuicaoRecurso);
     }
 

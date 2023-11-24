@@ -30,8 +30,9 @@ public class ContribuicaoRecurso extends Contribuicao {
     private Recurso recurso;
 
     @Builder
-    public ContribuicaoRecurso(UUID id, String nome, String descricao, LocalDateTime dataHora, StatusContribuicao statusContribuicao, Integer quantidade, TipoRecurso tipoRecurso, Doador doador, Recurso recurso) {
-        super(id, nome, descricao, dataHora, statusContribuicao);
+
+    public ContribuicaoRecurso(UUID id, LocalDateTime dataHora, StatusContribuicao statusContribuicao, Integer quantidade, TipoRecurso tipoRecurso, Doador doador, Recurso recurso) {
+        super(id, dataHora, statusContribuicao);
         this.quantidade = quantidade;
         this.tipoRecurso = tipoRecurso;
         this.doador = doador;

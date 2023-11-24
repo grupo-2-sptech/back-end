@@ -13,8 +13,6 @@ public class ContribuicaoMonetariaMapper {
 
     public static ContribuicaoMonetaria paraEntidade(CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO){
         return ContribuicaoMonetaria.builder()
-                .nome(contribuicaoMonetariaDTO.getNome())
-                .descricao(contribuicaoMonetariaDTO.getDescricao())
                 .dataHora(LocalDateTime.now())
                 .valor(contribuicaoMonetariaDTO.getValor())
                 .parcelas(contribuicaoMonetariaDTO.getParcelas())
@@ -26,8 +24,6 @@ public class ContribuicaoMonetariaMapper {
     public static ResponseContribuicaoMonetariaDTO paraDTO(ContribuicaoMonetaria contribuicaoMonetaria){
         return ResponseContribuicaoMonetariaDTO.builder()
                 .id(contribuicaoMonetaria.getId())
-                .nome(contribuicaoMonetaria.getNome())
-                .descricao(contribuicaoMonetaria.getDescricao())
                 .dataHora(contribuicaoMonetaria.getDataHora())
                 .valor(contribuicaoMonetaria.getValor())
                 .parcelas(contribuicaoMonetaria.getParcelas())

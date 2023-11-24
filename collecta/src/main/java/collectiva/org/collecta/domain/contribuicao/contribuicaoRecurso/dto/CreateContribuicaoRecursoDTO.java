@@ -16,14 +16,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class CreateContribuicaoRecursoDTO {
-    @NotBlank(message = "O nome está vazio")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
-    private String nome;
-
-    @NotBlank(message = "A descrição esta vazia")
-    @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
-    private String descricao;
-
     private LocalDateTime dataHora;
 
     @NotNull(message = "A quantidade está vazia")

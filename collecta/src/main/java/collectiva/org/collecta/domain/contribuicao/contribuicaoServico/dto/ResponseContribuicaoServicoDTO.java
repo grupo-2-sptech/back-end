@@ -11,8 +11,6 @@ import java.util.UUID;
 @Builder
 public class ResponseContribuicaoServicoDTO {
     private UUID id;
-    private String nome;
-    private String descricao;
     private LocalDateTime dataHora;
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;

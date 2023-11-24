@@ -4,7 +4,7 @@ import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.repository.ContribuicaoMonetariaRepository;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
-import collectiva.org.collecta.domain.pagamento.Pagamento;
+import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +17,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoMonetariaService {
     private final ContribuicaoMonetariaRepository contribuicaoMonetariaRepository;
+    private final FinanceiroCampanhaService financeiroCampanhaService;
 
-    public ContribuicaoMonetaria salvarContribuicaoMonetaria
-            (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
+    public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
         contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
         contribuicaoMonetaria.setDoador(doador);
+        financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
@@ -34,7 +35,7 @@ public class ContribuicaoMonetariaService {
                 () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
     }
 
-    public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao){
+    public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
         ContribuicaoMonetaria contribuicaoMonetaria = buscarContribuicaoMonetariaPorId(id);
         contribuicaoMonetaria.setStatusContribuicao(statusContribuicao);
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);

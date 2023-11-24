@@ -12,8 +12,6 @@ import java.util.UUID;
 @Builder
 public class ResponseContribuicaoRecursoDTO {
     private UUID id;
-    private String nome;
-    private String descricao;
     private LocalDateTime dataHora;
     private Integer quantidade;
     private TipoRecurso tipoRecurso;

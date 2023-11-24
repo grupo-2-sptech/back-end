@@ -41,11 +41,6 @@ public class PagamentoController {
         return ResponseEntity.status(201).body(PagamentoMapper.paraDTO(pagamento));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponsePagamentoDTO> atualizarPagamento(@PathVariable UUID id, @RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
-        Pagamento pagamento = pagamentoService.atualizarPagamento(id, PagamentoMapper.paraEntidade(pagamentoDTO));
-        return ResponseEntity.ok(PagamentoMapper.paraDTO(pagamento));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPagamento(@PathVariable UUID id) {

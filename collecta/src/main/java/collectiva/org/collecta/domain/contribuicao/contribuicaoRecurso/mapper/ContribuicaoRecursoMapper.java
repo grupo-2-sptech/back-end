@@ -13,8 +13,6 @@ public class ContribuicaoRecursoMapper {
 
     public static ContribuicaoRecurso paraEntidade(CreateContribuicaoRecursoDTO contribuicaoRecursoDTO){
         return ContribuicaoRecurso.builder()
-                .nome(contribuicaoRecursoDTO.getNome())
-                .descricao(contribuicaoRecursoDTO.getDescricao())
                 .dataHora(LocalDateTime.now())
                 .quantidade(contribuicaoRecursoDTO.getQuantidade())
                 .tipoRecurso(contribuicaoRecursoDTO.getTipoRecurso())
@@ -25,8 +23,6 @@ public class ContribuicaoRecursoMapper {
     public static ResponseContribuicaoRecursoDTO paraDTO(ContribuicaoRecurso contribuicaoRecurso){
         return ResponseContribuicaoRecursoDTO.builder()
                 .id(contribuicaoRecurso.getId())
-                .nome(contribuicaoRecurso.getNome())
-                .descricao(contribuicaoRecurso.getDescricao())
                 .dataHora(contribuicaoRecurso.getDataHora())
                 .quantidade(contribuicaoRecurso.getQuantidade())
                 .tipoRecurso(contribuicaoRecurso.getTipoRecurso())

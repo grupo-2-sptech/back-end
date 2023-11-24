@@ -25,8 +25,7 @@ public class RecursoService {
     }
 
     public Recurso buscarRecursoPorId(UUID id) {
-        return recursoRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Recurso"));
+        return recursoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Recurso"));
     }
 
     public Recurso atualizarRecurso(UUID id, Recurso recurso) {
@@ -40,6 +39,12 @@ public class RecursoService {
             throw new EntidadeNaoEncontradaException("Recurso");
         }
         recursoRepository.deleteById(id);
+    }
+
+    public void somarContribuicao(Recurso recurso, int valor) {
+        int total = recurso.getQuantidadeArrecadada() + valor;
+        recurso.setQuantidadeArrecadada(total);
+        recursoRepository.save(recurso);
     }
 }
 

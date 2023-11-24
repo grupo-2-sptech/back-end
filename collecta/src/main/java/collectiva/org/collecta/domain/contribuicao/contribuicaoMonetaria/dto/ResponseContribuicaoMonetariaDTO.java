@@ -13,8 +13,6 @@ import java.util.UUID;
 @Builder
 public class ResponseContribuicaoMonetariaDTO {
     private UUID id;
-    private String nome;
-    private String descricao;
     private LocalDateTime dataHora;
     private BigDecimal valor;
     private Integer parcelas;
