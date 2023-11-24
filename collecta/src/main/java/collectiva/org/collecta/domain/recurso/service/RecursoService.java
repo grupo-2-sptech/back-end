@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.recurso.service;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.recurso.Recurso;
 import collectiva.org.collecta.domain.recurso.repository.RecursoRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class RecursoService {
     private final RecursoRepository recursoRepository;
 
-    public Recurso salvarRecurso(Recurso recurso) {
+    public Recurso salvarRecurso(Recurso recurso, Campanha campanha) {
+        recurso.setCampanha(campanha);
         return recursoRepository.save(recurso);
     }
 

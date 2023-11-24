@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.recurso.controller;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.recurso.Recurso;
 import collectiva.org.collecta.domain.recurso.dto.CreateRecursoDTO;
 import collectiva.org.collecta.domain.recurso.dto.ResponseRecursoDTO;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RecursoController {
     private final RecursoService recursoService;
+    private final CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseRecursoDTO>> buscarRecursos() {
@@ -33,7 +36,8 @@ public class RecursoController {
 
     @PostMapping
     public ResponseEntity<ResponseRecursoDTO> criarRecurso(@RequestBody @Valid CreateRecursoDTO recursoDTO) {
-        Recurso recurso = recursoService.salvarRecurso(RecursoMapper.paraEntidade(recursoDTO));
+        Campanha campanha = campanhaService.buscarCampanhaPorId(recursoDTO.getIdCampanha());
+        Recurso recurso = recursoService.salvarRecurso(RecursoMapper.paraEntidade(recursoDTO), campanha);
         return ResponseEntity.status(201).body(RecursoMapper.paraDTO(recurso));
     }
 
