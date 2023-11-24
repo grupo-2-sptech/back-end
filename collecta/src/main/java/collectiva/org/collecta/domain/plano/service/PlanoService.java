@@ -1,7 +1,6 @@
 package collectiva.org.collecta.domain.plano.service;
 
 import collectiva.org.collecta.domain.conta.doador.Doador;
-import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.repository.PlanoRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;

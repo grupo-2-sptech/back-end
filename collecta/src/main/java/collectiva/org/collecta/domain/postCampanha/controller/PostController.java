@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.postCampanha.controller;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponsePostDTO>> buscarPosts() {
@@ -33,7 +36,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<ResponsePostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {
-        Post post = postService.salvarPost(PostMapper.paraEntidade(postDTO));
+        Campanha campanha = campanhaService.buscarCampanhaPorId(postDTO.getIdCampanha());
+        Post post = postService.salvarPost(PostMapper.paraEntidade(postDTO), campanha);
         return ResponseEntity.status(201).body(PostMapper.paraDTO(post));
     }
 
