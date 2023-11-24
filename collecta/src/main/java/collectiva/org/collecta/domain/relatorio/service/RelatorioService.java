@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.relatorio.service;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.domain.relatorio.repository.RelatorioRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class RelatorioService {
     private final RelatorioRepository relatorioRepository;
 
-    public Relatorio salvarRelatorio(Relatorio relatorio) {
+    public Relatorio salvarRelatorio(Relatorio relatorio, Campanha campanha) {
+        relatorio.setCampanha(campanha);
         return relatorioRepository.save(relatorio);
     }
 

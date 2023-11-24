@@ -1,5 +1,7 @@
 package collectiva.org.collecta.domain.relatorio.controller;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.domain.relatorio.dto.CreateRelatorioDTO;
 import collectiva.org.collecta.domain.relatorio.dto.ResponseRelatorioDTO;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RelatorioController {
     private final RelatorioService relatorioService;
+    private final CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseRelatorioDTO>> buscarRelatorios() {
@@ -38,7 +41,8 @@ public class RelatorioController {
 
     @PostMapping
     public ResponseEntity<ResponseRelatorioDTO> criarRelatorio(@RequestBody @Valid CreateRelatorioDTO relatorioDTO) {
-        Relatorio relatorio = relatorioService.salvarRelatorio(RelatorioMapper.paraEntidade(relatorioDTO));
+        Campanha campanha = campanhaService.buscarCampanhaPorId(relatorioDTO.getIdCampanha());
+        Relatorio relatorio = relatorioService.salvarRelatorio(RelatorioMapper.paraEntidade(relatorioDTO), campanha);
         return ResponseEntity.status(201).body(RelatorioMapper.paraDTO(relatorio));
     }
 
