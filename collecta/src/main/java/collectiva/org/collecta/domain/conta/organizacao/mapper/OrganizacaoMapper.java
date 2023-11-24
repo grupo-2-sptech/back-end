@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.conta.organizacao.mapper;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.conta.organizacao.dto.CreateOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.dto.ResponseOrganizacaoDTO;
+import collectiva.org.collecta.domain.conta.organizacao.dto.UpdateOrganizacaoDTO;
 import collectiva.org.collecta.enums.TipoConta;
 
 public class OrganizacaoMapper {
@@ -14,6 +15,16 @@ public class OrganizacaoMapper {
                 .email(organizacaoDTO.getEmail())
                 .senha(organizacaoDTO.getSenha())
                 .tipoConta(TipoConta.ORGANIZACAO)
+                .telefone(organizacaoDTO.getTelefone())
+                .nomeSocial(organizacaoDTO.getNomeSocial())
+                .nomeFantasia(organizacaoDTO.getNomeFantasia())
+                .dataFundacao(organizacaoDTO.getDataFundacao())
+                .cnpj(organizacaoDTO.getCnpj())
+                .build();
+    }
+
+    public static Organizacao paraEntidadeUpdate(UpdateOrganizacaoDTO organizacaoDTO){
+        return Organizacao.builder()
                 .telefone(organizacaoDTO.getTelefone())
                 .nomeSocial(organizacaoDTO.getNomeSocial())
                 .nomeFantasia(organizacaoDTO.getNomeFantasia())

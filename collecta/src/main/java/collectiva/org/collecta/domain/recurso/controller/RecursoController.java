@@ -5,6 +5,7 @@ import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.recurso.Recurso;
 import collectiva.org.collecta.domain.recurso.dto.CreateRecursoDTO;
 import collectiva.org.collecta.domain.recurso.dto.ResponseRecursoDTO;
+import collectiva.org.collecta.domain.recurso.dto.UpdateRecursoDTO;
 import collectiva.org.collecta.domain.recurso.mapper.RecursoMapper;
 import collectiva.org.collecta.domain.recurso.service.RecursoService;
 import jakarta.validation.Valid;
@@ -42,8 +43,8 @@ public class RecursoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseRecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid CreateRecursoDTO recursoDTO) {
-        Recurso recurso = recursoService.atualizarRecurso(id, RecursoMapper.paraEntidade(recursoDTO));
+    public ResponseEntity<ResponseRecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid UpdateRecursoDTO recursoDTO) {
+        Recurso recurso = recursoService.atualizarRecurso(id, RecursoMapper.paraEntidadeUpdate(recursoDTO));
         return ResponseEntity.ok(RecursoMapper.paraDTO(recurso));
     }
 

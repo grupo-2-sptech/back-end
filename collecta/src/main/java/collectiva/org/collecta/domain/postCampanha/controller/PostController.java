@@ -5,6 +5,7 @@ import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.mapper.PostMapper;
 import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
@@ -42,8 +43,8 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid CreatePostDTO postDTO) {
-        Post post = postService.atualizarPost(id, PostMapper.paraEntidade(postDTO));
+    public ResponseEntity<ResponsePostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid UpdatePostDTO postDTO) {
+        Post post = postService.atualizarPost(id, PostMapper.paraEntidadeUpdate(postDTO));
         return ResponseEntity.ok(PostMapper.paraDTO(post));
     }
 

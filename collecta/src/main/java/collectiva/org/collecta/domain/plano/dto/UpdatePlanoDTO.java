@@ -1,6 +1,5 @@
 package collectiva.org.collecta.domain.plano.dto;
 
-import collectiva.org.collecta.enums.StatusPlano;
 import collectiva.org.collecta.enums.TipoPlano;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreatePlanoDTO {
+public class UpdatePlanoDTO {
     @NotNull(message = "A data do fim está vazia")
     @Future(message = "A data do fim deve estar no futuro")
     private LocalDateTime dataFim;

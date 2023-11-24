@@ -5,8 +5,10 @@ import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
+import collectiva.org.collecta.domain.plano.dto.UpdatePlanoDTO;
 import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
 import collectiva.org.collecta.domain.plano.service.PlanoService;
+import collectiva.org.collecta.enums.StatusPlano;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +44,13 @@ public class PlanoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid CreatePlanoDTO planoDTO) {
-        Plano plano = planoService.atualizarPlano(id, PlanoMapper.paraEntidade(planoDTO));
+    public ResponseEntity<ResponsePlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid UpdatePlanoDTO planoDTO) {
+        Plano plano = planoService.atualizarPlano(id, PlanoMapper.paraEntidadeUpdate(planoDTO));
+        return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
+    }
+    @PutMapping("/status/{id}")
+    public ResponseEntity<ResponsePlanoDTO> atualizarStatusPlano(@PathVariable UUID id, @RequestParam StatusPlano statusPlano) {
+        Plano plano = planoService.atualizarStatusPlano(id, statusPlano);
         return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
     }
 

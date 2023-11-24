@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.plano.service;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.plano.Plano;
 import collectiva.org.collecta.domain.plano.repository.PlanoRepository;
+import collectiva.org.collecta.enums.StatusPlano;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,12 @@ public class PlanoService {
     public Plano atualizarPlano(UUID id, Plano plano) {
         buscarPlanoPorId(id);
         plano.setId(id);
+        return planoRepository.save(plano);
+    }
+
+    public Plano atualizarStatusPlano(UUID id, StatusPlano statusPlano) {
+        Plano plano = buscarPlanoPorId(id);
+        plano.setStatusPlano(statusPlano);
         return planoRepository.save(plano);
     }
 

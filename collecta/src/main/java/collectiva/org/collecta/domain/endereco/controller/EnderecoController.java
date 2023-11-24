@@ -1,8 +1,10 @@
 package collectiva.org.collecta.domain.endereco.controller;
 
 import collectiva.org.collecta.domain.endereco.Endereco;
+import collectiva.org.collecta.domain.endereco.dto.CepDTO;
 import collectiva.org.collecta.domain.endereco.dto.CreateEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.dto.ResponseEnderecoDTO;
+import collectiva.org.collecta.domain.endereco.dto.UpdateEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.mapper.EnderecoMapper;
 import collectiva.org.collecta.domain.endereco.service.EnderecoService;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
@@ -45,8 +47,8 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidade(enderecoDTO));
+    public ResponseEntity<ResponseEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid UpdateEnderecoDTO enderecoDTO) {
+        Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidadeUpdate(enderecoDTO));
         return ResponseEntity.ok(EnderecoMapper.paraDTO(endereco));
     }
 
@@ -57,12 +59,12 @@ public class EnderecoController {
     }
 
     @GetMapping("cep/{cep}")
-    public ResponseEnderecoDTO buscaCep(@PathVariable String cep) {
+    public CepDTO buscaCep(@PathVariable String cep) {
         RestTemplate restTemplate = new RestTemplate();
-        CreateEnderecoDTO enderecoDTO = restTemplate.getForObject(cepUrl + cep + "/json/", CreateEnderecoDTO.class);
-        if (enderecoDTO.getCep() == null) {
+        CepDTO cepDTO = restTemplate.getForObject(cepUrl + cep + "/json/", CepDTO.class);
+        if (cepDTO.getCep() == null) {
             throw new EntidadeNaoEncontradaException("Cep");
         }
-        return restTemplate.getForObject(cepUrl + cep + "/json/", ResponseEnderecoDTO.class);
+        return restTemplate.getForObject(cepUrl + cep + "/json/", CepDTO.class);
     }
 }

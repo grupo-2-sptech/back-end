@@ -5,6 +5,7 @@ import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.eventoCampanha.dto.CreateEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.dto.ResponseEventoCampanhaDTO;
+import collectiva.org.collecta.domain.eventoCampanha.dto.UpdateEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
 import jakarta.validation.Valid;
@@ -42,8 +43,8 @@ public class EventoCampanhaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseEventoCampanhaDTO> atualizarEventoCampanha(@PathVariable UUID id, @Valid @RequestBody CreateEventoCampanhaDTO eventoCampanhaDTO) {
-        EventoCampanha eventoCampanha = eventoCampanhaService.atualizarEventoCampanha(id, EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO));
+    public ResponseEntity<ResponseEventoCampanhaDTO> atualizarEventoCampanha(@PathVariable UUID id, @Valid @RequestBody UpdateEventoCampanhaDTO eventoCampanhaDTO) {
+        EventoCampanha eventoCampanha = eventoCampanhaService.atualizarEventoCampanha(id, EventoCampanhaMapper.paraEntidadeUpdate(eventoCampanhaDTO));
         return ResponseEntity.ok(EventoCampanhaMapper.paraDTO(eventoCampanha));
     }
 

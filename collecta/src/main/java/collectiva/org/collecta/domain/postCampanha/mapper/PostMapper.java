@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.postCampanha.mapper;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,14 @@ public class PostMapper {
     private PostMapper(){}
 
     public static Post paraEntidade(CreatePostDTO postDTO){
+        return Post.builder()
+                .titulo(postDTO.getTitulo())
+                .conteudo(postDTO.getConteudo())
+                .data(LocalDateTime.now())
+                .build();
+    }
+
+    public static Post paraEntidadeUpdate(UpdatePostDTO postDTO){
         return Post.builder()
                 .titulo(postDTO.getTitulo())
                 .conteudo(postDTO.getConteudo())
