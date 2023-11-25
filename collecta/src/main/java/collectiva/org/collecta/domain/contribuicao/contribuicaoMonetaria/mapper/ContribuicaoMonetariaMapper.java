@@ -1,11 +1,16 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper;
 
+import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.AssociationContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.CreateContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.mapper.FinanceiroCampanhaMapper;
+import collectiva.org.collecta.domain.pagamento.mapper.PagamentoMapper;
 import collectiva.org.collecta.enums.StatusContribuicao;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class ContribuicaoMonetariaMapper {
     private ContribuicaoMonetariaMapper() {
@@ -23,6 +28,20 @@ public class ContribuicaoMonetariaMapper {
 
     public static ResponseContribuicaoMonetariaDTO paraDTO(ContribuicaoMonetaria contribuicaoMonetaria){
         return ResponseContribuicaoMonetariaDTO.builder()
+                .id(contribuicaoMonetaria.getId())
+                .dataHora(contribuicaoMonetaria.getDataHora())
+                .valor(contribuicaoMonetaria.getValor())
+                .parcelas(contribuicaoMonetaria.getParcelas())
+                .formaPagamento(contribuicaoMonetaria.getFormaPagamento())
+                .statusContribuicao(contribuicaoMonetaria.getStatusContribuicao())
+                .doador(DoadorMapper.paraAssociacaoDTO(contribuicaoMonetaria.getDoador()))
+                .financeiroCampanha(FinanceiroCampanhaMapper.paraAssociacaoDTO(contribuicaoMonetaria.getFinanceiroCampanha()))
+                .pagamento(Optional.ofNullable(contribuicaoMonetaria.getPagamento()).map(PagamentoMapper::paraAssociacaoDTO).orElse(null))
+                .build();
+    }
+
+    public static AssociationContribuicaoMonetariaDTO paraAssociacaoDTO(ContribuicaoMonetaria contribuicaoMonetaria){
+        return AssociationContribuicaoMonetariaDTO.builder()
                 .id(contribuicaoMonetaria.getId())
                 .dataHora(contribuicaoMonetaria.getDataHora())
                 .valor(contribuicaoMonetaria.getValor())

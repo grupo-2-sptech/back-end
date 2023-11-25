@@ -18,4 +18,7 @@ public class CreateComentarioOrganizacaoDTO {
 
     @NotNull(message = "O id da organização está vazio")
     private UUID idOrganizacao;
+
+    @NotNull(message = "O id do post está vazio")
+    private UUID idPost;
 }

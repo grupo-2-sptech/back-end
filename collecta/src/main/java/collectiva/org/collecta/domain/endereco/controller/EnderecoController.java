@@ -58,7 +58,7 @@ public class EnderecoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("cep/{cep}")
+    @GetMapping("/cep/{cep}")
     public CepDTO buscaCep(@PathVariable String cep) {
         RestTemplate restTemplate = new RestTemplate();
         CepDTO cepDTO = restTemplate.getForObject(cepUrl + cep + "/json/", CepDTO.class);

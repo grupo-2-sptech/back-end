@@ -1,7 +1,6 @@
 package collectiva.org.collecta.domain.endereco.dto;
 
 
-import collectiva.org.collecta.domain.eventoCampanha.dto.AssociationEventoCampanhaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +12,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseEnderecoDTO {
+public class AssociationEnderecoDTO {
     private UUID id;
     private String logradouro;
     private String cidade;
     private String estado;
     private String cep;
     private int numero;
-    private AssociationEventoCampanhaDTO eventoCampanha;
 }

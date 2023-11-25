@@ -1,9 +1,12 @@
 package collectiva.org.collecta.domain.eventoCampanha.dto;
 
+import collectiva.org.collecta.domain.campanha.dto.AssociationCampanhaDTO;
+import collectiva.org.collecta.domain.endereco.dto.AssociationEnderecoDTO;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -13,5 +16,6 @@ public class ResponseEventoCampanhaDTO {
     private String nome;
     private String descricao;
     private LocalDateTime dataHora;
-
+    private AssociationCampanhaDTO campanha;
+    private List<AssociationEnderecoDTO> enderecos;
 }

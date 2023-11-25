@@ -7,6 +7,8 @@ import collectiva.org.collecta.domain.comentario.comentarioDoador.mapper.Comenta
 import collectiva.org.collecta.domain.comentario.comentarioDoador.service.ComentarioDoadorService;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
+import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class ComentarioDoadorController {
     private final ComentarioDoadorService comentarioService;
     private final DoadorService doadorService;
+    private final PostService postService;
 
     @GetMapping
 
@@ -38,7 +41,8 @@ public class ComentarioDoadorController {
     @PostMapping
     public ResponseEntity<ResponseComentarioDoadorDTO> criarComentario(@RequestBody @Valid CreateComentarioDoadorDTO comentarioDoadorDTO) {
         Doador doador = doadorService.buscarDoadorPorId(comentarioDoadorDTO.getIdDoador());
-        ComentarioDoador comentarioDoador = comentarioService.salvarComentario(ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO), doador);
+        Post post = postService.buscarPostPorId(comentarioDoadorDTO.getIdPost());
+        ComentarioDoador comentarioDoador = comentarioService.salvarComentario(ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO), doador, post);
         return ResponseEntity.status(201).body(ComentarioDoadorMapper.paraDTO(comentarioDoador));
     }
 

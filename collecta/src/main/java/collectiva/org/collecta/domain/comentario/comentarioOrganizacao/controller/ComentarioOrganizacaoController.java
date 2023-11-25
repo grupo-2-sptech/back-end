@@ -7,6 +7,8 @@ import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.mapper.Co
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.service.ComentarioOrganizacaoService;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
+import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class ComentarioOrganizacaoController {
     private final ComentarioOrganizacaoService comentarioService;
     private final OrganizacaoService organizacaoService;
+    private final PostService postService;
 
     @GetMapping
     public ResponseEntity<List<ResponseComentarioOrganizacaoDTO>> buscarComentarios() {
@@ -37,7 +40,8 @@ public class ComentarioOrganizacaoController {
     @PostMapping
     public ResponseEntity<ResponseComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
         Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(comentarioOrganizacaoDTO.getIdOrganizacao());
-        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO), organizacao);
+        Post post = postService.buscarPostPorId(comentarioOrganizacaoDTO.getIdPost());
+        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO), organizacao, post);
         return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
     }
 

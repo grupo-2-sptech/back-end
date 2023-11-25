@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain.plano.mapper;
 
+import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.plano.Plano;
+import collectiva.org.collecta.domain.plano.dto.AssociationPlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.UpdatePlanoDTO;
@@ -31,6 +33,17 @@ public class PlanoMapper {
 
     public static ResponsePlanoDTO paraDTO(Plano plano){
         return ResponsePlanoDTO.builder()
+                .id(plano.getId())
+                .dataInicio(plano.getDataInicio())
+                .dataFim(plano.getDataFim())
+                .tipoPlano(plano.getTipoPlano())
+                .statusPlano(plano.getStatusPlano())
+                .doador(DoadorMapper.paraAssociacaoDTO(plano.getDoador()))
+                .build();
+    }
+
+    public static AssociationPlanoDTO paraAssociacaoDTO(Plano plano){
+        return AssociationPlanoDTO.builder()
                 .id(plano.getId())
                 .dataInicio(plano.getDataInicio())
                 .dataFim(plano.getDataFim())

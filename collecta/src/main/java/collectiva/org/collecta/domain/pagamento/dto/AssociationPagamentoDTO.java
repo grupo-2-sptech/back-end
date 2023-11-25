@@ -1,6 +1,5 @@
 package collectiva.org.collecta.domain.pagamento.dto;
 
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.AssociationContribuicaoMonetariaDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ResponsePagamentoDTO {
+public class AssociationPagamentoDTO {
     private UUID id;
     private String nomeTitular;
     private String cpf;
@@ -16,6 +15,5 @@ public class ResponsePagamentoDTO {
     private String dataValidade;
     private String codigoSeguranca;
     private String bandeiraCartao;
-    private AssociationContribuicaoMonetariaDTO contribuicaoMonetaria;
 
 }

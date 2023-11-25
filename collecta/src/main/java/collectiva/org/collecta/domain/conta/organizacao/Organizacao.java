@@ -25,20 +25,20 @@ public class Organizacao extends Conta {
     private LocalDateTime dataFundacao;
 
     @OneToMany(mappedBy = "organizacao")
-    private List<Campanha> campanha = new ArrayList<>();
+    private List<Campanha> campanhas = new ArrayList<>();
 
     @OneToMany(mappedBy = "organizacao")
     private List<ComentarioOrganizacao> comentarios = new ArrayList<>();
 
     @Builder
 
-    public Organizacao(UUID id, String email, String senha, String telefone, TipoConta tipoConta, String nomeSocial, String nomeFantasia, String cnpj, LocalDateTime dataFundacao, List<Campanha> campanha, List<ComentarioOrganizacao> comentarios) {
+    public Organizacao(UUID id, String email, String senha, String telefone, TipoConta tipoConta, String nomeSocial, String nomeFantasia, String cnpj, LocalDateTime dataFundacao, List<Campanha> campanhas, List<ComentarioOrganizacao> comentarios) {
         super(id, email, senha, telefone, tipoConta);
         this.nomeSocial = nomeSocial;
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
-        this.campanha = campanha;
+        this.campanhas = campanhas;
         this.comentarios = comentarios;
     }
 }

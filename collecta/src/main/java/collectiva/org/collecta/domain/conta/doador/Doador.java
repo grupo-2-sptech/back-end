@@ -44,11 +44,10 @@ public class Doador extends Conta {
     private List<ContribuicaoRecurso> contribuicaoRecursos;
 
     @OneToOne(mappedBy = "doador")
-    private Plano planos;
+    private Plano plano;
 
     @Builder
-
-    public Doador(UUID id, String email, String senha, String telefone, TipoConta tipoConta, String nome, String sobrenome, LocalDate dataNascimento, String cpf, List<ComentarioDoador> comentarios, List<PostLike> postLikes, List<ContribuicaoMonetaria> contribuicaoMonetarias, List<ContribuicaoServico> contribuicaoServico, List<ContribuicaoRecurso> contribuicaoRecursos, Plano planos) {
+    public Doador(UUID id, String email, String senha, String telefone, TipoConta tipoConta, String nome, String sobrenome, LocalDate dataNascimento, String cpf, List<ComentarioDoador> comentarios, List<PostLike> postLikes, List<ContribuicaoMonetaria> contribuicaoMonetarias, List<ContribuicaoServico> contribuicaoServico, List<ContribuicaoRecurso> contribuicaoRecursos, Plano plano) {
         super(id, email, senha, telefone, tipoConta);
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -59,6 +58,6 @@ public class Doador extends Conta {
         this.contribuicaoMonetarias = contribuicaoMonetarias;
         this.contribuicaoServico = contribuicaoServico;
         this.contribuicaoRecursos = contribuicaoRecursos;
-        this.planos = planos;
+        this.plano = plano;
     }
 }

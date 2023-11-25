@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.comentario.comentarioOrganizacao.service;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.ComentarioOrganizacao;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.repository.ComentarioOrganizacaoRepository;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,9 @@ import java.util.UUID;
 public class ComentarioOrganizacaoService {
     private final ComentarioOrganizacaoRepository comentarioOrganizacaoRepository;
 
-    public ComentarioOrganizacao salvarComentario(ComentarioOrganizacao comentarioOrganizacao, Organizacao organizacao) {
+    public ComentarioOrganizacao salvarComentario(ComentarioOrganizacao comentarioOrganizacao, Organizacao organizacao, Post post) {
         comentarioOrganizacao.setOrganizacao(organizacao);
+        comentarioOrganizacao.setPost(post);
         return comentarioOrganizacaoRepository.save(comentarioOrganizacao);
     }
 
