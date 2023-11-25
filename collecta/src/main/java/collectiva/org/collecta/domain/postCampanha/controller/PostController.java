@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.postCampanha.controller;
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.dto.AssociationPostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
@@ -36,16 +37,16 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponsePostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {
+    public ResponseEntity<AssociationPostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {
         Campanha campanha = campanhaService.buscarCampanhaPorId(postDTO.getIdCampanha());
         Post post = postService.salvarPost(PostMapper.paraEntidade(postDTO), campanha);
-        return ResponseEntity.status(201).body(PostMapper.paraDTO(post));
+        return ResponseEntity.status(201).body(PostMapper.paraAssociacaoDTO(post));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid UpdatePostDTO postDTO) {
+    public ResponseEntity<AssociationPostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid UpdatePostDTO postDTO) {
         Post post = postService.atualizarPost(id, PostMapper.paraEntidadeUpdate(postDTO));
-        return ResponseEntity.ok(PostMapper.paraDTO(post));
+        return ResponseEntity.ok(PostMapper.paraAssociacaoDTO(post));
     }
 
     @DeleteMapping("/{id}")

@@ -3,13 +3,13 @@ package collectiva.org.collecta.domain.conta.usuario.controller;
 import collectiva.org.collecta.authentication.dto.ContaLoginDTO;
 import collectiva.org.collecta.authentication.dto.ContaTokenDTO;
 import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
-import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.dto.AssociationOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.dto.CreateOrganizacaoDTO;
-import collectiva.org.collecta.domain.conta.organizacao.dto.ResponseOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.mapper.OrganizacaoMapper;
 import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
 import collectiva.org.collecta.domain.conta.usuario.service.ContaService;
@@ -38,15 +38,15 @@ public class LoginController {
 
     @PostMapping("/cadastro/doador")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ResponseDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
+    public ResponseEntity<AssociationDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
         Doador doador = doadorService.salvarDoador(DoadorMapper.paraEntidade(doadorDTO));
-        return ResponseEntity.status(201).body(DoadorMapper.paraDTO(doador));
+        return ResponseEntity.status(201).body(DoadorMapper.paraAssociacaoDTO(doador));
     }
 
     @PostMapping("/cadastro/organizacao")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ResponseOrganizacaoDTO> criarOrganizacao(@RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
+    public ResponseEntity<AssociationOrganizacaoDTO> criarOrganizacao(@RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
         Organizacao organizacao = organizacaoService.salvarOrganizacao(OrganizacaoMapper.paraEntidade(organizacaoDTO));
-        return ResponseEntity.status(201).body(OrganizacaoMapper.paraDTO(organizacao));
+        return ResponseEntity.status(201).body(OrganizacaoMapper.paraAssociacaoDTO(organizacao));
     }
 }

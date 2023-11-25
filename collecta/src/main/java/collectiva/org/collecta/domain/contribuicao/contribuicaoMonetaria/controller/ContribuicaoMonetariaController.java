@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.contro
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.AssociationContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.CreateContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto.ResponseContribuicaoMonetariaDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper.ContribuicaoMonetariaMapper;
@@ -39,17 +40,17 @@ public class ContribuicaoMonetariaController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+    public ResponseEntity<AssociationContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoMonetariaDTO.getIdDoador());
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.buscarFinanceiroCampanhaPorId(contribuicaoMonetariaDTO.getIdFinanceiro());
         ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria
                 (ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador, financeiroCampanha);
-        return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetaria));
+        return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraAssociacaoDTO(contribuicaoMonetaria));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseContribuicaoMonetariaDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao){
-        ResponseContribuicaoMonetariaDTO responseDTO = ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaService.atualizarStatusContribuicao(id, statusContribuicao));
+    public ResponseEntity<AssociationContribuicaoMonetariaDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao){
+        AssociationContribuicaoMonetariaDTO responseDTO = ContribuicaoMonetariaMapper.paraAssociacaoDTO(contribuicaoMonetariaService.atualizarStatusContribuicao(id, statusContribuicao));
         return ResponseEntity.ok(responseDTO);
     }
 

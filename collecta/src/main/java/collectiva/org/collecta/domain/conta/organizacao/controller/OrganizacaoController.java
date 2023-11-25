@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.conta.organizacao.controller;
 
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.dto.AssociationOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.dto.CreateOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.dto.ResponseOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.mapper.OrganizacaoMapper;
@@ -33,9 +34,9 @@ public class OrganizacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseOrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
+    public ResponseEntity<AssociationOrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
         Organizacao organizacao = organizacaoService.atualizarOrganizacao(id, OrganizacaoMapper.paraEntidade(organizacaoDTO));
-        return ResponseEntity.ok(OrganizacaoMapper.paraDTO(organizacao));
+        return ResponseEntity.ok(OrganizacaoMapper.paraAssociacaoDTO(organizacao));
     }
 
     @DeleteMapping("/{id}")

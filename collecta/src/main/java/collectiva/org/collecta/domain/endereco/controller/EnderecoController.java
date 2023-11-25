@@ -1,10 +1,7 @@
 package collectiva.org.collecta.domain.endereco.controller;
 
 import collectiva.org.collecta.domain.endereco.Endereco;
-import collectiva.org.collecta.domain.endereco.dto.CepDTO;
-import collectiva.org.collecta.domain.endereco.dto.CreateEnderecoDTO;
-import collectiva.org.collecta.domain.endereco.dto.ResponseEnderecoDTO;
-import collectiva.org.collecta.domain.endereco.dto.UpdateEnderecoDTO;
+import collectiva.org.collecta.domain.endereco.dto.*;
 import collectiva.org.collecta.domain.endereco.mapper.EnderecoMapper;
 import collectiva.org.collecta.domain.endereco.service.EnderecoService;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
@@ -40,16 +37,16 @@ public class EnderecoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseEnderecoDTO> criarEndereco(@RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
+    public ResponseEntity<AssociationEnderecoDTO> criarEndereco(@RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
         EventoCampanha eventoCampanha = eventoCampanhaService.buscarEventoCampanhaPorId(enderecoDTO.getIdEventoCampanha());
         Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO), eventoCampanha);
-        return ResponseEntity.status(201).body(EnderecoMapper.paraDTO(endereco));
+        return ResponseEntity.status(201).body(EnderecoMapper.paraAssociacaoDTO(endereco));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid UpdateEnderecoDTO enderecoDTO) {
+    public ResponseEntity<AssociationEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid UpdateEnderecoDTO enderecoDTO) {
         Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidadeUpdate(enderecoDTO));
-        return ResponseEntity.ok(EnderecoMapper.paraDTO(endereco));
+        return ResponseEntity.ok(EnderecoMapper.paraAssociacaoDTO(endereco));
     }
 
     @DeleteMapping("/{id}")

@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.recurso.controller;
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.dto.AssociationRecursoDTO;
 import collectiva.org.collecta.domain.recurso.dto.CreateRecursoDTO;
 import collectiva.org.collecta.domain.recurso.dto.ResponseRecursoDTO;
 import collectiva.org.collecta.domain.recurso.dto.UpdateRecursoDTO;
@@ -36,16 +37,16 @@ public class RecursoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseRecursoDTO> criarRecurso(@RequestBody @Valid CreateRecursoDTO recursoDTO) {
+    public ResponseEntity<AssociationRecursoDTO> criarRecurso(@RequestBody @Valid CreateRecursoDTO recursoDTO) {
         Campanha campanha = campanhaService.buscarCampanhaPorId(recursoDTO.getIdCampanha());
         Recurso recurso = recursoService.salvarRecurso(RecursoMapper.paraEntidade(recursoDTO), campanha);
-        return ResponseEntity.status(201).body(RecursoMapper.paraDTO(recurso));
+        return ResponseEntity.status(201).body(RecursoMapper.paraAssociacaoDTO(recurso));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseRecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid UpdateRecursoDTO recursoDTO) {
+    public ResponseEntity<AssociationRecursoDTO> atualizarRecurso(@PathVariable UUID id, @RequestBody @Valid UpdateRecursoDTO recursoDTO) {
         Recurso recurso = recursoService.atualizarRecurso(id, RecursoMapper.paraEntidadeUpdate(recursoDTO));
-        return ResponseEntity.ok(RecursoMapper.paraDTO(recurso));
+        return ResponseEntity.ok(RecursoMapper.paraAssociacaoDTO(recurso));
     }
 
     @DeleteMapping("/{id}")

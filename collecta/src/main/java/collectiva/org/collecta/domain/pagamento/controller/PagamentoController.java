@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.pagamento.controller;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service.ContribuicaoMonetariaService;
 import collectiva.org.collecta.domain.pagamento.Pagamento;
+import collectiva.org.collecta.domain.pagamento.dto.AssociationPagamentoDTO;
 import collectiva.org.collecta.domain.pagamento.dto.CreatePagamentoDTO;
 import collectiva.org.collecta.domain.pagamento.dto.ResponsePagamentoDTO;
 import collectiva.org.collecta.domain.pagamento.mapper.PagamentoMapper;
@@ -35,10 +36,10 @@ public class PagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponsePagamentoDTO> criarPagamento(@RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
+    public ResponseEntity<AssociationPagamentoDTO> criarPagamento(@RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
         ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(pagamentoDTO.getIdContribuicao());
         Pagamento pagamento = pagamentoService.salvarPagamento(PagamentoMapper.paraEntidade(pagamentoDTO), contribuicaoMonetaria);
-        return ResponseEntity.status(201).body(PagamentoMapper.paraDTO(pagamento));
+        return ResponseEntity.status(201).body(PagamentoMapper.paraAssociacaoDTO(pagamento));
     }
 
 
