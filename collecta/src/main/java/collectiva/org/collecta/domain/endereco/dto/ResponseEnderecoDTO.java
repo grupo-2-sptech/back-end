@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.endereco.dto;
 
 
+import collectiva.org.collecta.domain.eventoCampanha.dto.AssociationEventoCampanhaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +20,5 @@ public class ResponseEnderecoDTO {
     private String estado;
     private String cep;
     private int numero;
+    private AssociationEventoCampanhaDTO eventoCampanha;
 }

@@ -1,7 +1,10 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.service;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.repository.ContribuicaoServicoRepository;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,9 @@ import java.util.UUID;
 public class ContribuicaoServicoService {
     private final ContribuicaoServicoRepository contribuicaoServicoRepository;
 
-    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico) {
+    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
+        contribuicaoServico.setDoador(doador);
+        contribuicaoServico.setEventoCampanha(eventoCampanha);
         return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 
@@ -28,17 +33,11 @@ public class ContribuicaoServicoService {
 
     }
 
-    public ContribuicaoServico atualizarContribuicaoServico(UUID id, ContribuicaoServico contribuicaoServico) {
-        buscarContribuicaoServicoPorId(id);
-        contribuicaoServico.setId(id);
+    public ContribuicaoServico atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
+        ContribuicaoServico contribuicaoServico = buscarContribuicaoServicoPorId(id);
+        contribuicaoServico.setStatusContribuicao(statusContribuicao);
         return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 
-    public void deletarContribuicaoServico(UUID id) {
-        if (!contribuicaoServicoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ContribuicaoServico");
-        }
-        contribuicaoServicoRepository.deleteById(id);
-    }
 }
 

@@ -1,10 +1,14 @@
 package collectiva.org.collecta.domain.endereco.controller;
 
 import collectiva.org.collecta.domain.endereco.Endereco;
+import collectiva.org.collecta.domain.endereco.dto.CepDTO;
 import collectiva.org.collecta.domain.endereco.dto.CreateEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.dto.ResponseEnderecoDTO;
+import collectiva.org.collecta.domain.endereco.dto.UpdateEnderecoDTO;
 import collectiva.org.collecta.domain.endereco.mapper.EnderecoMapper;
 import collectiva.org.collecta.domain.endereco.service.EnderecoService;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
+import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EnderecoController {
     private final EnderecoService enderecoService;
+    private final EventoCampanhaService eventoCampanhaService;
     private static final String cepUrl = "https://viacep.com.br/ws/";
 
     @GetMapping
@@ -36,13 +41,14 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<ResponseEnderecoDTO> criarEndereco(@RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO));
+        EventoCampanha eventoCampanha = eventoCampanhaService.buscarEventoCampanhaPorId(enderecoDTO.getIdEventoCampanha());
+        Endereco endereco = enderecoService.salvarEndereco(EnderecoMapper.paraEntidade(enderecoDTO), eventoCampanha);
         return ResponseEntity.status(201).body(EnderecoMapper.paraDTO(endereco));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid CreateEnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidade(enderecoDTO));
+    public ResponseEntity<ResponseEnderecoDTO> atualizarEndereco(@PathVariable UUID id, @RequestBody @Valid UpdateEnderecoDTO enderecoDTO) {
+        Endereco endereco = enderecoService.atualizarEndereco(id, EnderecoMapper.paraEntidadeUpdate(enderecoDTO));
         return ResponseEntity.ok(EnderecoMapper.paraDTO(endereco));
     }
 
@@ -52,13 +58,13 @@ public class EnderecoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("cep/{cep}")
-    public ResponseEnderecoDTO buscaCep(@PathVariable String cep) {
+    @GetMapping("/cep/{cep}")
+    public CepDTO buscaCep(@PathVariable String cep) {
         RestTemplate restTemplate = new RestTemplate();
-        CreateEnderecoDTO enderecoDTO = restTemplate.getForObject(cepUrl + cep + "/json/", CreateEnderecoDTO.class);
-        if (enderecoDTO.getCep() == null) {
+        CepDTO cepDTO = restTemplate.getForObject(cepUrl + cep + "/json/", CepDTO.class);
+        if (cepDTO.getCep() == null) {
             throw new EntidadeNaoEncontradaException("Cep");
         }
-        return restTemplate.getForObject(cepUrl + cep + "/json/", ResponseEnderecoDTO.class);
+        return restTemplate.getForObject(cepUrl + cep + "/json/", CepDTO.class);
     }
 }

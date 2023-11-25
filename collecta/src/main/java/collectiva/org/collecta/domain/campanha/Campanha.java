@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.recurso.Recurso;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.enums.CategoriaCampanha;
 import collectiva.org.collecta.enums.StatusCampanha;
@@ -52,6 +53,9 @@ public class Campanha {
 
     @OneToMany(mappedBy = "campanha")
     private List<Relatorio> relatorios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "campanha")
+    private List<Recurso> recursos = new ArrayList<>();
 
     @OneToMany(mappedBy = "campanha")
     private List<Post> posts = new ArrayList<>();

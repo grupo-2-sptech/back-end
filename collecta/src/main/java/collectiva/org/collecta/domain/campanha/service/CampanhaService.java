@@ -2,6 +2,7 @@ package collectiva.org.collecta.domain.campanha.service;
 
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.repository.CampanhaRepository;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class CampanhaService {
     private final CampanhaRepository campanhaRepository;
 
-    public Campanha salvarCampanha(Campanha campanha) {
+    public Campanha salvarCampanha(Campanha campanha, Organizacao organizacao) {
+        campanha.setOrganizacao(organizacao);
         return campanhaRepository.save(campanha);
     }
 

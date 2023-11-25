@@ -1,8 +1,12 @@
 package collectiva.org.collecta.domain.financeiroCampanha.controller;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.CreateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.ResponseFinanceiroCampanhaDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.UpdateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.mapper.FinanceiroCampanhaMapper;
 import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
 import jakarta.validation.Valid;
@@ -18,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FinanceiroCampanhaController {
     private final FinanceiroCampanhaService financeiroCampanhaService;
+    private final CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseFinanceiroCampanhaDTO>> buscarFinanceirosCampanha() {
@@ -33,13 +38,14 @@ public class FinanceiroCampanhaController {
 
     @PostMapping
     public ResponseEntity<ResponseFinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.salvarFinanceiroCampanha(FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO));
+        Campanha campanha = campanhaService.buscarCampanhaPorId(financeiroCampanhaDTO.getIdCampanha());
+        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.salvarFinanceiroCampanha(FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO), campanha);
         return ResponseEntity.status(201).body(FinanceiroCampanhaMapper.paraDTO(financeiroCampanha));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO));
+    public ResponseEntity<ResponseFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
+        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidadeUpdate(financeiroCampanhaDTO));
         return ResponseEntity.ok(FinanceiroCampanhaMapper.paraDTO(financeiroCampanha));
     }
 

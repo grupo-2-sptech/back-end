@@ -2,6 +2,7 @@ package collectiva.org.collecta.domain.endereco.service;
 
 import collectiva.org.collecta.domain.endereco.Endereco;
 import collectiva.org.collecta.domain.endereco.repository.EnderecoRepository;
+import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class EnderecoService {
     private final EnderecoRepository enderecoRepository;
 
-    public Endereco salvarEndereco(Endereco endereco) {
+    public Endereco salvarEndereco(Endereco endereco, EventoCampanha eventoCampanha) {
+        endereco.setEventoCampanha(eventoCampanha);
         return enderecoRepository.save(endereco);
     }
 

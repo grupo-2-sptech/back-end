@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.postCampanha;
 
 import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.comentario.Comentario;
 import collectiva.org.collecta.domain.postLike.PostLike;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,9 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comentario> comentarios;
 
     @ManyToOne
     private Campanha campanha;

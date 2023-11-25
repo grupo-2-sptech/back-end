@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.plano.dto;
 
+import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
 import collectiva.org.collecta.enums.StatusPlano;
 import collectiva.org.collecta.enums.TipoPlano;
 import jakarta.persistence.EnumType;
@@ -21,4 +22,5 @@ public class ResponsePlanoDTO {
     private LocalDateTime dataFim;
     private TipoPlano tipoPlano;
     private StatusPlano statusPlano;
+    private AssociationDoadorDTO doador;
 }

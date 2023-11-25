@@ -3,8 +3,11 @@ package collectiva.org.collecta.domain.campanha.controller;
 import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.dto.CreateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
+import collectiva.org.collecta.domain.campanha.dto.UpdateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CampanhaController {
     private final CampanhaService campanhaService;
+    private final OrganizacaoService organizacaoService;
 
     @GetMapping
     public ResponseEntity<List<ResponseCampanhaDTO>> buscarCampanhas() {
@@ -33,13 +37,14 @@ public class CampanhaController {
 
     @PostMapping
     public ResponseEntity<ResponseCampanhaDTO> criarCampanha(@RequestBody @Valid CreateCampanhaDTO campanhaDTO) {
-        Campanha campanha = campanhaService.salvarCampanha(CampanhaMapper.paraEntidade(campanhaDTO));
+        Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(campanhaDTO.getIdOrganizacao());
+        Campanha campanha = campanhaService.salvarCampanha(CampanhaMapper.paraEntidade(campanhaDTO), organizacao);
         return ResponseEntity.status(201).body(CampanhaMapper.paraDTO(campanha));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseCampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody CreateCampanhaDTO campanhaDTO) {
-        Campanha novaCampanha = campanhaService.atualizarCampanha(id, CampanhaMapper.paraEntidade(campanhaDTO));
+    public ResponseEntity<ResponseCampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody UpdateCampanhaDTO campanhaDTO) {
+        Campanha novaCampanha = campanhaService.atualizarCampanha(id, CampanhaMapper.paraEntidadeUpdate(campanhaDTO));
         return ResponseEntity.ok(CampanhaMapper.paraDTO(novaCampanha));
     }
 

@@ -1,15 +1,19 @@
 package collectiva.org.collecta.domain.postCampanha.mapper;
 
+import collectiva.org.collecta.domain.comentario.comentario.ComentarioMapper;
 import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.dto.AssociationPostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
 
 import java.time.LocalDateTime;
 
 public class PostMapper {
-    private PostMapper(){}
+    private PostMapper() {
+    }
 
-    public static Post paraEntidade(CreatePostDTO postDTO){
+    public static Post paraEntidade(CreatePostDTO postDTO) {
         return Post.builder()
                 .titulo(postDTO.getTitulo())
                 .conteudo(postDTO.getConteudo())
@@ -17,13 +21,32 @@ public class PostMapper {
                 .build();
     }
 
-    public static ResponsePostDTO paraDTO(Post post){
+    public static Post paraEntidadeUpdate(UpdatePostDTO postDTO) {
+        return Post.builder()
+                .titulo(postDTO.getTitulo())
+                .conteudo(postDTO.getConteudo())
+                .data(LocalDateTime.now())
+                .build();
+    }
+
+    public static ResponsePostDTO paraDTO(Post post) {
         return ResponsePostDTO.builder()
                 .id(post.getId())
                 .titulo(post.getTitulo())
                 .conteudo(post.getConteudo())
                 .data(post.getData())
+                .likes(post.getPostLikes().size())
+                .comentarios(post.getComentarios().stream().map(ComentarioMapper::paraAssociacaoDTO).toList())
                 .build();
     }
 
+    public static AssociationPostDTO paraAssociacaoDTO(Post post) {
+        return AssociationPostDTO.builder()
+                .id(post.getId())
+                .titulo(post.getTitulo())
+                .conteudo(post.getConteudo())
+                .likes(post.getPostLikes().size())
+                .data(post.getData())
+                .build();
+    }
 }

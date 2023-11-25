@@ -1,7 +1,11 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.service;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.repository.ContribuicaoRecursoRepository;
+import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.service.RecursoService;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +17,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoRecursoService {
     private final ContribuicaoRecursoRepository contribuicaoRecursoRepository;
+    private final RecursoService recursoService;
 
-    public ContribuicaoRecurso salvarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso) {
+    public ContribuicaoRecurso salvarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
+        contribuicaoRecurso.setDoador(doador);
+        contribuicaoRecurso.setRecurso(recurso);
+        recursoService.somarContribuicao(recurso, contribuicaoRecurso.getQuantidade());
         return contribuicaoRecursoRepository.save(contribuicaoRecurso);
     }
 
@@ -27,17 +35,10 @@ public class ContribuicaoRecursoService {
                 () -> new EntidadeNaoEncontradaException("ContribuicaoRecurso"));
     }
 
-    public ContribuicaoRecurso atualizarContribuicaoRecurso(UUID id, ContribuicaoRecurso contribuicaoRecurso) {
-        buscarContribuicaoRecursoPorId(id);
-        contribuicaoRecurso.setId(id);
+    public ContribuicaoRecurso atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
+        ContribuicaoRecurso contribuicaoRecurso = buscarContribuicaoRecursoPorId(id);
+        contribuicaoRecurso.setStatusContribuicao(statusContribuicao);
         return contribuicaoRecursoRepository.save(contribuicaoRecurso);
-    }
-
-    public void deletarContribuicaoRecurso(UUID id) {
-        if (!contribuicaoRecursoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ContribuicaoRecurso");
-        }
-        contribuicaoRecursoRepository.deleteById(id);
     }
 }
 

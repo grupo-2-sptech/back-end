@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.eventoCampanha.service;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.eventoCampanha.repository.EventoCampanhaRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class EventoCampanhaService {
     private final EventoCampanhaRepository eventoCampanhaRepository;
 
-    public EventoCampanha salvarEventoCampanha(EventoCampanha eventoCampanha) {
+    public EventoCampanha salvarEventoCampanha(EventoCampanha eventoCampanha, Campanha campanha) {
+        eventoCampanha.setCampanha(campanha);
         return eventoCampanhaRepository.save(eventoCampanha);
     }
 

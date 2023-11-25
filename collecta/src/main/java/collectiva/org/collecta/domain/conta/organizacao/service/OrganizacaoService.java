@@ -34,11 +34,22 @@ public class OrganizacaoService {
                 () -> new EntidadeNaoEncontradaException("Organizacao"));
     }
 
-    public Organizacao atualizarOrganizacao(UUID id, Organizacao organizacao) {
-        contaService.buscarPorEmail(organizacao.getEmail());
-        buscarOrganizacaoPorId(id);
-        organizacao.setId(id);
-        return organizacaoRepository.save(organizacao);
+    public Organizacao atualizarOrganizacao(UUID id, Organizacao atualizacaoOrganizacao) {
+        Organizacao organizacaoAntiga = buscarOrganizacaoPorId(id);
+
+        Organizacao organizacaoAtualizada = Organizacao.builder()
+                .id(id)
+                .telefone(atualizacaoOrganizacao.getTelefone())
+                .nomeFantasia(atualizacaoOrganizacao.getNomeFantasia())
+                .nomeSocial(atualizacaoOrganizacao.getNomeSocial())
+                .dataFundacao(atualizacaoOrganizacao.getDataFundacao())
+                .cnpj(atualizacaoOrganizacao.getCnpj())
+                .email(organizacaoAntiga.getEmail())
+                .senha(organizacaoAntiga.getSenha())
+                .tipoConta(organizacaoAntiga.getTipoConta())
+                .build();
+
+        return organizacaoRepository.save(organizacaoAtualizada);
     }
 
     public void deletarOrganizacao(UUID id) {

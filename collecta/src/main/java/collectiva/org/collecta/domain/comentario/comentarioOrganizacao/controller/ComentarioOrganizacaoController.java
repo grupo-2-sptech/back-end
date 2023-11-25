@@ -5,6 +5,10 @@ import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.Creat
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.ResponseComentarioOrganizacaoDTO;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.mapper.ComentarioOrganizacaoMapper;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.service.ComentarioOrganizacaoService;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
+import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ComentarioOrganizacaoController {
     private final ComentarioOrganizacaoService comentarioService;
+    private final OrganizacaoService organizacaoService;
+    private final PostService postService;
 
     @GetMapping
     public ResponseEntity<List<ResponseComentarioOrganizacaoDTO>> buscarComentarios() {
@@ -32,15 +38,11 @@ public class ComentarioOrganizacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO ComentarioOrganizacaoDTO) {
-        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(ComentarioOrganizacaoDTO));
+    public ResponseEntity<ResponseComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
+        Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(comentarioOrganizacaoDTO.getIdOrganizacao());
+        Post post = postService.buscarPostPorId(comentarioOrganizacaoDTO.getIdPost());
+        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO), organizacao, post);
         return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseComentarioOrganizacaoDTO> atualizarComentario(@PathVariable UUID id, @RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
-        ComentarioOrganizacao comentarioOrganizacao = comentarioService.atualizarComentario(id, ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO));
-        return ResponseEntity.ok(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
     }
 
     @DeleteMapping("/{id}")

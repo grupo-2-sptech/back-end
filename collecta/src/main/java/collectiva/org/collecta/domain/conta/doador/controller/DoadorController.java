@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.conta.doador.controller;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.UpdateDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,16 +33,9 @@ public class DoadorController {
         return ResponseEntity.ok(DoadorMapper.paraDTO(doadorService.buscarDoadorPorId(id)));
     }
 
-    @PostMapping
-    @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ResponseDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
-        Doador doador = doadorService.salvarDoador(DoadorMapper.paraEntidade(doadorDTO));
-        return ResponseEntity.status(201).body(DoadorMapper.paraDTO(doador));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid CreateDoadorDTO doadorDTO) {
-        Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidade(doadorDTO));
+    public ResponseEntity<ResponseDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid UpdateDoadorDTO doadorDTO) {
+        Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidadeUpdate(doadorDTO));
         return ResponseEntity.ok(DoadorMapper.paraDTO(doador));
     }
 

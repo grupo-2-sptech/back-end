@@ -1,5 +1,8 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.dto;
 
+import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.AssociationFinanceiroCampanhaDTO;
+import collectiva.org.collecta.domain.pagamento.dto.AssociationPagamentoDTO;
 import collectiva.org.collecta.enums.FormaPagamento;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import lombok.Builder;
@@ -13,12 +16,13 @@ import java.util.UUID;
 @Builder
 public class ResponseContribuicaoMonetariaDTO {
     private UUID id;
-    private String nome;
-    private String descricao;
     private LocalDateTime dataHora;
     private BigDecimal valor;
     private Integer parcelas;
     private FormaPagamento formaPagamento;
     private StatusContribuicao statusContribuicao;
+    private AssociationDoadorDTO doador;
+    private AssociationFinanceiroCampanhaDTO financeiroCampanha;
+    private AssociationPagamentoDTO pagamento;
 
 }

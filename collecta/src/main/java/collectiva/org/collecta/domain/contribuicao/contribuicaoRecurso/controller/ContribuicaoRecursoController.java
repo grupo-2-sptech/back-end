@@ -1,10 +1,15 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.controller;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.ContribuicaoRecurso;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.CreateContribuicaoRecursoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.dto.ResponseContribuicaoRecursoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.mapper.ContribuicaoRecursoMapper;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoRecurso.service.ContribuicaoRecursoService;
+import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.service.RecursoService;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoRecursoController {
     private final ContribuicaoRecursoService contribuicaoRecursoService;
+    private final DoadorService doadorService;
+    private final RecursoService recursoService;
 
     @GetMapping
     public ResponseEntity<List<ResponseContribuicaoRecursoDTO>> buscarContribuicoesRecursos() {
@@ -33,19 +40,17 @@ public class ContribuicaoRecursoController {
 
     @PostMapping
     public ResponseEntity<ResponseContribuicaoRecursoDTO> criarContribuicaoRecurso(@RequestBody @Valid CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
-        ContribuicaoRecurso contribuicaoRecurso = contribuicaoRecursoService.salvarContribuicaoRecurso(ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO));
+        Doador doador = doadorService.buscarDoadorPorId(contribuicaoRecursoDTO.getIdDoador());
+        Recurso recurso = recursoService.buscarRecursoPorId(contribuicaoRecursoDTO.getIdRecurso());
+        ContribuicaoRecurso contribuicaoRecurso = contribuicaoRecursoService.salvarContribuicaoRecurso
+                (ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO), doador, recurso);
         return ResponseEntity.status(201).body(ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseContribuicaoRecursoDTO> atualizarContribuicaoRecurso(@PathVariable UUID id, @Valid @RequestBody CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
-        ContribuicaoRecurso contribuicaoRecurso = contribuicaoRecursoService.atualizarContribuicaoRecurso(id, ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO));
-        return ResponseEntity.ok(ContribuicaoRecursoMapper.paraDTO(contribuicaoRecurso));
+    public ResponseEntity<ResponseContribuicaoRecursoDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao) {
+        ResponseContribuicaoRecursoDTO responseDTO = ContribuicaoRecursoMapper.paraDTO(contribuicaoRecursoService.atualizarStatusContribuicao(id, statusContribuicao));
+        return ResponseEntity.ok(responseDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarContribuicaoRecurso(@PathVariable UUID id) {
-        contribuicaoRecursoService.deletarContribuicaoRecurso(id);
-        return ResponseEntity.noContent().build();
-    }
 }

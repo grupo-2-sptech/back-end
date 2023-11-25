@@ -1,7 +1,11 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service;
 
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.repository.ContribuicaoMonetariaRepository;
+import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
+import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
+import collectiva.org.collecta.enums.StatusContribuicao;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +17,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoMonetariaService {
     private final ContribuicaoMonetariaRepository contribuicaoMonetariaRepository;
+    private final FinanceiroCampanhaService financeiroCampanhaService;
 
-    public ContribuicaoMonetaria salvarContribuicaoMonetaria(ContribuicaoMonetaria contribuicaoMonetaria) {
+    public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
+        contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
+        contribuicaoMonetaria.setDoador(doador);
+        financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
@@ -27,17 +35,11 @@ public class ContribuicaoMonetariaService {
                 () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
     }
 
-    public ContribuicaoMonetaria atualizarContribuicaoMonetaria(UUID id, ContribuicaoMonetaria contribuicaoMonetaria) {
-        buscarContribuicaoMonetariaPorId(id);
-        contribuicaoMonetaria.setId(id);
+    public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
+        ContribuicaoMonetaria contribuicaoMonetaria = buscarContribuicaoMonetariaPorId(id);
+        contribuicaoMonetaria.setStatusContribuicao(statusContribuicao);
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
-    public void deletarContribuicaoMonetaria(UUID id) {
-        if (!contribuicaoMonetariaRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ContribuicaoMonetaria");
-        }
-        contribuicaoMonetariaRepository.deleteById(id);
-    }
 }
 

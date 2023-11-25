@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -24,4 +25,6 @@ public class CreateEventoCampanhaDTO {
     @Future(message = "A data e hora deve estar no futuro")
     private LocalDateTime dataHora;
 
+    @NotNull(message = "O id da campanha está vazio")
+    private UUID idCampanha;
 }
