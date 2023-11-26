@@ -36,6 +36,13 @@ public class EventoCampanhaController {
         return ResponseEntity.ok(EventoCampanhaMapper.paraDTO(eventoCampanhaService.buscarEventoCampanhaPorId(id)));
     }
 
+    @GetMapping("/campanha/{id}")
+    public ResponseEntity<List<ResponseEventoCampanhaDTO>> buscarEventoCampanhaPorIdCampanha(@PathVariable UUID id) {
+        List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarEventoCampanhaPorIdCampanha(id).stream()
+                .map(EventoCampanhaMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    }
+
     @PostMapping
     public ResponseEntity<AssociationEventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid CreateEventoCampanhaDTO eventoCampanhaDTO) {
         Campanha campanha = campanhaService.buscarCampanhaPorId(eventoCampanhaDTO.getIdCampanha());

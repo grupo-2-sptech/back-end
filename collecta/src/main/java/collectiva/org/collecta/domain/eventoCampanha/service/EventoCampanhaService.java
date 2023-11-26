@@ -29,6 +29,10 @@ public class EventoCampanhaService {
                 () -> new EntidadeNaoEncontradaException("Evento"));
     }
 
+    public List<EventoCampanha> buscarEventoCampanhaPorIdCampanha(UUID id) {
+        return eventoCampanhaRepository.findByCampanhaId(id);
+    }
+
     public EventoCampanha atualizarEventoCampanha(UUID id, EventoCampanha eventoCampanha) {
         buscarEventoCampanhaPorId(id);
         eventoCampanha.setId(id);
