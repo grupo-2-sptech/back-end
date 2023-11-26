@@ -22,7 +22,9 @@ public class ContribuicaoMonetariaService {
     public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
         contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
         contribuicaoMonetaria.setDoador(doador);
-        financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
+        if (contribuicaoMonetaria.getStatusContribuicao().equals(StatusContribuicao.FINALIZADA)){
+            financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
+        }
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
@@ -38,6 +40,9 @@ public class ContribuicaoMonetariaService {
     public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
         ContribuicaoMonetaria contribuicaoMonetaria = buscarContribuicaoMonetariaPorId(id);
         contribuicaoMonetaria.setStatusContribuicao(statusContribuicao);
+        if (contribuicaoMonetaria.getStatusContribuicao().equals(StatusContribuicao.FINALIZADA)){
+            financeiroCampanhaService.somarContribuicao(contribuicaoMonetaria.getFinanceiroCampanha(), contribuicaoMonetaria.getValor());
+        }
         return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 

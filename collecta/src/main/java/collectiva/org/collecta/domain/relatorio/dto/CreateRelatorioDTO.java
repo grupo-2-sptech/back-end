@@ -14,9 +14,9 @@ public class CreateRelatorioDTO {
     private BigDecimal valorArrecadado;
     private BigDecimal valorRestante;
     private int visualizacoes;
-    private int contribuicoesMonetarias;
-    private int contribuicoesRecurso;
-    private int contribuicoesServicos;
+    private Long contribuicoesMonetarias;
+    private Long contribuicoesRecurso;
+    private Long contribuicoesServicos;
     private LocalDateTime data;
     private UUID idCampanha;
 }

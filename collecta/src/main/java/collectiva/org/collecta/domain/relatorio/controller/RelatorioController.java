@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.domain.relatorio.dto.CreateRelatorioDTO;
+import collectiva.org.collecta.domain.relatorio.dto.GeneratorRelatorioDTO;
 import collectiva.org.collecta.domain.relatorio.dto.ResponseRelatorioDTO;
 import collectiva.org.collecta.domain.relatorio.mapper.RelatorioMapper;
 import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
@@ -36,8 +37,9 @@ public class RelatorioController {
     }
 
     @GetMapping("/gerar/{id}")
-    public ResponseEntity<ResponseRelatorioDTO> gerarRelatorioPorCampanha(@PathVariable UUID id, @RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim) {
-        return ResponseEntity.ok(RelatorioMapper.paraDTO(relatorioService.gerarRelatorioPorCampanha(id, inicio, fim)));
+    public ResponseEntity<GeneratorRelatorioDTO> gerarRelatorioPorCampanha(@PathVariable UUID id, @RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim) {
+        campanhaService.buscarCampanhaPorId(id);
+        return ResponseEntity.ok(RelatorioMapper.paraDTOGerador(relatorioService.gerarRelatorioPorCampanha(id, inicio, fim)));
     }
 
     @GetMapping("/{id}")
