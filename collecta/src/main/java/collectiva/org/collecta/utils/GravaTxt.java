@@ -109,6 +109,7 @@ public class GravaTxt {
     // com base nos dados do
     // ...
 
+    return new Relatorio(/* dados do relatório */);
   }
 
   private static String montaRegistroCorpo(Relatorio relatorio) {

@@ -47,7 +47,10 @@ public class EventoCampanhaController {
     @GetMapping("/pilha")
     public ResponseEntity<PilhaObj> buscarEmPilha(){
         PilhaObj pilhaObj = eventoCampanhaService.trazEmPilha();
-        return ResponseEntity.status(pilhaObj.isEmpty() ? 204 : 200).body(pilhaObj);
+        if (pilhaObj.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(pilhaObj);
     }
 
     @PostMapping
