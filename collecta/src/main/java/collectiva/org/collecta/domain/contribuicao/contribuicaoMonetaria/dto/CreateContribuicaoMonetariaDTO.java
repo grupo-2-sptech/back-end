@@ -33,4 +33,8 @@ public class CreateContribuicaoMonetariaDTO {
     @NotNull(message = "O id do financeiro está vazio")
     private UUID idFinanceiro;
 
+    private String txid;
+
+    private String idCodigoPix;
+
 }

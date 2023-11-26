@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.conta.doador.controller;
 
 import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.UpdateDoadorDTO;
@@ -34,9 +35,9 @@ public class DoadorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid UpdateDoadorDTO doadorDTO) {
+    public ResponseEntity<AssociationDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid UpdateDoadorDTO doadorDTO) {
         Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidadeUpdate(doadorDTO));
-        return ResponseEntity.ok(DoadorMapper.paraDTO(doador));
+        return ResponseEntity.ok(DoadorMapper.paraAssociacaoDTO(doador));
     }
 
     @DeleteMapping("/{id}")

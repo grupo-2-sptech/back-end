@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.plano.controller;
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.plano.Plano;
+import collectiva.org.collecta.domain.plano.dto.AssociationPlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
 import collectiva.org.collecta.domain.plano.dto.UpdatePlanoDTO;
@@ -37,21 +38,21 @@ public class PlanoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponsePlanoDTO> criarPlano(@RequestBody @Valid CreatePlanoDTO planoDTO) {
+    public ResponseEntity<AssociationPlanoDTO> criarPlano(@RequestBody @Valid CreatePlanoDTO planoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(planoDTO.getIdDoador());
         Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO), doador);
-        return ResponseEntity.status(201).body(PlanoMapper.paraDTO(plano));
+        return ResponseEntity.status(201).body(PlanoMapper.paraAssociacaoDTO(plano));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid UpdatePlanoDTO planoDTO) {
+    public ResponseEntity<AssociationPlanoDTO> atualizarPlano(@PathVariable UUID id, @RequestBody @Valid UpdatePlanoDTO planoDTO) {
         Plano plano = planoService.atualizarPlano(id, PlanoMapper.paraEntidadeUpdate(planoDTO));
-        return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
+        return ResponseEntity.ok(PlanoMapper.paraAssociacaoDTO(plano));
     }
     @PutMapping("/status/{id}")
-    public ResponseEntity<ResponsePlanoDTO> atualizarStatusPlano(@PathVariable UUID id, @RequestParam StatusPlano statusPlano) {
+    public ResponseEntity<AssociationPlanoDTO> atualizarStatusPlano(@PathVariable UUID id, @RequestParam StatusPlano statusPlano) {
         Plano plano = planoService.atualizarStatusPlano(id, statusPlano);
-        return ResponseEntity.ok(PlanoMapper.paraDTO(plano));
+        return ResponseEntity.ok(PlanoMapper.paraAssociacaoDTO(plano));
     }
 
     @DeleteMapping("/{id}")

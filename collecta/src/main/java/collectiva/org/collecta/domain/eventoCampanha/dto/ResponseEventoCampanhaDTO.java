@@ -15,6 +15,9 @@ public class ResponseEventoCampanhaDTO {
     private UUID id;
     private String nome;
     private String descricao;
+    private Integer qtdVaga;
+    private String urlImagem;
+    private String local;
     private LocalDateTime dataHora;
     private AssociationCampanhaDTO campanha;
     private List<AssociationEnderecoDTO> enderecos;

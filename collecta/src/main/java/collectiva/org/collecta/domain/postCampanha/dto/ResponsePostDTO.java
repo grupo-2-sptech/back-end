@@ -14,6 +14,7 @@ public class ResponsePostDTO {
     private UUID id;
     private String titulo;
     private String conteudo;
+    private String urlImagem;
     private LocalDateTime data;
     private int likes;
     private List<AssociationComentarioDTO> comentarios;

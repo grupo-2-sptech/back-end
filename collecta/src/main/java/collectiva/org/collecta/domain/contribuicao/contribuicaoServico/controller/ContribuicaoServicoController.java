@@ -3,6 +3,7 @@ package collectiva.org.collecta.domain.contribuicao.contribuicaoServico.controll
 import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.ContribuicaoServico;
+import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.AssociationContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.CreateContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.dto.ResponseContribuicaoServicoDTO;
 import collectiva.org.collecta.domain.contribuicao.contribuicaoServico.mapper.ContribuicaoServicoMapper;
@@ -39,17 +40,17 @@ public class ContribuicaoServicoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid CreateContribuicaoServicoDTO contribuicaoServicoDTO) {
+    public ResponseEntity<AssociationContribuicaoServicoDTO> criarContribuicaoServico(@RequestBody @Valid CreateContribuicaoServicoDTO contribuicaoServicoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoServicoDTO.getIdDoador());
         EventoCampanha eventoCampanha = eventoCampanhaService.buscarEventoCampanhaPorId(contribuicaoServicoDTO.getIdEvento());
         ContribuicaoServico contribuicaoServico = contribuicaoServicoService.salvarContribuicaoServico
                 (ContribuicaoServicoMapper.paraEntidade(contribuicaoServicoDTO), doador, eventoCampanha);
-        return ResponseEntity.status(201).body(ContribuicaoServicoMapper.paraDTO(contribuicaoServico));
+        return ResponseEntity.status(201).body(ContribuicaoServicoMapper.paraAssociacaoDTO(contribuicaoServico));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseContribuicaoServicoDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao) {
-        ResponseContribuicaoServicoDTO responseDTO = ContribuicaoServicoMapper.paraDTO(contribuicaoServicoService.atualizarStatusContribuicao(id, statusContribuicao));
+    public ResponseEntity<AssociationContribuicaoServicoDTO> atualizarStatusCampanha(@PathVariable UUID id, @RequestParam StatusContribuicao statusContribuicao) {
+        AssociationContribuicaoServicoDTO responseDTO = ContribuicaoServicoMapper.paraAssociacaoDTO(contribuicaoServicoService.atualizarStatusContribuicao(id, statusContribuicao));
         return ResponseEntity.ok(responseDTO);
     }
 

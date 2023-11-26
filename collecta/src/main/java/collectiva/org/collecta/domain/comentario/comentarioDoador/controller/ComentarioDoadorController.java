@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.comentario.comentarioDoador.controller;
 
 import collectiva.org.collecta.domain.comentario.comentarioDoador.ComentarioDoador;
+import collectiva.org.collecta.domain.comentario.comentarioDoador.dto.AssociationComentarioDoadorDTO;
 import collectiva.org.collecta.domain.comentario.comentarioDoador.dto.CreateComentarioDoadorDTO;
 import collectiva.org.collecta.domain.comentario.comentarioDoador.dto.ResponseComentarioDoadorDTO;
 import collectiva.org.collecta.domain.comentario.comentarioDoador.mapper.ComentarioDoadorMapper;
@@ -39,11 +40,11 @@ public class ComentarioDoadorController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseComentarioDoadorDTO> criarComentario(@RequestBody @Valid CreateComentarioDoadorDTO comentarioDoadorDTO) {
+    public ResponseEntity<AssociationComentarioDoadorDTO> criarComentario(@RequestBody @Valid CreateComentarioDoadorDTO comentarioDoadorDTO) {
         Doador doador = doadorService.buscarDoadorPorId(comentarioDoadorDTO.getIdDoador());
         Post post = postService.buscarPostPorId(comentarioDoadorDTO.getIdPost());
         ComentarioDoador comentarioDoador = comentarioService.salvarComentario(ComentarioDoadorMapper.paraEntidade(comentarioDoadorDTO), doador, post);
-        return ResponseEntity.status(201).body(ComentarioDoadorMapper.paraDTO(comentarioDoador));
+        return ResponseEntity.status(201).body(ComentarioDoadorMapper.paraAssociacaoDTO(comentarioDoador));
     }
 
 

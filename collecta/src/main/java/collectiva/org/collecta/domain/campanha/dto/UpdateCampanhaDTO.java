@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -35,5 +36,7 @@ public class UpdateCampanhaDTO {
     @NotNull(message = "O tipo da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
+
+
 
 }

@@ -16,13 +16,15 @@ public class ContribuicaoMonetariaMapper {
     private ContribuicaoMonetariaMapper() {
     }
 
-    public static ContribuicaoMonetaria paraEntidade(CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO){
+    public static ContribuicaoMonetaria paraEntidade(CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO, String idCodigoPix, String txid){
         return ContribuicaoMonetaria.builder()
                 .dataHora(LocalDateTime.now())
                 .valor(contribuicaoMonetariaDTO.getValor())
                 .parcelas(contribuicaoMonetariaDTO.getParcelas())
                 .formaPagamento(contribuicaoMonetariaDTO.getFormaPagamento())
                 .statusContribuicao(StatusContribuicao.PROCESSANDO)
+                .txid(txid)
+                .idCodigoPix(idCodigoPix)
                 .build();
     }
 
@@ -37,6 +39,8 @@ public class ContribuicaoMonetariaMapper {
                 .doador(DoadorMapper.paraAssociacaoDTO(contribuicaoMonetaria.getDoador()))
                 .financeiroCampanha(FinanceiroCampanhaMapper.paraAssociacaoDTO(contribuicaoMonetaria.getFinanceiroCampanha()))
                 .pagamento(Optional.ofNullable(contribuicaoMonetaria.getPagamento()).map(PagamentoMapper::paraAssociacaoDTO).orElse(null))
+                .idCodigoPix(contribuicaoMonetaria.getIdCodigoPix())
+                .txid(contribuicaoMonetaria.getTxid())
                 .build();
     }
 
@@ -48,6 +52,8 @@ public class ContribuicaoMonetariaMapper {
                 .parcelas(contribuicaoMonetaria.getParcelas())
                 .formaPagamento(contribuicaoMonetaria.getFormaPagamento())
                 .statusContribuicao(contribuicaoMonetaria.getStatusContribuicao())
+                .txid(contribuicaoMonetaria.getTxid())
+                .idCodigoPix(contribuicaoMonetaria.getIdCodigoPix())
                 .build();
     }
 }

@@ -18,6 +18,7 @@ public class ResponseDoadorDTO {
     private String telefone;
     private String nome;
     private String sobrenome;
+    private String cpf;
     private List<AssociationContribuicaoServicoDTO> servicosFeitos;
     private List<AssociationContribuicaoMonetariaDTO> doacoesMonetarias;
     private List<AssociationContribuicaoRecursoDTO> recursosDoados;

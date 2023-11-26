@@ -44,6 +44,8 @@ public class Campanha {
     private CategoriaCampanha categoriaCampanha;
 
     private int visualizacoes;
+    private String urlImagem;
+
 
     @ManyToOne
     private Organizacao organizacao;

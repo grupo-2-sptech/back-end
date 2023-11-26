@@ -1,6 +1,7 @@
 package collectiva.org.collecta.domain.comentario.comentarioOrganizacao.controller;
 
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.ComentarioOrganizacao;
+import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.AssociationComentarioOrganizacaoDTO;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.CreateComentarioOrganizacaoDTO;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.ResponseComentarioOrganizacaoDTO;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.mapper.ComentarioOrganizacaoMapper;
@@ -38,11 +39,11 @@ public class ComentarioOrganizacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
+    public ResponseEntity<AssociationComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
         Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(comentarioOrganizacaoDTO.getIdOrganizacao());
         Post post = postService.buscarPostPorId(comentarioOrganizacaoDTO.getIdPost());
         ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO), organizacao, post);
-        return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
+        return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraAssociacaoDTO(comentarioOrganizacao));
     }
 
     @DeleteMapping("/{id}")

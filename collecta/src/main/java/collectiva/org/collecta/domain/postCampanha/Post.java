@@ -23,6 +23,7 @@ public class Post {
 
     private String titulo;
     private String conteudo;
+    private String urlImagem;
     private LocalDateTime data;
 
     @OneToMany(mappedBy = "post")

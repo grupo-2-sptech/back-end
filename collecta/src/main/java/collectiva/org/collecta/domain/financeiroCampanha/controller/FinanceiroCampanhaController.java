@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
+import collectiva.org.collecta.domain.financeiroCampanha.dto.AssociationFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.CreateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.ResponseFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.UpdateFinanceiroCampanhaDTO;
@@ -37,16 +38,16 @@ public class FinanceiroCampanhaController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseFinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
+    public ResponseEntity<AssociationFinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
         Campanha campanha = campanhaService.buscarCampanhaPorId(financeiroCampanhaDTO.getIdCampanha());
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.salvarFinanceiroCampanha(FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO), campanha);
-        return ResponseEntity.status(201).body(FinanceiroCampanhaMapper.paraDTO(financeiroCampanha));
+        return ResponseEntity.status(201).body(FinanceiroCampanhaMapper.paraAssociacaoDTO(financeiroCampanha));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
+    public ResponseEntity<AssociationFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidadeUpdate(financeiroCampanhaDTO));
-        return ResponseEntity.ok(FinanceiroCampanhaMapper.paraDTO(financeiroCampanha));
+        return ResponseEntity.ok(FinanceiroCampanhaMapper.paraAssociacaoDTO(financeiroCampanha));
     }
 
     @DeleteMapping("/{id}")

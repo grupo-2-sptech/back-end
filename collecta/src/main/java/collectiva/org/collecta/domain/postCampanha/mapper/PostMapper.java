@@ -8,6 +8,8 @@ import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class PostMapper {
     private PostMapper() {
@@ -17,7 +19,9 @@ public class PostMapper {
         return Post.builder()
                 .titulo(postDTO.getTitulo())
                 .conteudo(postDTO.getConteudo())
+                .postLikes(new ArrayList<>())
                 .data(LocalDateTime.now())
+                .urlImagem(postDTO.getUrlImagem())
                 .build();
     }
 
@@ -37,6 +41,7 @@ public class PostMapper {
                 .data(post.getData())
                 .likes(post.getPostLikes().size())
                 .comentarios(post.getComentarios().stream().map(ComentarioMapper::paraAssociacaoDTO).toList())
+                .urlImagem(post.getUrlImagem())
                 .build();
     }
 
@@ -45,8 +50,9 @@ public class PostMapper {
                 .id(post.getId())
                 .titulo(post.getTitulo())
                 .conteudo(post.getConteudo())
-                .likes(post.getPostLikes().size())
+                .likes(Optional.ofNullable(post.getPostLikes().size()).orElse(0))
                 .data(post.getData())
+                .urlImagem(post.getUrlImagem())
                 .build();
     }
 }

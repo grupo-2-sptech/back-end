@@ -12,6 +12,9 @@ public class AssociationEventoCampanhaDTO {
     private UUID id;
     private String nome;
     private String descricao;
+    private Integer qtdVaga;
+    private String urlImagem;
+    private String local;
     private LocalDateTime dataHora;
 
 }
