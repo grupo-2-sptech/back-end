@@ -18,5 +18,7 @@ public class AssociationContribuicaoMonetariaDTO {
     private Integer parcelas;
     private FormaPagamento formaPagamento;
     private StatusContribuicao statusContribuicao;
+    private String txid;
+    private String idCodigoPix;
 
 }

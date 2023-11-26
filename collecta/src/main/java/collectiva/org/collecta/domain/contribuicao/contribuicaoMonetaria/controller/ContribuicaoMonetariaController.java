@@ -11,6 +11,7 @@ import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service
 import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
 import collectiva.org.collecta.enums.StatusContribuicao;
+import collectiva.org.collecta.integration.pix.cob.json.PixCreateImmediateCharge;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +43,17 @@ public class ContribuicaoMonetariaController {
     @PostMapping
     public ResponseEntity<AssociationContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
         Doador doador = doadorService.buscarDoadorPorId(contribuicaoMonetariaDTO.getIdDoador());
+        List<String> dadosPix = PixCreateImmediateCharge.CobrancaRapida(doador.getNome(), doador.getCpf(), contribuicaoMonetariaDTO.getValor().toString());
+        String idCodigoPix = dadosPix.get(0);
+        String txid = dadosPix.get(1);
+
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.buscarFinanceiroCampanhaPorId(contribuicaoMonetariaDTO.getIdFinanceiro());
         ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.salvarContribuicaoMonetaria
-                (ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO), doador, financeiroCampanha);
+                (ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO, idCodigoPix,txid), doador, financeiroCampanha);
+
+
+
+
         return ResponseEntity.status(201).body(ContribuicaoMonetariaMapper.paraAssociacaoDTO(contribuicaoMonetaria));
     }
 

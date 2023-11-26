@@ -21,6 +21,7 @@ public class CreatePagamentoDTO {
     @CPF(message = "CPF deve conter exatamente 11 dígitos numéricos")
     private String cpf;
 
+
     @NotBlank(message = "O número do cartão está vazio")
     @Pattern(regexp = "\\d{16}", message = "Número do cartão deve conter exatamente 16 dígitos numéricos")
     private String numeroCartao;

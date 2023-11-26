@@ -40,6 +40,7 @@ public class CampanhaMapper {
                 .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
                 .statusCampanha(StatusCampanha.ATIVA)
+
                 .build();
     }
 

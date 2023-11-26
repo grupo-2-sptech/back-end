@@ -22,6 +22,11 @@ public class ContribuicaoMonetaria extends Contribuicao {
     private BigDecimal valor;
     private Integer parcelas;
 
+    private String txid;
+
+    private String idCodigoPix;
+
+
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
@@ -35,7 +40,7 @@ public class ContribuicaoMonetaria extends Contribuicao {
     private Pagamento pagamento;
 
     @Builder
-    public ContribuicaoMonetaria(UUID id, LocalDateTime dataHora, StatusContribuicao statusContribuicao, BigDecimal valor, Integer parcelas, FormaPagamento formaPagamento, Doador doador, FinanceiroCampanha financeiroCampanha, Pagamento pagamento) {
+    public ContribuicaoMonetaria(UUID id, LocalDateTime dataHora, StatusContribuicao statusContribuicao, BigDecimal valor, Integer parcelas, FormaPagamento formaPagamento, Doador doador, FinanceiroCampanha financeiroCampanha, Pagamento pagamento, String txid, String idCodigoPix) {
         super(id, dataHora, statusContribuicao);
         this.valor = valor;
         this.parcelas = parcelas;
@@ -43,5 +48,7 @@ public class ContribuicaoMonetaria extends Contribuicao {
         this.doador = doador;
         this.financeiroCampanha = financeiroCampanha;
         this.pagamento = pagamento;
+        this.txid = txid;
+        this.idCodigoPix = idCodigoPix;
     }
 }
