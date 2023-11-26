@@ -19,6 +19,9 @@ public class CreatePostDTO {
     @Size(min = 3, message = "O conteúdo deve ter no mínimo 3 caracteres")
     private String conteudo;
 
+    @NotBlank(message = "A url da imagem está vazia")
+    private String urlImagem;
+
     @NotNull(message = "O id da campanha está vazio")
     private UUID idCampanha;
 }

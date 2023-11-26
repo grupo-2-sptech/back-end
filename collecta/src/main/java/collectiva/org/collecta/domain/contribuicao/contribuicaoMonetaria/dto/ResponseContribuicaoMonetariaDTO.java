@@ -5,6 +5,7 @@ import collectiva.org.collecta.domain.financeiroCampanha.dto.AssociationFinancei
 import collectiva.org.collecta.domain.pagamento.dto.AssociationPagamentoDTO;
 import collectiva.org.collecta.enums.FormaPagamento;
 import collectiva.org.collecta.enums.StatusContribuicao;
+import collectiva.org.collecta.integration.pix.location.json.PixGenerateQRCode;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,5 +25,21 @@ public class ResponseContribuicaoMonetariaDTO {
     private AssociationDoadorDTO doador;
     private AssociationFinanceiroCampanhaDTO financeiroCampanha;
     private AssociationPagamentoDTO pagamento;
+    private String txid;
+    private String idCodigoPix;
+
+
+    public String getCodigoPix(){
+        String codigoPix =  PixGenerateQRCode.GerarCodigoCopiaCola(idCodigoPix).toString();
+        return  codigoPix;
+    }
+    public String getQrCode(){
+        String codigoPix =  PixGenerateQRCode.GerarQrCode(idCodigoPix).toString();
+        return  codigoPix;
+    }
+    public String getLinkPagamento(){
+        String codigoPix =  PixGenerateQRCode.GerarLinkPagamento(idCodigoPix).toString();
+        return  codigoPix;
+    }
 
 }

@@ -49,6 +49,7 @@ public class DoadorMapper {
                 .telefone(doador.getTelefone())
                 .nome(doador.getNome())
                 .sobrenome(doador.getSobrenome())
+                .cpf(doador.getCpf())
                 .doacoesMonetarias(doador.getContribuicaoMonetarias().stream().map(ContribuicaoMonetariaMapper::paraAssociacaoDTO).toList())
                 .recursosDoados(doador.getContribuicaoRecursos().stream().map(ContribuicaoRecursoMapper::paraAssociacaoDTO).toList())
                 .servicosFeitos(doador.getContribuicaoServico().stream().map(ContribuicaoServicoMapper::paraAssociacaoDTO).toList())

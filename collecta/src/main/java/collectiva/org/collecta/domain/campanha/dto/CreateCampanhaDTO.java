@@ -38,4 +38,7 @@ public class CreateCampanhaDTO {
     @NotNull(message = "O id da organização está vazio")
     private UUID idOrganizacao;
 
+    @NotBlank(message = "a url da imagem está vazia")
+    private String urlImagem;
+
 }

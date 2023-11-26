@@ -1,9 +1,6 @@
 package collectiva.org.collecta.domain.eventoCampanha.dto;
 
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,6 +21,16 @@ public class CreateEventoCampanhaDTO {
     @NotNull(message = "A data e hora está vazia")
     @Future(message = "A data e hora deve estar no futuro")
     private LocalDateTime dataHora;
+
+    @NotNull(message = "A quantidade de vagas está vazia")
+    @Positive(message = "O numero de vagas deve ser positivo")
+    private Integer qtdVaga;
+
+    @NotNull(message = "A url da imagem está vazia")
+    private String urlImagem;
+
+    @NotNull(message = "O local está vazio")
+    private String local;
 
     @NotNull(message = "O id da campanha está vazio")
     private UUID idCampanha;

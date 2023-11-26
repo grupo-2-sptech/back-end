@@ -9,6 +9,7 @@ import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
+import collectiva.org.collecta.enums.CategoriaCampanha;
 import collectiva.org.collecta.enums.TipoCampanha;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,13 @@ public class CampanhaController {
     @GetMapping("/top3")
     public ResponseEntity<List<ResponseCampanhaDTO>> buscarTop3CampanhasPorTipo(@RequestParam TipoCampanha tipoCampanha) {
         List<ResponseCampanhaDTO> listaDTO = campanhaService.buscarTop3CampanhasPorTipo(tipoCampanha).stream().map
+                (CampanhaMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    }
+
+    @GetMapping("/genero/{categoriaCampanha}")
+    public ResponseEntity<List<ResponseCampanhaDTO>> buscarCampanhaPorGenero(@PathVariable CategoriaCampanha categoriaCampanha) {
+        List<ResponseCampanhaDTO> listaDTO = campanhaService.buscarCampanhasPorGenero(categoriaCampanha).stream().map
                 (CampanhaMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }

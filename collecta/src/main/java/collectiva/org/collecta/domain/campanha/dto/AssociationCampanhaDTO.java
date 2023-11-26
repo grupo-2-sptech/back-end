@@ -20,6 +20,7 @@ public class AssociationCampanhaDTO {
     private CategoriaCampanha categoriaCampanha;
     private StatusCampanha statusCampanha;
     private TipoCampanha tipoCampanha;
+    private String urlImagem;
     private int visulizacoes;
 
 }
