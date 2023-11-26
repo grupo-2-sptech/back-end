@@ -24,7 +24,7 @@ public class RelatorioService {
     }
 
     public Relatorio gerarRelatorioPorCampanha(UUID idCampanha, LocalDateTime inicio, LocalDateTime fim) {
-        return RelatorioMapper.paraEntidadeGenerator(relatorioRepository.gerarRelatorioPorCampanha(idCampanha, inicio, fim, StatusContribuicao.FINALIZADA));
+        return RelatorioMapper.paraGeradorEntidade(relatorioRepository.gerarRelatorioPorCampanha(idCampanha, inicio, fim, StatusContribuicao.FINALIZADA));
     }
 
     public List<Relatorio> buscarTodosRelatorios() {
