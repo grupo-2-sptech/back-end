@@ -11,7 +11,12 @@ import java.util.UUID;
 @Builder
 public class ResponseRelatorioDTO {
     private UUID id;
-    private LocalDateTime data;
+    private BigDecimal valorMeta;
     private BigDecimal valorArrecadado;
-    private int quantidadeFinanceirosCampanha;
+    private BigDecimal valorRestante;
+    private int visualizacoes;
+    private int contribuicoesMonetarias;
+    private int contribuicoesRecurso;
+    private int contribuicoesServicos;
+    private LocalDateTime data;
 }

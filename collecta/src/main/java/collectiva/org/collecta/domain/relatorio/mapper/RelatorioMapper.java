@@ -12,7 +12,12 @@ public class RelatorioMapper {
     public static Relatorio paraEntidade(CreateRelatorioDTO relatorioDTO){
         return Relatorio.builder()
                 .valorArrecadado(relatorioDTO.getValorArrecadado())
-                .quantidadeFinanceirosCampanha(relatorioDTO.getQuantidadeFinanceirosCampanha())
+                .valorMeta(relatorioDTO.getValorMeta())
+                .valorRestante(relatorioDTO.getValorRestante())
+                .visualizacoes(relatorioDTO.getVisualizacoes())
+                .contribuicoesServicos(relatorioDTO.getContribuicoesServicos())
+                .contribuicoesRecurso(relatorioDTO.getContribuicoesRecurso())
+                .contribuicoesMonetarias(relatorioDTO.getContribuicoesMonetarias())
                 .data(LocalDateTime.now())
                 .build();
     }
@@ -21,8 +26,13 @@ public class RelatorioMapper {
         return ResponseRelatorioDTO.builder()
                 .id(relatorio.getId())
                 .valorArrecadado(relatorio.getValorArrecadado())
-                .quantidadeFinanceirosCampanha(relatorio.getQuantidadeFinanceirosCampanha())
-                .data(relatorio.getData())
+                .valorMeta(relatorio.getValorMeta())
+                .valorRestante(relatorio.getValorRestante())
+                .visualizacoes(relatorio.getVisualizacoes())
+                .contribuicoesServicos(relatorio.getContribuicoesServicos())
+                .contribuicoesRecurso(relatorio.getContribuicoesRecurso())
+                .contribuicoesMonetarias(relatorio.getContribuicoesMonetarias())
+                .data(LocalDateTime.now())
                 .build();
     }
 }
