@@ -18,6 +18,9 @@ public class EventoCampanhaMapper {
                 .nome(eventoCampanhaDTO.getNome())
                 .descricao(eventoCampanhaDTO.getDescricao())
                 .dataHora(eventoCampanhaDTO.getDataHora())
+                .qtdVaga(eventoCampanhaDTO.getQtdVaga())
+                .urlImagem(eventoCampanhaDTO.getUrlImagem())
+                .local(eventoCampanhaDTO.getLocal())
                 .build();
     }
 
@@ -37,6 +40,9 @@ public class EventoCampanhaMapper {
                 .dataHora(eventoCampanha.getDataHora())
                 .campanha(CampanhaMapper.paraAssociacaoDTO(eventoCampanha.getCampanha()))
                 .enderecos(eventoCampanha.getEnderecos().stream().map(EnderecoMapper::paraAssociacaoDTO).toList())
+                .local(eventoCampanha.getLocal())
+                .qtdVaga(eventoCampanha.getQtdVaga())
+                .urlImagem(eventoCampanha.getUrlImagem())
                 .build();
     }
 
@@ -46,6 +52,9 @@ public class EventoCampanhaMapper {
                 .nome(eventoCampanha.getNome())
                 .descricao(eventoCampanha.getDescricao())
                 .dataHora(eventoCampanha.getDataHora())
+                .local(eventoCampanha.getLocal())
+                .urlImagem(eventoCampanha.getUrlImagem())
+                .qtdVaga(eventoCampanha.getQtdVaga())
                 .build();
     }
 

@@ -28,6 +28,7 @@ public class CampanhaMapper {
                 .categoriaCampanha(campanhaDTO.getCategoriaCampanha())
                 .tipoCampanha(campanhaDTO.getTipoCampanha())
                 .statusCampanha(StatusCampanha.ATIVA)
+                .urlImagem(campanhaDTO.getUrlImagem())
                 .build();
     }
 
@@ -61,6 +62,7 @@ public class CampanhaMapper {
                         .orElse(null))
                 .recursos(campanha.getRecursos().stream().map(RecursoMapper::paraAssociacaoDTO).toList())
                 .eventosCampanha(campanha.getEventoCampanhas().stream().map(EventoCampanhaMapper::paraAssociacaoDTO).toList())
+                .urlImagem(campanha.getUrlImagem())
                 .build();
     }
 
@@ -75,6 +77,7 @@ public class CampanhaMapper {
                 .statusCampanha(campanha.getStatusCampanha())
                 .tipoCampanha(campanha.getTipoCampanha())
                 .visulizacoes(campanha.getVisualizacoes())
+                .urlImagem(campanha.getUrlImagem())
                 .build();
     }
 

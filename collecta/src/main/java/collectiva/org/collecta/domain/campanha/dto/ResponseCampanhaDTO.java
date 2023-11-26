@@ -26,6 +26,7 @@ public class ResponseCampanhaDTO {
     private StatusCampanha statusCampanha;
     private TipoCampanha tipoCampanha;
     private int visulizacoes;
+    private String urlImagem;
 
     private AssociationOrganizacaoDTO organizacao;
     private AssociationFinanceiroCampanhaDTO financeiroCampanha;
