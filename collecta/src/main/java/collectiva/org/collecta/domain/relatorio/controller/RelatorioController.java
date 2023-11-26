@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.domain.relatorio.dto.CreateRelatorioDTO;
+import collectiva.org.collecta.domain.relatorio.dto.GeneratorRelatorioDTO;
 import collectiva.org.collecta.domain.relatorio.dto.ResponseRelatorioDTO;
 import collectiva.org.collecta.domain.relatorio.mapper.RelatorioMapper;
 import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +36,12 @@ public class RelatorioController {
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
+    @GetMapping("/gerar/{id}")
+    public ResponseEntity<GeneratorRelatorioDTO> gerarRelatorioPorCampanha(@PathVariable UUID id, @RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim) {
+        campanhaService.buscarCampanhaPorId(id);
+        return ResponseEntity.ok(RelatorioMapper.paraDTOGerador(relatorioService.gerarRelatorioPorCampanha(id, inicio, fim)));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseRelatorioDTO> buscarRelatorioPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(RelatorioMapper.paraDTO(relatorioService.buscarRelatorioPorId(id)));
@@ -46,17 +54,6 @@ public class RelatorioController {
         return ResponseEntity.status(201).body(RelatorioMapper.paraDTO(relatorio));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseRelatorioDTO> atualizarRelatorio(@PathVariable UUID id, @RequestBody @Valid CreateRelatorioDTO relatorioDTO) {
-        Relatorio relatorio = relatorioService.atualizarRelatorio(id, RelatorioMapper.paraEntidade(relatorioDTO));
-        return ResponseEntity.ok(RelatorioMapper.paraDTO(relatorio));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRelatorio(@PathVariable UUID id) {
-        relatorioService.deletarRelatorio(id);
-        return ResponseEntity.noContent().build();
-    }
 
     @GetMapping("/download-csv")
     public ResponseEntity<byte[]> downloadCsv() {

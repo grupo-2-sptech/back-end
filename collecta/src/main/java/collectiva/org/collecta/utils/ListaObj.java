@@ -145,7 +145,7 @@ public class ListaObj<T> {
 
                 ResponseRelatorioDTO relatorio = lista.getElemento(i);
                 saida.format("%s;%.2f;%d\n", relatorio.getData(), relatorio.getValorArrecadado(),
-                        relatorio.getQuantidadeFinanceirosCampanha());
+                        relatorio.getValorArrecadado());
             }
         } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");

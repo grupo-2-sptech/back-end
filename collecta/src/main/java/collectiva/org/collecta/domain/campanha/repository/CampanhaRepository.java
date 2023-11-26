@@ -12,3 +12,4 @@ import java.util.UUID;
 public interface CampanhaRepository extends JpaRepository<Campanha, UUID> {
     List<Campanha> findTop3ByTipoCampanhaOrderByVisualizacoesDesc(TipoCampanha tipoCampanha);
 }
+
