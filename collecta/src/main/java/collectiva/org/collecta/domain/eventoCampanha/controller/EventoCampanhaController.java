@@ -9,6 +9,7 @@ import collectiva.org.collecta.domain.eventoCampanha.dto.ResponseEventoCampanhaD
 import collectiva.org.collecta.domain.eventoCampanha.dto.UpdateEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
+import collectiva.org.collecta.utils.PilhaObj;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class EventoCampanhaController {
         List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarEventoCampanhaPorIdCampanha(id).stream()
                 .map(EventoCampanhaMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    }
+
+    @GetMapping("/pilha")
+    public ResponseEntity<PilhaObj> buscarEmPilha(){
+        PilhaObj pilhaObj = eventoCampanhaService.trazEmPilha();
+        return ResponseEntity.status(pilhaObj.isEmpty() ? 204 : 200).body(pilhaObj);
     }
 
     @PostMapping
