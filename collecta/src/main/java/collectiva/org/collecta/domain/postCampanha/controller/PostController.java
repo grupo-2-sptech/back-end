@@ -1,6 +1,8 @@
 package collectiva.org.collecta.domain.postCampanha.controller;
 
 import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
+import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
 import collectiva.org.collecta.domain.campanha.service.CampanhaService;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.AssociationPostDTO;
@@ -35,6 +37,13 @@ public class PostController {
     public ResponseEntity<ResponsePostDTO> buscarPostPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(PostMapper.paraDTO(postService.buscarPostPorId(id)));
     }
+
+    @GetMapping("/campanha/{id}")
+    public ResponseEntity<List<ResponsePostDTO>> buscarPostPorCampanhaId(@PathVariable UUID id) {
+        List<ResponsePostDTO> listaDTO = postService.buscarPostsPorCampanha(id).stream().map(PostMapper::paraDTO).toList();
+        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    }
+
 
     @PostMapping
     public ResponseEntity<AssociationPostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {

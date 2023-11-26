@@ -24,6 +24,10 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Post> buscarPostsPorCampanha(UUID id) {
+        return postRepository.findByCampanhaId(id);
+    }
+
     public Post buscarPostPorId(UUID id) {
         return postRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Post"));
