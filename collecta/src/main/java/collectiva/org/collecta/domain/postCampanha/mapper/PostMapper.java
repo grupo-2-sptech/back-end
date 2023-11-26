@@ -18,6 +18,7 @@ public class PostMapper {
                 .titulo(postDTO.getTitulo())
                 .conteudo(postDTO.getConteudo())
                 .data(LocalDateTime.now())
+                .urlImagem(postDTO.getUrlImagem())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class PostMapper {
                 .data(post.getData())
                 .likes(post.getPostLikes().size())
                 .comentarios(post.getComentarios().stream().map(ComentarioMapper::paraAssociacaoDTO).toList())
+                .urlImagem(post.getUrlImagem())
                 .build();
     }
 
@@ -47,6 +49,7 @@ public class PostMapper {
                 .conteudo(post.getConteudo())
                 .likes(post.getPostLikes().size())
                 .data(post.getData())
+                .urlImagem(post.getUrlImagem())
                 .build();
     }
 }
