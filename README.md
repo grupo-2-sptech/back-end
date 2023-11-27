@@ -59,3 +59,5 @@ Exemplo: `style/ajustar-indentacao`
 
 Exemplo: `test/adicionar-testes-autenticacao`
 
+## DER
+![collecta](https://github.com/grupo-2-sptech/back-end/assets/110926828/cdc07b76-24e8-4f22-955b-8fad69fc9a83)
