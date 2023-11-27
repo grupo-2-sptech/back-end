@@ -9,6 +9,7 @@ import collectiva.org.collecta.domain.acaoCampanha.mapper.AcaoCampanhaMapper;
 import collectiva.org.collecta.domain.acaoCampanha.service.AcaoCampanhaService;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
 import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
+import collectiva.org.collecta.utils.GravaTxt;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,22 @@ public class AcaoCampanhaController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseAcaoCampanhaDTO> buscarAcaoCampanhaPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(AcaoCampanhaMapper.paraDTO(acoesService.buscarAcaoCampanhaPorId(id)));
+    }
+
+    @GetMapping("/txt/download")
+    public ResponseEntity<AcaoCampanha> txtExport(){
+        List<AcaoCampanha> list = acoesService.buscarTodosAcoes();
+        if (list.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        GravaTxt.gravaArquivoTxt(list,"teste.txt");
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/txt/import")
+    public ResponseEntity<AcaoCampanha> txtImport(){
+        GravaTxt.leArquivoTxt("teste.txt");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping

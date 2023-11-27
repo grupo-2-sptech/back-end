@@ -4,11 +4,13 @@ import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.eventoCampanha.repository.EventoCampanhaRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
+import collectiva.org.collecta.utils.PilhaObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,18 @@ public class EventoCampanhaService {
             throw new EntidadeNaoEncontradaException("Evento");
         }
         eventoCampanhaRepository.deleteById(id);
+    }
+
+    public PilhaObj trazEmPilha() {
+        List<EventoCampanha> list = eventoCampanhaRepository.findAll();
+        PilhaObj pilhaObj = new PilhaObj<>(list.size());
+
+        System.out.println("Tamanho da lista: " + list.size());
+
+        for (EventoCampanha eventoDaVez : list){
+            pilhaObj.push(eventoDaVez);
+        }
+        return pilhaObj;
     }
 }
 

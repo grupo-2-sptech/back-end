@@ -9,11 +9,14 @@ import collectiva.org.collecta.domain.eventoCampanha.dto.ResponseEventoCampanhaD
 import collectiva.org.collecta.domain.eventoCampanha.dto.UpdateEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
 import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
+import collectiva.org.collecta.utils.PilhaObj;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +44,22 @@ public class EventoCampanhaController {
         List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarEventoCampanhaPorIdCampanha(id).stream()
                 .map(EventoCampanhaMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    }
+
+    @GetMapping("/pilha")
+    public ResponseEntity<List<EventoCampanha>> buscarEmPilha() {
+        PilhaObj pilhaObj = eventoCampanhaService.trazEmPilha();
+
+        if (pilhaObj.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<EventoCampanha> listaDeEventos = new ArrayList<>();
+
+        while (!pilhaObj.isEmpty()) {
+            EventoCampanha eventoCampanha = (EventoCampanha) pilhaObj.pop();
+            listaDeEventos.add(eventoCampanha);
+        }
+        return ResponseEntity.ok(listaDeEventos);
     }
 
     @PostMapping
