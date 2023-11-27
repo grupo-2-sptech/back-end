@@ -39,7 +39,7 @@ public class PostMapper {
                 .titulo(post.getTitulo())
                 .conteudo(post.getConteudo())
                 .data(post.getData())
-                .likes(post.getPostLikes().size())
+                .likes(Optional.ofNullable(post.getPostLikes().size()).orElse(0))
                 .comentarios(post.getComentarios().stream().map(ComentarioMapper::paraAssociacaoDTO).toList())
                 .urlImagem(post.getUrlImagem())
                 .build();
