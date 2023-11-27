@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,12 +47,19 @@ public class EventoCampanhaController {
     }
 
     @GetMapping("/pilha")
-    public ResponseEntity<PilhaObj> buscarEmPilha(){
+    public ResponseEntity<List<EventoCampanha>> buscarEmPilha() {
         PilhaObj pilhaObj = eventoCampanhaService.trazEmPilha();
-        if (pilhaObj.isEmpty()){
+
+        if (pilhaObj.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(pilhaObj);
+        List<EventoCampanha> listaDeEventos = new ArrayList<>();
+
+        while (!pilhaObj.isEmpty()) {
+            EventoCampanha eventoCampanha = (EventoCampanha) pilhaObj.pop();
+            listaDeEventos.add(eventoCampanha);
+        }
+        return ResponseEntity.ok(listaDeEventos);
     }
 
     @PostMapping
