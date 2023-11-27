@@ -56,8 +56,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/campanhas"),
             new AntPathRequestMatcher("/financeiros"),
             new AntPathRequestMatcher("/h2-console/**"),
-            new AntPathRequestMatcher("/error/**"),
-            new AntPathRequestMatcher("/eventos/**")
+            new AntPathRequestMatcher("/error/**")
 
     };
 
