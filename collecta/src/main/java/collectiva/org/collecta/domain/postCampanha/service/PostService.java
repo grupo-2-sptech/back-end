@@ -1,5 +1,6 @@
 package collectiva.org.collecta.domain.postCampanha.service;
 
+import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.repository.PostRepository;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
@@ -14,12 +15,17 @@ import java.util.UUID;
 public class PostService {
     private final PostRepository postRepository;
 
-    public Post salvarPost(Post post) {
+    public Post salvarPost(Post post, Campanha campanha) {
+        post.setCampanha(campanha);
         return postRepository.save(post);
     }
 
     public List<Post> buscarTodosPosts() {
         return postRepository.findAll();
+    }
+
+    public List<Post> buscarPostsPorCampanha(UUID id) {
+        return postRepository.findByCampanhaId(id);
     }
 
     public Post buscarPostPorId(UUID id) {

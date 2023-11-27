@@ -1,13 +1,16 @@
 package collectiva.org.collecta.domain.pagamento.mapper;
 
+import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.mapper.ContribuicaoMonetariaMapper;
 import collectiva.org.collecta.domain.pagamento.Pagamento;
-import collectiva.org.collecta.domain.pagamento.dto.PagamentoDTO;
+import collectiva.org.collecta.domain.pagamento.dto.AssociationPagamentoDTO;
+import collectiva.org.collecta.domain.pagamento.dto.CreatePagamentoDTO;
+import collectiva.org.collecta.domain.pagamento.dto.ResponsePagamentoDTO;
 
 public class PagamentoMapper {
     private PagamentoMapper() {
     }
 
-    public static Pagamento paraEntidade(PagamentoDTO pagamentoDTO){
+    public static Pagamento paraEntidade(CreatePagamentoDTO pagamentoDTO){
         return Pagamento.builder()
                 .nomeTitular(pagamentoDTO.getNomeTitular())
                 .cpf(pagamentoDTO.getCpf())
@@ -18,8 +21,21 @@ public class PagamentoMapper {
                 .build();
     }
 
-    public static PagamentoDTO paraDTO(Pagamento pagamento){
-        return PagamentoDTO.builder()
+    public static ResponsePagamentoDTO paraDTO(Pagamento pagamento){
+        return ResponsePagamentoDTO.builder()
+                .id(pagamento.getId())
+                .nomeTitular(pagamento.getNomeTitular())
+                .cpf(pagamento.getCpf())
+                .numeroCartao(pagamento.getNumeroCartao())
+                .dataValidade(pagamento.getDataValidade())
+                .codigoSeguranca(pagamento.getCodigoSeguranca())
+                .bandeiraCartao(pagamento.getBandeiraCartao())
+                .contribuicaoMonetaria(ContribuicaoMonetariaMapper.paraAssociacaoDTO(pagamento.getContribuicaoMonetaria()))
+                .build();
+    }
+
+    public static AssociationPagamentoDTO paraAssociacaoDTO(Pagamento pagamento){
+        return AssociationPagamentoDTO.builder()
                 .id(pagamento.getId())
                 .nomeTitular(pagamento.getNomeTitular())
                 .cpf(pagamento.getCpf())

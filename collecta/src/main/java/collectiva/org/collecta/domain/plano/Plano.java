@@ -1,6 +1,6 @@
 package collectiva.org.collecta.domain.plano;
 
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.enums.StatusPlano;
 import collectiva.org.collecta.enums.TipoPlano;
 import jakarta.persistence.*;

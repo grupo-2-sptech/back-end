@@ -20,8 +20,6 @@ public abstract class Contribuicao {
     @Id
     @GeneratedValue(generator = "uuid1")
     private UUID id;
-    private String nome;
-    private String descricao;
     private LocalDateTime dataHora;
 
     @Enumerated(EnumType.STRING)

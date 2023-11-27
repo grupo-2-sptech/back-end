@@ -1,11 +1,10 @@
 package collectiva.org.collecta.domain.contribuicao.contribuicaoServico;
 
 import collectiva.org.collecta.domain.contribuicao.Contribuicao;
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.enums.StatusContribuicao;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -30,8 +29,9 @@ public class ContribuicaoServico extends Contribuicao {
     private EventoCampanha eventoCampanha;
 
     @Builder
-    public ContribuicaoServico(UUID id, String nome, String descricao, LocalDateTime dataHora, StatusContribuicao statusContribuicao, LocalDateTime horaInicio, LocalDateTime horaFim, Integer avaliacao, Doador doador, EventoCampanha eventoCampanha) {
-        super(id, nome, descricao, dataHora, statusContribuicao);
+
+    public ContribuicaoServico(UUID id, LocalDateTime dataHora, StatusContribuicao statusContribuicao, LocalDateTime horaInicio, LocalDateTime horaFim, Integer avaliacao, Doador doador, EventoCampanha eventoCampanha) {
+        super(id, dataHora, statusContribuicao);
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.avaliacao = avaliacao;

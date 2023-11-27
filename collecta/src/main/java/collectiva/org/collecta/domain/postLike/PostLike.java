@@ -1,6 +1,6 @@
 package collectiva.org.collecta.domain.postLike;
 
-import collectiva.org.collecta.domain.conta.Doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.postCampanha.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

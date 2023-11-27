@@ -2,6 +2,8 @@ package collectiva.org.collecta.domain.comentario.comentarioDoador.service;
 
 import collectiva.org.collecta.domain.comentario.comentarioDoador.ComentarioDoador;
 import collectiva.org.collecta.domain.comentario.comentarioDoador.repository.ComentarioDoadorRepository;
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,9 @@ import java.util.UUID;
 public class ComentarioDoadorService {
     private final ComentarioDoadorRepository comentarioDoadorRepository;
 
-    public ComentarioDoador salvarComentario(ComentarioDoador comentarioDoador) {
+    public ComentarioDoador salvarComentario(ComentarioDoador comentarioDoador, Doador doador, Post post) {
+        comentarioDoador.setDoador(doador);
+        comentarioDoador.setPost(post);
         return comentarioDoadorRepository.save(comentarioDoador);
     }
 
@@ -27,11 +31,6 @@ public class ComentarioDoadorService {
                 () -> new EntidadeNaoEncontradaException("ComentarioDoador"));
     }
 
-    public ComentarioDoador atualizarComentario(UUID id, ComentarioDoador comentarioDoador) {
-        buscarComentarioPorId(id);
-        comentarioDoador.setId(id);
-        return comentarioDoadorRepository.save(comentarioDoador);
-    }
 
     public void deletarComentario(UUID id) {
         if (!comentarioDoadorRepository.existsById(id)) {

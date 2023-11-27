@@ -1,9 +1,15 @@
 package collectiva.org.collecta.domain.comentario.comentarioOrganizacao.controller;
 
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.ComentarioOrganizacao;
-import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.ComentarioOrganizacaoDTO;
+import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.AssociationComentarioOrganizacaoDTO;
+import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.CreateComentarioOrganizacaoDTO;
+import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.dto.ResponseComentarioOrganizacaoDTO;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.mapper.ComentarioOrganizacaoMapper;
 import collectiva.org.collecta.domain.comentario.comentarioOrganizacao.service.ComentarioOrganizacaoService;
+import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
+import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
+import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,36 +17,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comentarios/organizacoes")
 @RequiredArgsConstructor
 public class ComentarioOrganizacaoController {
     private final ComentarioOrganizacaoService comentarioService;
+    private final OrganizacaoService organizacaoService;
+    private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<ComentarioOrganizacaoDTO>> buscarComentarios() {
-        List<ComentarioOrganizacaoDTO> listaDTO = comentarioService.buscarTodosComentarios().stream()
+    public ResponseEntity<List<ResponseComentarioOrganizacaoDTO>> buscarComentarios() {
+        List<ResponseComentarioOrganizacaoDTO> listaDTO = comentarioService.buscarTodosComentarios().stream()
                 .map(ComentarioOrganizacaoMapper::paraDTO).toList();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ComentarioOrganizacaoDTO> buscarComentarioPorId(@PathVariable UUID id) {
+    public ResponseEntity<ResponseComentarioOrganizacaoDTO> buscarComentarioPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(ComentarioOrganizacaoMapper.paraDTO(comentarioService.buscarComentarioPorId(id)));
     }
 
     @PostMapping
-    public ResponseEntity<ComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid ComentarioOrganizacaoDTO ComentarioOrganizacaoDTO) {
-        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(ComentarioOrganizacaoDTO));
-        return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ComentarioOrganizacaoDTO> atualizarComentario(@PathVariable UUID id, @RequestBody @Valid ComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
-        ComentarioOrganizacao comentarioOrganizacao = comentarioService.atualizarComentario(id, ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO));
-        return ResponseEntity.ok(ComentarioOrganizacaoMapper.paraDTO(comentarioOrganizacao));
+    public ResponseEntity<AssociationComentarioOrganizacaoDTO> criarComentario(@RequestBody @Valid CreateComentarioOrganizacaoDTO comentarioOrganizacaoDTO) {
+        Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(comentarioOrganizacaoDTO.getIdOrganizacao());
+        Post post = postService.buscarPostPorId(comentarioOrganizacaoDTO.getIdPost());
+        ComentarioOrganizacao comentarioOrganizacao = comentarioService.salvarComentario(ComentarioOrganizacaoMapper.paraEntidade(comentarioOrganizacaoDTO), organizacao, post);
+        return ResponseEntity.status(201).body(ComentarioOrganizacaoMapper.paraAssociacaoDTO(comentarioOrganizacao));
     }
 
     @DeleteMapping("/{id}")

@@ -22,6 +22,9 @@ public class EventoCampanha {
     @GeneratedValue(generator = "uuid")
     private UUID id;
     private String nome;
+    private Integer qtdVaga;
+    private String urlImagem;
+    private String local;
     private String descricao;
     private LocalDateTime dataHora;
 
