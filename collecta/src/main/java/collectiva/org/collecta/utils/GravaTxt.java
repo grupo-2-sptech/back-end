@@ -1,14 +1,29 @@
 package collectiva.org.collecta.utils;
 
+import collectiva.org.collecta.domain.acaoCampanha.AcaoCampanha;
+import collectiva.org.collecta.domain.acaoCampanha.dto.CreateAcaoCampanhaDTO;
+import collectiva.org.collecta.domain.acaoCampanha.service.AcaoCampanhaService;
 import collectiva.org.collecta.domain.relatorio.Relatorio;
+import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
+import lombok.RequiredArgsConstructor;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 public class GravaTxt {
+
+  static AcaoCampanhaService acaoCampanhaService;
+  static RelatorioService relatorioService;
+
+  private static final String HEADER_RECORD_TYPE = "00";
+  private static final String BODY_RECORD_TYPE = "02";
+  private static final String TRAILER_RECORD_TYPE = "01";
 
   public static void gravaRegistro(String registro, String nomeArq) {
     try (BufferedWriter saida = new BufferedWriter(new FileWriter(nomeArq, true))) {
@@ -19,29 +34,15 @@ public class GravaTxt {
     }
   }
 
-  public static void gravaArquivoTxt(List<Relatorio> lista, String nomeArq) {
-    int contaRegDados = 0;
+  public static void gravaArquivoTxt(List<CreateAcaoCampanhaDTO> lista, String nomeArq) {
+    gravaRegistro(montaRegistroHeader(), nomeArq);
 
-    // Monta o registro de header
-    String header = "RELATORIO";
-    header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-    header += "01";
-
-    // Grava o registro de header
-    gravaRegistro(header, nomeArq);
-
-    // Grava os registros de dados (ou registros de corpo)
-    for (Relatorio relatorio : lista) {
-      String corpo = montaRegistroCorpo(relatorio);
+    for (CreateAcaoCampanhaDTO acaoCampanhaDTO : lista) {
+      String corpo = montaRegistroCorpo(acaoCampanhaDTO);
       gravaRegistro(corpo, nomeArq);
-      contaRegDados++;
     }
 
-    // Monta e grava o registro de trailer
-    String trailer = "01";
-    trailer += String.format("%010d", contaRegDados);
-
-    gravaRegistro(trailer, nomeArq);
+    gravaRegistro(montaRegistroTrailer(lista.size()), nomeArq);
   }
 
   public static void leArquivoTxt(String nomeArq) {
@@ -62,13 +63,13 @@ public class GravaTxt {
     String tipoRegistro = registro.substring(0, 2);
 
     switch (tipoRegistro) {
-      case "00":
+      case HEADER_RECORD_TYPE:
         processaRegistroHeader(registro);
         break;
-      case "01":
+      case TRAILER_RECORD_TYPE:
         processaRegistroTrailer(registro);
         break;
-      case "02":
+      case BODY_RECORD_TYPE:
         processaRegistroCorpo(registro);
         break;
       default:
@@ -78,12 +79,17 @@ public class GravaTxt {
 
   private static void processaRegistroHeader(String registro) {
     System.out.println("É um registro de header");
+
     // Lógica para processar o registro de header
-    String tipoArquivo = registro.substring(2, 6);
-    String anoSemestre = registro.substring(6, 11);
-    String dataHoraGeracao = registro.substring(11, 30);
-    String versaoLayout = registro.substring(30, 32);
-    // Faça o que for necessário com esses dados
+    String nome = registro.substring(2,38);
+    String desc = registro.substring(39,48);
+    LocalDate data = LocalDate.parse(registro.substring(49,60));
+    BigDecimal valor = BigDecimal.valueOf(Long.valueOf(registro.substring(61,69)));
+    UUID idRelatorio = UUID.fromString(registro.substring(70,105));
+
+    Relatorio relatorio = relatorioService.buscarRelatorioPorId(idRelatorio);
+    AcaoCampanha acaoCampanha = new AcaoCampanha(UUID.randomUUID(),nome,desc,data,valor, relatorio);
+    acaoCampanhaService.salvarAcaoCampanha(acaoCampanha, relatorio);
   }
 
   private static void processaRegistroTrailer(String registro) {
@@ -96,43 +102,25 @@ public class GravaTxt {
   private static void processaRegistroCorpo(String registro) {
     System.out.println("É um registro de corpo");
     // Lógica para processar o registro de corpo
-    String idRelatorio = registro.substring(2, 38);
-    String data = registro.substring(38, 48);
-    // Continue para os outros campos...
-    // Crie uma instância de Relatorio com base nos dados lidos
-   // Relatorio relatorio = criarRelatorio(idRelatorio, data, /* outros campos */);
-    // Faça o que for necessário com a instância de Relatorio
   }
 
-  private static Relatorio criarRelatorio(String idRelatorio, String data /* outros campos */) {
-    // Implemente a lógica para criar uma instância de Relatorio
-    // com base nos dados do
-    // ...
-
-    return new Relatorio(/* dados do relatório */);
+  private static String montaRegistroHeader() {
+    return HEADER_RECORD_TYPE +
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) +
+        "01";
   }
 
-  private static String montaRegistroCorpo(Relatorio relatorio) {
-    StringBuilder corpo = new StringBuilder("02");
-    corpo.append(relatorio.getId().toString());
-    corpo.append(relatorio.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-    corpo.append(String.format("%012.2f", relatorio.getValorArrecadado()));
-    //corpo.append(String.format("%03d", relatorio.get));
-    // Continue para os outros campos...
-    return corpo.toString();
+  private static String montaRegistroTrailer(int quantidadeRegistros) {
+    return TRAILER_RECORD_TYPE +
+        String.format("%010d", quantidadeRegistros);
   }
 
-  public static void main(String[] args) {
-    // Exemplo de importação
-    String caminhoDoArquivoImportacao = "caminho/do/seu/arquivo.txt";
-    leArquivoTxt(caminhoDoArquivoImportacao);
-
-    // Exemplo de exportação
-    String caminhoDoArquivoExportacao = "caminho/do/seu/novo/arquivo.txt";
-    List<Relatorio> relatoriosParaExportar = new ArrayList<>();
-    // Preencha a lista com instâncias de Relatorio
-    // ...
-    gravaArquivoTxt(relatoriosParaExportar, caminhoDoArquivoExportacao);
+  private static String montaRegistroCorpo(CreateAcaoCampanhaDTO acaoCampanhaDTO) {
+    return BODY_RECORD_TYPE +
+        acaoCampanhaDTO.getIdRelatorio().toString() +
+        acaoCampanhaDTO.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) +
+        String.format("%012.2f", acaoCampanhaDTO.getValor())+
+        acaoCampanhaDTO.getValor()+
+        acaoCampanhaDTO.getIdRelatorio();
   }
 }
-

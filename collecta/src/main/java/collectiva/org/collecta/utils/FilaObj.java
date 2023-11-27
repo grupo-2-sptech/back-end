@@ -71,9 +71,4 @@ public class FilaObj<T> {
       System.out.println(this.fila[i]);
     }
   }
-
-  /* Usado nos testes  - complete para que fique certo */
-  public int getTamanho(){
-    return this.tamanho;
-  }
 }
