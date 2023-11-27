@@ -34,22 +34,14 @@ public class DoadorService {
                 () -> new EntidadeNaoEncontradaException("Doador"));
     }
 
-    public Doador atualizarDoador(UUID id, Doador atualizacaoDoador) {
-        Doador doadorAntigo = buscarDoadorPorId(id);
-
-        Doador doadorAtualizado = Doador.builder()
-                .id(id)
-                .telefone(atualizacaoDoador.getTelefone())
-                .nome(atualizacaoDoador.getNome())
-                .sobrenome(atualizacaoDoador.getSobrenome())
-                .dataNascimento(atualizacaoDoador.getDataNascimento())
-                .cpf(atualizacaoDoador.getCpf())
-                .email(doadorAntigo.getEmail())
-                .senha(doadorAntigo.getSenha())
-                .tipoConta(doadorAntigo.getTipoConta())
-                .build();
-
-        return doadorRepository.save(doadorAtualizado);
+    public Doador atualizarDoador(UUID id, Doador doador) {
+        Doador doadorNovo = buscarDoadorPorId(id);
+        doadorNovo.setTelefone(doador.getTelefone());
+        doadorNovo.setNome(doador.getNome());
+        doadorNovo.setSobrenome(doador.getSobrenome());
+        doadorNovo.setDataNascimento(doador.getDataNascimento());
+        doadorNovo.setCpf(doador.getCpf());
+        return doadorRepository.save(doadorNovo);
     }
 
 

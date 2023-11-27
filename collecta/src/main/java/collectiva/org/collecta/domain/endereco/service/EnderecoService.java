@@ -30,8 +30,9 @@ public class EnderecoService {
     }
 
     public Endereco atualizarEndereco(UUID id, Endereco endereco) {
-        buscarEnderecoPorId(id);
+        Endereco enderecoAntigo = buscarEnderecoPorId(id);
         endereco.setId(id);
+        endereco.setEventoCampanha(enderecoAntigo.getEventoCampanha());
         return enderecoRepository.save(endereco);
     }
 

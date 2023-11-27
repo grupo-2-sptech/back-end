@@ -31,9 +31,10 @@ public class PlanoService {
     }
 
     public Plano atualizarPlano(UUID id, Plano plano) {
-        buscarPlanoPorId(id);
-        plano.setId(id);
-        return planoRepository.save(plano);
+        Plano planoNovo = buscarPlanoPorId(id);
+        planoNovo.setTipoPlano(plano.getTipoPlano());
+        planoNovo.setDataFim(plano.getDataFim());
+        return planoRepository.save(planoNovo);
     }
 
     public Plano atualizarStatusPlano(UUID id, StatusPlano statusPlano) {

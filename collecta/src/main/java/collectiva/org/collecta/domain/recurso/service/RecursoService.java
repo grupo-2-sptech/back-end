@@ -29,8 +29,9 @@ public class RecursoService {
     }
 
     public Recurso atualizarRecurso(UUID id, Recurso recurso) {
-        buscarRecursoPorId(id);
-        recurso.setId(id);
+        Recurso recursoNovo = buscarRecursoPorId(id);
+        recursoNovo.setCampanha(recurso.getCampanha());
+        recursoNovo.setContribuicaoRecursos(recurso.getContribuicaoRecursos());
         return recursoRepository.save(recurso);
     }
 
