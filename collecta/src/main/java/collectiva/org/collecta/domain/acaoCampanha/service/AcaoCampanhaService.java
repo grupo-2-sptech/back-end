@@ -29,8 +29,9 @@ public class AcaoCampanhaService {
     }
 
     public AcaoCampanha atualizarAcaoCampanha(UUID id, AcaoCampanha acoes) {
-        buscarAcaoCampanhaPorId(id);
+        AcaoCampanha buscaAcaoCampanha = buscarAcaoCampanhaPorId(id);
         acoes.setId(id);
+        buscaAcaoCampanha.setRelatorio(buscaAcaoCampanha.getRelatorio());
         return acoesRepository.save(acoes);
     }
 

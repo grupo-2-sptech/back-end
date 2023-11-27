@@ -34,8 +34,11 @@ public class EventoCampanhaService {
     }
 
     public EventoCampanha atualizarEventoCampanha(UUID id, EventoCampanha eventoCampanha) {
-        buscarEventoCampanhaPorId(id);
+        EventoCampanha eventoCampanhaAntigo = buscarEventoCampanhaPorId(id);
         eventoCampanha.setId(id);
+        eventoCampanha.setCampanha(eventoCampanhaAntigo.getCampanha());
+        eventoCampanha.setEnderecos(eventoCampanhaAntigo.getEnderecos());
+        eventoCampanha.setContribuicaoServicos(eventoCampanhaAntigo.getContribuicaoServicos());
         return eventoCampanhaRepository.save(eventoCampanha);
     }
 

@@ -32,9 +32,15 @@ public class CampanhaService {
     }
 
     public Campanha atualizarCampanha(UUID id, Campanha campanha) {
-        buscarCampanhaPorId(id);
-        campanha.setId(id);
-        return campanhaRepository.save(campanha);
+        Campanha novaCampanha = buscarCampanhaPorId(id);
+        novaCampanha.setNome(campanha.getNome());
+        novaCampanha.setDescricao(campanha.getDescricao());
+        novaCampanha.setDataInicio(campanha.getDataInicio());
+        novaCampanha.setDataFim(campanha.getDataFim());
+        novaCampanha.setCategoriaCampanha(campanha.getCategoriaCampanha());
+        novaCampanha.setTipoCampanha(campanha.getTipoCampanha());
+        novaCampanha.setStatusCampanha(campanha.getStatusCampanha());
+        return campanhaRepository.save(novaCampanha);
     }
 
     public void deletarCampanha(UUID id) {

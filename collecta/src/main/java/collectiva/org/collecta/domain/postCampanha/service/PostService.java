@@ -30,9 +30,10 @@ public class PostService {
     }
 
     public Post atualizarPost(UUID id, Post post) {
-        buscarPostPorId(id);
-        post.setId(id);
-        return postRepository.save(post);
+        Post postNovo = buscarPostPorId(id);
+        postNovo.setTitulo(post.getTitulo());
+        postNovo.setComentarios(post.getComentarios());
+        return postRepository.save(postNovo);
     }
 
     public void deletarPost(UUID id) {

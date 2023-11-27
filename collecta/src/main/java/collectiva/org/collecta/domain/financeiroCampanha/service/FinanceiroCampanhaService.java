@@ -32,9 +32,9 @@ public class FinanceiroCampanhaService {
     }
 
     public FinanceiroCampanha atualizarFinanceiroCampanha(UUID id, FinanceiroCampanha financeiroCampanha) {
-        FinanceiroCampanha financeiroCampanhaAntiga = buscarFinanceiroCampanhaPorId(id);
-        financeiroCampanha.setId(id);
-        financeiroCampanha.setMetaStatus(financeiroCampanhaAntiga.getMetaStatus());
+        FinanceiroCampanha financeiroNovo = buscarFinanceiroCampanhaPorId(id);
+        financeiroNovo.setValorMeta(financeiroCampanha.getValorMeta());
+        financeiroNovo.setMetaStatus(financeiroCampanha.getMetaStatus());
         return finaceiroCampanhaRepository.save(financeiroCampanha);
     }
 
