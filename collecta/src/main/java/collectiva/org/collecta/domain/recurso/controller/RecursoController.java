@@ -38,7 +38,7 @@ public class RecursoController {
 
     @PostMapping
     public ResponseEntity<AssociationRecursoDTO> criarRecurso(@RequestBody @Valid CreateRecursoDTO recursoDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(recursoDTO.getIdCampanha());
+        Campanha campanha = campanhaService.buscarExisteCampanha(recursoDTO.getIdCampanha());
         Recurso recurso = recursoService.salvarRecurso(RecursoMapper.paraEntidade(recursoDTO), campanha);
         return ResponseEntity.status(201).body(RecursoMapper.paraAssociacaoDTO(recurso));
     }

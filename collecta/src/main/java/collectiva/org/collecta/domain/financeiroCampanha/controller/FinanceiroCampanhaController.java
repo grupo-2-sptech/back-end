@@ -39,7 +39,7 @@ public class FinanceiroCampanhaController {
 
     @PostMapping
     public ResponseEntity<AssociationFinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(financeiroCampanhaDTO.getIdCampanha());
+        Campanha campanha = campanhaService.buscarExisteCampanha(financeiroCampanhaDTO.getIdCampanha());
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.salvarFinanceiroCampanha(FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO), campanha);
         return ResponseEntity.status(201).body(FinanceiroCampanhaMapper.paraAssociacaoDTO(financeiroCampanha));
     }

@@ -47,7 +47,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<AssociationPostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(postDTO.getIdCampanha());
+        Campanha campanha = campanhaService.buscarExisteCampanha(postDTO.getIdCampanha());
         Post post = postService.salvarPost(PostMapper.paraEntidade(postDTO), campanha);
         return ResponseEntity.status(201).body(PostMapper.paraAssociacaoDTO(post));
     }

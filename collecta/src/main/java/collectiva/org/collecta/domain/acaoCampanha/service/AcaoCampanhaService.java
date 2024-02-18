@@ -25,11 +25,6 @@ public class AcaoCampanhaService {
         return acoesRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("AcaoCampanha"));
     }
 
-    public AssociationAcaoCampanhaDTO criarAcaoCampanha(CreateAcaoCampanhaDTO acao, UUID idRelatorio) {
-        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidade(acao);
-        acaoCampanha.setRelatorio(relatorioService.buscarRelatorioPorId(idRelatorio));
-        return AcaoCampanhaMapper.paraAssociacaoDTO(acoesRepository.save(acaoCampanha));
-    }
 
     public List<ResponseAcaoCampanhaDTO> buscarTodosAcoes() {
         return acoesRepository.findAll().stream().map(AcaoCampanhaMapper::paraDTO).toList();
@@ -37,6 +32,12 @@ public class AcaoCampanhaService {
 
     public ResponseAcaoCampanhaDTO buscarAcaoCampanhaPorId(UUID id) {
         return AcaoCampanhaMapper.paraDTO(buscarExisteAcao(id));
+    }
+
+    public AssociationAcaoCampanhaDTO criarAcaoCampanha(CreateAcaoCampanhaDTO acao, UUID idRelatorio) {
+        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidade(acao);
+        acaoCampanha.setRelatorio(relatorioService.buscarRelatorioPorId(idRelatorio));
+        return AcaoCampanhaMapper.paraAssociacaoDTO(acoesRepository.save(acaoCampanha));
     }
 
     public AssociationAcaoCampanhaDTO atualizarAcaoCampanha(UUID id, UpdateAcaoCampanhaDTO acao) {
