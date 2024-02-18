@@ -1,8 +1,13 @@
 package collectiva.org.collecta.domain.acaoCampanha.service;
 
 import collectiva.org.collecta.domain.acaoCampanha.AcaoCampanha;
+import collectiva.org.collecta.domain.acaoCampanha.dto.AssociationAcaoCampanhaDTO;
+import collectiva.org.collecta.domain.acaoCampanha.dto.CreateAcaoCampanhaDTO;
+import collectiva.org.collecta.domain.acaoCampanha.dto.ResponseAcaoCampanhaDTO;
+import collectiva.org.collecta.domain.acaoCampanha.dto.UpdateAcaoCampanhaDTO;
+import collectiva.org.collecta.domain.acaoCampanha.mapper.AcaoCampanhaMapper;
 import collectiva.org.collecta.domain.acaoCampanha.repository.AcaoCampanhaRepository;
-import collectiva.org.collecta.domain.relatorio.Relatorio;
+import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,31 +19,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AcaoCampanhaService {
     private final AcaoCampanhaRepository acoesRepository;
+    private final RelatorioService relatorioService;
 
-    public AcaoCampanha salvarAcaoCampanha(AcaoCampanha acoes, Relatorio relatorio) {
-        acoes.setRelatorio(relatorio);
-        return acoesRepository.save(acoes);
+    public AcaoCampanha buscarExisteAcao(UUID id) {
+        return acoesRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("AcaoCampanha"));
     }
 
-    public List<AcaoCampanha> buscarTodosAcoes() {
-        return acoesRepository.findAll();
+    public AssociationAcaoCampanhaDTO criarAcaoCampanha(CreateAcaoCampanhaDTO acao, UUID idRelatorio) {
+        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidade(acao);
+        acaoCampanha.setRelatorio(relatorioService.buscarRelatorioPorId(idRelatorio));
+        return AcaoCampanhaMapper.paraAssociacaoDTO(acoesRepository.save(acaoCampanha));
     }
 
-    public AcaoCampanha buscarAcaoCampanhaPorId(UUID id) {
-        return acoesRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Açao"));
+    public List<ResponseAcaoCampanhaDTO> buscarTodosAcoes() {
+        return acoesRepository.findAll().stream().map(AcaoCampanhaMapper::paraDTO).toList();
     }
 
-    public AcaoCampanha atualizarAcaoCampanha(UUID id, AcaoCampanha acoes) {
-        AcaoCampanha buscaAcaoCampanha = buscarAcaoCampanhaPorId(id);
-        acoes.setId(id);
-        buscaAcaoCampanha.setRelatorio(buscaAcaoCampanha.getRelatorio());
-        return acoesRepository.save(acoes);
+    public ResponseAcaoCampanhaDTO buscarAcaoCampanhaPorId(UUID id) {
+        return AcaoCampanhaMapper.paraDTO(buscarExisteAcao(id));
+    }
+
+    public AssociationAcaoCampanhaDTO atualizarAcaoCampanha(UUID id, UpdateAcaoCampanhaDTO acao) {
+        AcaoCampanha existeAcao = buscarExisteAcao(id);
+        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidadeUpdate(acao);
+        acaoCampanha.setId(id);
+        acaoCampanha.setRelatorio(existeAcao.getRelatorio());
+        return AcaoCampanhaMapper.paraAssociacaoDTO(acoesRepository.save(acaoCampanha));
     }
 
     public void deletarAcaoCampanha(UUID id) {
-        if (!acoesRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("AcaoCampanha");
-        }
+        buscarExisteAcao(id);
         acoesRepository.deleteById(id);
     }
 

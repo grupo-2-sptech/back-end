@@ -25,7 +25,4 @@ public class CreateAcaoCampanhaDTO {
 
     @DecimalMin(value = "0.00", message = "O valor deve ser maior ou igual a 0.00")
     private BigDecimal valor;
-
-    @NotNull(message = "O id do relatório está vazio")
-    private UUID idRelatorio;
 }

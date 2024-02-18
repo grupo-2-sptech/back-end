@@ -1,14 +1,10 @@
 package collectiva.org.collecta.domain.acaoCampanha.controller;
 
-import collectiva.org.collecta.domain.acaoCampanha.AcaoCampanha;
 import collectiva.org.collecta.domain.acaoCampanha.dto.AssociationAcaoCampanhaDTO;
 import collectiva.org.collecta.domain.acaoCampanha.dto.CreateAcaoCampanhaDTO;
 import collectiva.org.collecta.domain.acaoCampanha.dto.ResponseAcaoCampanhaDTO;
 import collectiva.org.collecta.domain.acaoCampanha.dto.UpdateAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.mapper.AcaoCampanhaMapper;
 import collectiva.org.collecta.domain.acaoCampanha.service.AcaoCampanhaService;
-import collectiva.org.collecta.domain.relatorio.Relatorio;
-import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,38 +17,32 @@ import java.util.UUID;
 @RequestMapping("/acoes")
 @RequiredArgsConstructor
 public class AcaoCampanhaController {
-    private final AcaoCampanhaService acoesService;
-    private final RelatorioService relatorioService;
+    private final AcaoCampanhaService acaoCampanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseAcaoCampanhaDTO>> buscarAcoes() {
-        List<ResponseAcaoCampanhaDTO> listaDTO = acoesService.buscarTodosAcoes().stream()
-                .map(AcaoCampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseAcaoCampanhaDTO> listaDTO = acaoCampanhaService.buscarTodosAcoes();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseAcaoCampanhaDTO> buscarAcaoCampanhaPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(AcaoCampanhaMapper.paraDTO(acoesService.buscarAcaoCampanhaPorId(id)));
+        return ResponseEntity.ok(acaoCampanhaService.buscarAcaoCampanhaPorId(id));
     }
 
-
-    @PostMapping
-    public ResponseEntity<AssociationAcaoCampanhaDTO> criarAcaoCampanha(@RequestBody @Valid CreateAcaoCampanhaDTO acoesDTO) {
-        Relatorio relatorio = relatorioService.buscarRelatorioPorId(acoesDTO.getIdRelatorio());
-        AcaoCampanha acoes = acoesService.salvarAcaoCampanha(AcaoCampanhaMapper.paraEntidade(acoesDTO), relatorio);
-        return ResponseEntity.status(201).body(AcaoCampanhaMapper.paraAssociacaoDTO(acoes));
+    @PostMapping("/{idRelatorio}")
+    public ResponseEntity<AssociationAcaoCampanhaDTO> criarAcaoCampanha(@PathVariable UUID idRelatorio, @RequestBody @Valid CreateAcaoCampanhaDTO acoesDTO) {
+        return ResponseEntity.status(201).body(acaoCampanhaService.criarAcaoCampanha(acoesDTO, idRelatorio));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AssociationAcaoCampanhaDTO> atualizarAcaoCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateAcaoCampanhaDTO acoesDTO) {
-        AcaoCampanha acoes = acoesService.atualizarAcaoCampanha(id, AcaoCampanhaMapper.paraEntidadeUpdate(acoesDTO));
-        return ResponseEntity.ok(AcaoCampanhaMapper.paraAssociacaoDTO(acoes));
+        return ResponseEntity.ok(acaoCampanhaService.atualizarAcaoCampanha(id, acoesDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAcaoCampanha(@PathVariable UUID id) {
-        acoesService.deletarAcaoCampanha(id);
+        acaoCampanhaService.deletarAcaoCampanha(id);
         return ResponseEntity.noContent().build();
     }
 }
