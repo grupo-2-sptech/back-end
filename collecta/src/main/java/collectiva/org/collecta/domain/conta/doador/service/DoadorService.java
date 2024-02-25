@@ -46,9 +46,7 @@ public class DoadorService {
 
 
     public void deletarDoador(UUID id) {
-        if (!doadorRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Doador");
-        }
+        buscarDoadorPorId(id);
         doadorRepository.deleteById(id);
     }
 

@@ -1,13 +1,11 @@
-package collectiva.org.collecta.domain.acaoCampanha.service;
+package collectiva.org.collecta.domain.conta.doador.service;
 
-import collectiva.org.collecta.domain.acaoCampanha.AcaoCampanha;
-import collectiva.org.collecta.domain.acaoCampanha.dto.AssociationAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.dto.CreateAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.dto.ResponseAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.dto.UpdateAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.mapper.AcaoCampanhaMapper;
-import collectiva.org.collecta.domain.relatorio.Relatorio;
-import collectiva.org.collecta.domain.relatorio.service.RelatorioService;
+
+import collectiva.org.collecta.domain.conta.doador.Doador;
+import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.dto.UpdateDoadorDTO;
+import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,32 +14,25 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AcaoCampanhaServiceFacade {
-    private final AcaoCampanhaService acaoCampanhaService;
-    private final RelatorioService relatorioService;
+public class DoadorServiceFacade {
+    private final DoadorService doadorService;
 
-    public List<ResponseAcaoCampanhaDTO> buscarTodosAcoes() {
-        return acaoCampanhaService.buscarTodosAcoes().stream().map
-                (AcaoCampanhaMapper::paraDTO).toList();
+    public List<ResponseDoadorDTO> buscarTodosDoadores() {
+        return doadorService.buscarTodosDoadores().stream().map
+                (DoadorMapper::paraDTO).toList();
     }
 
-    public ResponseAcaoCampanhaDTO buscarAcaoCampanhaPorId(UUID id) {
-        return AcaoCampanhaMapper.paraDTO(acaoCampanhaService.buscarAcaoCampanhaPorId(id));
+    public ResponseDoadorDTO buscarDoadorPorId(UUID id) {
+        return DoadorMapper.paraDTO(doadorService.buscarDoadorPorId(id));
     }
 
-    public AssociationAcaoCampanhaDTO criarAcaoCampanha(UUID idRelatorio, CreateAcaoCampanhaDTO acaoCampanhaDTO) {
-        Relatorio relatorio = relatorioService.buscarRelatorioPorId(idRelatorio);
-        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidade(acaoCampanhaDTO);
-        return AcaoCampanhaMapper.paraAssociacaoDTO(acaoCampanhaService.criarAcaoCampanha(acaoCampanha, relatorio));
+    public AssociationDoadorDTO atualizarDoador(UUID idDoador, UpdateDoadorDTO doadorDTO) {
+        Doador doador = DoadorMapper.paraEntidadeUpdate(doadorDTO);
+        return DoadorMapper.paraAssociacaoDTO(doadorService.atualizarDoador(idDoador, doador));
     }
 
-    public AssociationAcaoCampanhaDTO atualizarAcaoCampanha(UUID idAcaoCampanha, UpdateAcaoCampanhaDTO acaoCampanhaDTO) {
-        AcaoCampanha acaoCampanha = AcaoCampanhaMapper.paraEntidadeUpdate(acaoCampanhaDTO);
-        return AcaoCampanhaMapper.paraAssociacaoDTO(acaoCampanhaService.atualizarAcaoCampanha(idAcaoCampanha, acaoCampanha));
-    }
-
-    public void deletarAcaoCampanha(UUID id) {
-        acaoCampanhaService.deletarAcaoCampanha(id);
+    public void deletarDoador(UUID id) {
+        doadorService.deletarDoador(id);
     }
 
 }

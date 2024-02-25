@@ -1,13 +1,9 @@
 package collectiva.org.collecta.domain.conta.doador.controller;
 
-import collectiva.org.collecta.domain.conta.doador.Doador;
 import collectiva.org.collecta.domain.conta.doador.dto.AssociationDoadorDTO;
-import collectiva.org.collecta.domain.conta.doador.dto.CreateDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.ResponseDoadorDTO;
 import collectiva.org.collecta.domain.conta.doador.dto.UpdateDoadorDTO;
-import collectiva.org.collecta.domain.conta.doador.mapper.DoadorMapper;
-import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import collectiva.org.collecta.domain.conta.doador.service.DoadorServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +16,27 @@ import java.util.UUID;
 @RequestMapping("/doadores")
 @RequiredArgsConstructor
 public class DoadorController {
-    private final DoadorService doadorService;
+    private final DoadorServiceFacade doadorServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponseDoadorDTO>> buscarDoadores() {
-        List<ResponseDoadorDTO> listaDTO = doadorService.buscarTodosDoadores().stream()
-                .map(DoadorMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseDoadorDTO> listaDTO = doadorServiceF.buscarTodosDoadores();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDoadorDTO> buscarDoadorPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(DoadorMapper.paraDTO(doadorService.buscarDoadorPorId(id)));
+        return ResponseEntity.ok(doadorServiceF.buscarDoadorPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AssociationDoadorDTO> atualizarDoador(@PathVariable UUID id, @RequestBody @Valid UpdateDoadorDTO doadorDTO) {
-        Doador doador = doadorService.atualizarDoador(id, DoadorMapper.paraEntidadeUpdate(doadorDTO));
-        return ResponseEntity.ok(DoadorMapper.paraAssociacaoDTO(doador));
+        return ResponseEntity.ok(doadorServiceF.atualizarDoador(id, doadorDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDoador(@PathVariable UUID id) {
-        doadorService.deletarDoador(id);
+        doadorServiceF.deletarDoador(id);
         return ResponseEntity.noContent().build();
     }
 }
