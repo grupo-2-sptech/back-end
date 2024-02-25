@@ -4,7 +4,7 @@ import collectiva.org.collecta.domain.acaoCampanha.dto.AssociationAcaoCampanhaDT
 import collectiva.org.collecta.domain.acaoCampanha.dto.CreateAcaoCampanhaDTO;
 import collectiva.org.collecta.domain.acaoCampanha.dto.ResponseAcaoCampanhaDTO;
 import collectiva.org.collecta.domain.acaoCampanha.dto.UpdateAcaoCampanhaDTO;
-import collectiva.org.collecta.domain.acaoCampanha.service.AcaoCampanhaService;
+import collectiva.org.collecta.domain.acaoCampanha.service.AcaoCampanhaServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/acoes")
 @RequiredArgsConstructor
 public class AcaoCampanhaController {
-    private final AcaoCampanhaService acaoCampanhaService;
+    private final AcaoCampanhaServiceFacade acaoCampanhaService;
 
     @GetMapping
     public ResponseEntity<List<ResponseAcaoCampanhaDTO>> buscarAcoes() {
@@ -32,7 +32,7 @@ public class AcaoCampanhaController {
 
     @PostMapping("/{idRelatorio}")
     public ResponseEntity<AssociationAcaoCampanhaDTO> criarAcaoCampanha(@PathVariable UUID idRelatorio, @RequestBody @Valid CreateAcaoCampanhaDTO acoesDTO) {
-        return ResponseEntity.status(201).body(acaoCampanhaService.criarAcaoCampanha(acoesDTO, idRelatorio));
+        return ResponseEntity.status(201).body(acaoCampanhaService.criarAcaoCampanha(idRelatorio, acoesDTO));
     }
 
     @PutMapping("/{id}")

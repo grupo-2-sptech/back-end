@@ -44,7 +44,7 @@ public class RelatorioController {
 
     @PostMapping
     public ResponseEntity<ResponseRelatorioDTO> criarRelatorio(@RequestBody @Valid CreateRelatorioDTO relatorioDTO) {
-        Campanha campanha = campanhaService.buscarExisteCampanha(relatorioDTO.getIdCampanha());
+        Campanha campanha = campanhaService.buscarCampanhaPorId(relatorioDTO.getIdCampanha());
         Relatorio relatorio = relatorioService.salvarRelatorio(RelatorioMapper.paraEntidade(relatorioDTO), campanha);
         return ResponseEntity.status(201).body(RelatorioMapper.paraDTO(relatorio));
     }

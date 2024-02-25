@@ -28,7 +28,7 @@ public class CampanhaViewInterceptor implements HandlerInterceptor {
 
             if (isValidUUID(campanhaId)) {
                 UUID id = UUID.fromString(campanhaId);
-                Campanha campanha = campanhaService.buscarExisteCampanha(id);
+                Campanha campanha = campanhaService.buscarCampanhaPorId(id);
 
                 if (campanha != null) {
                     if (isVisualizationCookiePresent(request)) {
