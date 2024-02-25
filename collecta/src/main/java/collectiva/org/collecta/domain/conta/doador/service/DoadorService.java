@@ -18,13 +18,6 @@ public class DoadorService {
     private final ContaService contaService;
     private final PasswordEncoder passwordEncoder;
 
-    public Doador salvarDoador(Doador doador) {
-        contaService.buscarPorEmail(doador.getEmail());
-        String senhaCriptografada = passwordEncoder.encode(doador.getSenha());
-        doador.setSenha(senhaCriptografada);
-        return doadorRepository.save(doador);
-    }
-
     public List<Doador> buscarTodosDoadores() {
         return doadorRepository.findAll();
     }
@@ -32,6 +25,13 @@ public class DoadorService {
     public Doador buscarDoadorPorId(UUID id) {
         return doadorRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Doador"));
+    }
+
+    public Doador salvarDoador(Doador doador) {
+        contaService.buscarPorEmail(doador.getEmail());
+        String senhaCriptografada = passwordEncoder.encode(doador.getSenha());
+        doador.setSenha(senhaCriptografada);
+        return doadorRepository.save(doador);
     }
 
     public Doador atualizarDoador(UUID id, Doador doador) {
