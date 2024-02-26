@@ -17,12 +17,6 @@ import java.util.UUID;
 public class ContribuicaoServicoService {
     private final ContribuicaoServicoRepository contribuicaoServicoRepository;
 
-    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
-        contribuicaoServico.setDoador(doador);
-        contribuicaoServico.setEventoCampanha(eventoCampanha);
-        return contribuicaoServicoRepository.save(contribuicaoServico);
-    }
-
     public List<ContribuicaoServico> buscarTodasContribuicoesServicos() {
         return contribuicaoServicoRepository.findAll();
     }
@@ -31,6 +25,12 @@ public class ContribuicaoServicoService {
         return contribuicaoServicoRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("ContribuicaoServico"));
 
+    }
+
+    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
+        contribuicaoServico.setDoador(doador);
+        contribuicaoServico.setEventoCampanha(eventoCampanha);
+        return contribuicaoServicoRepository.save(contribuicaoServico);
     }
 
     public ContribuicaoServico atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {

@@ -19,15 +19,6 @@ public class ContribuicaoMonetariaService {
     private final ContribuicaoMonetariaRepository contribuicaoMonetariaRepository;
     private final FinanceiroCampanhaService financeiroCampanhaService;
 
-    public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
-        contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
-        contribuicaoMonetaria.setDoador(doador);
-        if (contribuicaoMonetaria.getStatusContribuicao().equals(StatusContribuicao.FINALIZADA)){
-            financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
-        }
-        return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
-    }
-
     public List<ContribuicaoMonetaria> buscarTodasContribuicoesMonetarias() {
         return contribuicaoMonetariaRepository.findAll();
     }
@@ -35,6 +26,15 @@ public class ContribuicaoMonetariaService {
     public ContribuicaoMonetaria buscarContribuicaoMonetariaPorId(UUID id) {
         return contribuicaoMonetariaRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
+    }
+
+    public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
+        contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
+        contribuicaoMonetaria.setDoador(doador);
+        if (contribuicaoMonetaria.getStatusContribuicao().equals(StatusContribuicao.FINALIZADA)){
+            financeiroCampanhaService.somarContribuicao(financeiroCampanha, contribuicaoMonetaria.getValor());
+        }
+        return contribuicaoMonetariaRepository.save(contribuicaoMonetaria);
     }
 
     public ContribuicaoMonetaria atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {
