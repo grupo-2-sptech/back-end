@@ -17,7 +17,7 @@ import java.util.UUID;
 public class FinanceiroCampanhaService {
     private final FinanceiroCampanhaRepository finaceiroCampanhaRepository;
 
-    public FinanceiroCampanha salvarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha, Campanha campanha) {
+    public FinanceiroCampanha criarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha, Campanha campanha) {
         finaceiroCampanha.setCampanha(campanha);
         return finaceiroCampanhaRepository.save(finaceiroCampanha);
     }

@@ -27,7 +27,7 @@ public class OrganizacaoService {
                 () -> new EntidadeNaoEncontradaException("Organizacao"));
     }
 
-    public Organizacao salvarOrganizacao(Organizacao organizacao) {
+    public Organizacao criarOrganizacao(Organizacao organizacao) {
         contaService.buscarPorEmail(organizacao.getEmail());
         String senhaCriptografada = passwordEncoder.encode(organizacao.getSenha());
         organizacao.setSenha(senhaCriptografada);

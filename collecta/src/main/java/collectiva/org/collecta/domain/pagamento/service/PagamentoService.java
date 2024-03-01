@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public Pagamento salvarPagamento(Pagamento pagamento, ContribuicaoMonetaria contribuicaoMonetaria) {
+    public Pagamento criarPagamento(Pagamento pagamento, ContribuicaoMonetaria contribuicaoMonetaria) {
         pagamento.setContribuicaoMonetaria(contribuicaoMonetaria);
         return pagamentoRepository.save(pagamento);
     }

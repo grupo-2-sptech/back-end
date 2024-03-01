@@ -46,7 +46,7 @@ public class EventoCampanhaController {
     @PostMapping
     public ResponseEntity<AssociationEventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid CreateEventoCampanhaDTO eventoCampanhaDTO) {
         Campanha campanha = campanhaService.buscarCampanhaPorId(eventoCampanhaDTO.getIdCampanha());
-        EventoCampanha eventoCampanha = eventoCampanhaService.salvarEventoCampanha(EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO), campanha);
+        EventoCampanha eventoCampanha = eventoCampanhaService.criarEventoCampanha(EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO), campanha);
         return ResponseEntity.status(201).body(EventoCampanhaMapper.paraAssociacaoDTO(eventoCampanha));
     }
 

@@ -27,7 +27,7 @@ public class ContribuicaoRecursoService {
                 () -> new EntidadeNaoEncontradaException("ContribuicaoRecurso"));
     }
 
-    public ContribuicaoRecurso salvarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
+    public ContribuicaoRecurso criarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
         contribuicaoRecurso.setDoador(doador);
         contribuicaoRecurso.setRecurso(recurso);
         return contribuicaoRecursoRepository.save(contribuicaoRecurso);

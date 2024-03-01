@@ -34,14 +34,14 @@ public class ContribuicaoMonetariaServiceFacade {
         return ContribuicaoMonetariaMapper.paraDTO(contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(id));
     }
 
-    public AssociationContribuicaoMonetariaDTO salvarContribuicaoMonetaria(UUID idDoador, UUID idFinanceiro, CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+    public AssociationContribuicaoMonetariaDTO criarContribuicaoMonetaria(UUID idDoador, UUID idFinanceiro, CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
         Doador doador = doadorService.buscarDoadorPorId(idDoador);
         List<String> dadosPix = PixCreateImmediateCharge.CobrancaRapida(doador.getNome(), doador.getCpf(), contribuicaoMonetariaDTO.getValor().toString());
         String idCodigoPix = dadosPix.get(0);
         String txid = dadosPix.get(1);
         FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.buscarFinanceiroCampanhaPorId(idFinanceiro);
         ContribuicaoMonetaria contribuicaoMonetaria = ContribuicaoMonetariaMapper.paraEntidade(contribuicaoMonetariaDTO, idCodigoPix, txid);
-        return ContribuicaoMonetariaMapper.paraAssociacaoDTO(contribuicaoMonetariaService.salvarContribuicaoMonetaria(contribuicaoMonetaria, doador, financeiroCampanha));
+        return ContribuicaoMonetariaMapper.paraAssociacaoDTO(contribuicaoMonetariaService.criarContribuicaoMonetaria(contribuicaoMonetaria, doador, financeiroCampanha));
     }
 
     public AssociationContribuicaoMonetariaDTO atualizarStatusContribuicao(UUID idContribuicaoMonetaria, StatusContribuicao statusContribuicao) {

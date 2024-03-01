@@ -28,7 +28,7 @@ public class ContribuicaoMonetariaService {
                 () -> new EntidadeNaoEncontradaException("ContribuicaoMonetaria"));
     }
 
-    public ContribuicaoMonetaria salvarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
+    public ContribuicaoMonetaria criarContribuicaoMonetaria (ContribuicaoMonetaria contribuicaoMonetaria, Doador doador, FinanceiroCampanha financeiroCampanha) {
         contribuicaoMonetaria.setFinanceiroCampanha(financeiroCampanha);
         contribuicaoMonetaria.setDoador(doador);
         if (contribuicaoMonetaria.getStatusContribuicao().equals(StatusContribuicao.FINALIZADA)){

@@ -38,7 +38,7 @@ public class PagamentoController {
     @PostMapping
     public ResponseEntity<AssociationPagamentoDTO> criarPagamento(@RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
         ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(pagamentoDTO.getIdContribuicao());
-        Pagamento pagamento = pagamentoService.salvarPagamento(PagamentoMapper.paraEntidade(pagamentoDTO), contribuicaoMonetaria);
+        Pagamento pagamento = pagamentoService.criarPagamento(PagamentoMapper.paraEntidade(pagamentoDTO), contribuicaoMonetaria);
         return ResponseEntity.status(201).body(PagamentoMapper.paraAssociacaoDTO(pagamento));
     }
 

@@ -27,7 +27,7 @@ public class ContribuicaoServicoService {
 
     }
 
-    public ContribuicaoServico salvarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
+    public ContribuicaoServico criarContribuicaoServico(ContribuicaoServico contribuicaoServico, Doador doador, EventoCampanha eventoCampanha) {
         contribuicaoServico.setDoador(doador);
         contribuicaoServico.setEventoCampanha(eventoCampanha);
         return contribuicaoServicoRepository.save(contribuicaoServico);

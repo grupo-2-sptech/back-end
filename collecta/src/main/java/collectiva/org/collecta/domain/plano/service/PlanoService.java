@@ -16,7 +16,7 @@ import java.util.UUID;
 public class PlanoService {
     private final PlanoRepository planoRepository;
 
-    public Plano salvarPlano(Plano plano, Doador doador) {
+    public Plano criarPlano(Plano plano, Doador doador) {
         plano.setDoador(doador);
         return planoRepository.save(plano);
     }

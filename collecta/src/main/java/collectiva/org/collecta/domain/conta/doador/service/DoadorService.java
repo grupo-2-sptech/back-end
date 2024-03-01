@@ -27,7 +27,7 @@ public class DoadorService {
                 () -> new EntidadeNaoEncontradaException("Doador"));
     }
 
-    public Doador salvarDoador(Doador doador) {
+    public Doador criarDoador(Doador doador) {
         contaService.buscarPorEmail(doador.getEmail());
         String senhaCriptografada = passwordEncoder.encode(doador.getSenha());
         doador.setSenha(senhaCriptografada);

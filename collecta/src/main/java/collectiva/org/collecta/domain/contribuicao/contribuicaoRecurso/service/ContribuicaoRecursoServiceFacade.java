@@ -33,12 +33,12 @@ public class ContribuicaoRecursoServiceFacade {
         return ContribuicaoRecursoMapper.paraDTO(contribuicaoRecursoService.buscarContribuicaoRecursoPorId(id));
     }
 
-    public AssociationContribuicaoRecursoDTO salvarContribuicaoRecurso(UUID idDoador, UUID idRecurso, CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
+    public AssociationContribuicaoRecursoDTO criarContribuicaoRecurso(UUID idDoador, UUID idRecurso, CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(idDoador);
         Recurso recurso = recursoService.buscarRecursoPorId(idRecurso);
         ContribuicaoRecurso contribuicaoRecurso = ContribuicaoRecursoMapper.paraEntidade(contribuicaoRecursoDTO);
         recursoService.somarContribuicao(recurso, contribuicaoRecurso.getQuantidade());
-        return ContribuicaoRecursoMapper.paraAssociacaoDTO(contribuicaoRecursoService.salvarContribuicaoRecurso(contribuicaoRecurso, doador, recurso));
+        return ContribuicaoRecursoMapper.paraAssociacaoDTO(contribuicaoRecursoService.criarContribuicaoRecurso(contribuicaoRecurso, doador, recurso));
     }
 
     public AssociationContribuicaoRecursoDTO atualizarStatusContribuicao(UUID idContribuicaoRecurso, StatusContribuicao statusContribuicao) {

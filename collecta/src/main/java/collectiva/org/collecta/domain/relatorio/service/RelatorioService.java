@@ -18,7 +18,7 @@ import java.util.UUID;
 public class RelatorioService {
     private final RelatorioRepository relatorioRepository;
 
-    public Relatorio salvarRelatorio(Relatorio relatorio, Campanha campanha) {
+    public Relatorio criarRelatorio(Relatorio relatorio, Campanha campanha) {
         relatorio.setCampanha(campanha);
         return relatorioRepository.save(relatorio);
     }

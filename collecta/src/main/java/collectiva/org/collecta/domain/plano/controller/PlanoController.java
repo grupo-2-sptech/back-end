@@ -40,7 +40,7 @@ public class PlanoController {
     @PostMapping
     public ResponseEntity<AssociationPlanoDTO> criarPlano(@RequestBody @Valid CreatePlanoDTO planoDTO) {
         Doador doador = doadorService.buscarDoadorPorId(planoDTO.getIdDoador());
-        Plano plano = planoService.salvarPlano(PlanoMapper.paraEntidade(planoDTO), doador);
+        Plano plano = planoService.criarPlano(PlanoMapper.paraEntidade(planoDTO), doador);
         return ResponseEntity.status(201).body(PlanoMapper.paraAssociacaoDTO(plano));
     }
 

@@ -31,8 +31,8 @@ public class ContribuicaoMonetariaController {
     }
 
     @PostMapping("/{idDoador}/{idFinanceiro}")
-    public ResponseEntity<AssociationContribuicaoMonetariaDTO> salvarContribuicaoMonetaria(@PathVariable UUID idDoador, @PathVariable UUID idFinanceiro, @RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
-        return ResponseEntity.status(201).body(contribuicaoMonetariaServiceF.salvarContribuicaoMonetaria(idDoador, idFinanceiro, contribuicaoMonetariaDTO));
+    public ResponseEntity<AssociationContribuicaoMonetariaDTO> criarContribuicaoMonetaria(@PathVariable UUID idDoador, @PathVariable UUID idFinanceiro, @RequestBody @Valid CreateContribuicaoMonetariaDTO contribuicaoMonetariaDTO) {
+        return ResponseEntity.status(201).body(contribuicaoMonetariaServiceF.criarContribuicaoMonetaria(idDoador, idFinanceiro, contribuicaoMonetariaDTO));
     }
 
     @PutMapping("/{id}")

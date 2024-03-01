@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EventoCampanhaService {
     private final EventoCampanhaRepository eventoCampanhaRepository;
 
-    public EventoCampanha salvarEventoCampanha(EventoCampanha eventoCampanha, Campanha campanha) {
+    public EventoCampanha criarEventoCampanha(EventoCampanha eventoCampanha, Campanha campanha) {
         eventoCampanha.setCampanha(campanha);
         return eventoCampanhaRepository.save(eventoCampanha);
     }

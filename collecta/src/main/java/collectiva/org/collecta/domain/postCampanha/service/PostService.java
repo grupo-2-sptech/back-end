@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PostService {
     private final PostRepository postRepository;
 
-    public Post salvarPost(Post post, Campanha campanha) {
+    public Post criarPost(Post post, Campanha campanha) {
         post.setCampanha(campanha);
         return postRepository.save(post);
     }

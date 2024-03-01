@@ -15,7 +15,7 @@ import java.util.UUID;
 public class RecursoService {
     private final RecursoRepository recursoRepository;
 
-    public Recurso salvarRecurso(Recurso recurso, Campanha campanha) {
+    public Recurso criarRecurso(Recurso recurso, Campanha campanha) {
         recurso.setCampanha(campanha);
         return recursoRepository.save(recurso);
     }

@@ -32,7 +32,7 @@ public class ContribuicaoRecursoController {
 
     @PostMapping("/{idDoador}/{idRecurso}")
     public ResponseEntity<AssociationContribuicaoRecursoDTO> criarContribuicaoRecurso(@PathVariable UUID idDoador, @PathVariable UUID idRecurso, @RequestBody @Valid CreateContribuicaoRecursoDTO contribuicaoRecursoDTO) {
-        return ResponseEntity.status(201).body(contribuicaoRecursoServiceF.salvarContribuicaoRecurso(idDoador, idRecurso, contribuicaoRecursoDTO));
+        return ResponseEntity.status(201).body(contribuicaoRecursoServiceF.criarContribuicaoRecurso(idDoador, idRecurso, contribuicaoRecursoDTO));
     }
 
     @PutMapping("/{id}")
