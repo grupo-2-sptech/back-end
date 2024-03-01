@@ -15,11 +15,6 @@ import java.util.UUID;
 public class EventoCampanhaService {
     private final EventoCampanhaRepository eventoCampanhaRepository;
 
-    public EventoCampanha criarEventoCampanha(EventoCampanha eventoCampanha, Campanha campanha) {
-        eventoCampanha.setCampanha(campanha);
-        return eventoCampanhaRepository.save(eventoCampanha);
-    }
-
     public List<EventoCampanha> buscarTodosEventosCampanha() {
         return eventoCampanhaRepository.findAll();
     }
@@ -33,6 +28,11 @@ public class EventoCampanhaService {
         return eventoCampanhaRepository.findByCampanhaId(id);
     }
 
+    public EventoCampanha criarEventoCampanha(EventoCampanha eventoCampanha, Campanha campanha) {
+        eventoCampanha.setCampanha(campanha);
+        return eventoCampanhaRepository.save(eventoCampanha);
+    }
+
     public EventoCampanha atualizarEventoCampanha(UUID id, EventoCampanha eventoCampanha) {
         EventoCampanha eventoCampanhaAntigo = buscarEventoCampanhaPorId(id);
         eventoCampanha.setId(id);
@@ -43,9 +43,7 @@ public class EventoCampanhaService {
     }
 
     public void deletarEventoCampanha(UUID id) {
-        if (!eventoCampanhaRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Evento");
-        }
+        buscarEventoCampanhaPorId(id);
         eventoCampanhaRepository.deleteById(id);
     }
 

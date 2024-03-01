@@ -37,9 +37,7 @@ public class EnderecoService {
     }
 
     public void deletarEndereco(UUID id) {
-        if (!enderecoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Endereco");
-        }
+        buscarEnderecoPorId(id);
         enderecoRepository.deleteById(id);
     }
 }

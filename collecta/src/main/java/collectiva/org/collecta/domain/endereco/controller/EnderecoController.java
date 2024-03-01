@@ -22,7 +22,7 @@ public class EnderecoController {
     @GetMapping
     public ResponseEntity<List<ResponseEnderecoDTO>> buscarEnderecos() {
         List<ResponseEnderecoDTO> listaDTO = enderecoServiceF.buscarTodosEnderecos();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
