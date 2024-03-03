@@ -14,7 +14,4 @@ public class CreateFinanceiroCampanhaDTO {
     @NotNull(message = "O valor meta está vazio")
     @DecimalMin(value = "0.1", message = "O valor meta deve ser maior que zero")
     private BigDecimal valorMeta;
-
-    @NotNull(message = "O id da campanha está vazio")
-    private UUID idCampanha;
 }

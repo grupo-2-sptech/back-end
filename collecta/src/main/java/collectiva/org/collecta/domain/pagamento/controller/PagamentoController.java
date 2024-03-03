@@ -1,13 +1,9 @@
 package collectiva.org.collecta.domain.pagamento.controller;
 
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.ContribuicaoMonetaria;
-import collectiva.org.collecta.domain.contribuicao.contribuicaoMonetaria.service.ContribuicaoMonetariaService;
-import collectiva.org.collecta.domain.pagamento.Pagamento;
 import collectiva.org.collecta.domain.pagamento.dto.AssociationPagamentoDTO;
 import collectiva.org.collecta.domain.pagamento.dto.CreatePagamentoDTO;
 import collectiva.org.collecta.domain.pagamento.dto.ResponsePagamentoDTO;
-import collectiva.org.collecta.domain.pagamento.mapper.PagamentoMapper;
-import collectiva.org.collecta.domain.pagamento.service.PagamentoService;
+import collectiva.org.collecta.domain.pagamento.service.PagamentoServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,32 +16,27 @@ import java.util.UUID;
 @RequestMapping("/pagamentos")
 @RequiredArgsConstructor
 public class PagamentoController {
-    private final PagamentoService pagamentoService;
-    private final ContribuicaoMonetariaService contribuicaoMonetariaService;
+    private final PagamentoServiceFacade pagamentoServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponsePagamentoDTO>> buscarPagamentos() {
-        List<ResponsePagamentoDTO> listaDTO = pagamentoService.buscarTodosPagamentos().stream()
-                .map(PagamentoMapper::paraDTO).toList();
+        List<ResponsePagamentoDTO> listaDTO = pagamentoServiceF.buscarTodosPagamentos();
         return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponsePagamentoDTO> buscarPagamentoPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(PagamentoMapper.paraDTO(pagamentoService.buscarPagamentoPorId(id)));
+        return ResponseEntity.ok(pagamentoServiceF.buscarPagamentoPorId(id));
     }
 
-    @PostMapping
-    public ResponseEntity<AssociationPagamentoDTO> criarPagamento(@RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
-        ContribuicaoMonetaria contribuicaoMonetaria = contribuicaoMonetariaService.buscarContribuicaoMonetariaPorId(pagamentoDTO.getIdContribuicao());
-        Pagamento pagamento = pagamentoService.criarPagamento(PagamentoMapper.paraEntidade(pagamentoDTO), contribuicaoMonetaria);
-        return ResponseEntity.status(201).body(PagamentoMapper.paraAssociacaoDTO(pagamento));
+    @PostMapping("/{idContribuicaoM}")
+    public ResponseEntity<AssociationPagamentoDTO> criarPagamento(@PathVariable UUID idContribuicaoM, @RequestBody @Valid CreatePagamentoDTO pagamentoDTO) {
+        return ResponseEntity.status(201).body(pagamentoServiceF.criarPagamento(idContribuicaoM, pagamentoDTO));
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPagamento(@PathVariable UUID id) {
-        pagamentoService.deletarPagamento(id);
+        pagamentoServiceF.deletarPagamento(id);
         return ResponseEntity.noContent().build();
     }
 }
