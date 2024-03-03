@@ -17,11 +17,6 @@ import java.util.UUID;
 public class FinanceiroCampanhaService {
     private final FinanceiroCampanhaRepository finaceiroCampanhaRepository;
 
-    public FinanceiroCampanha criarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha, Campanha campanha) {
-        finaceiroCampanha.setCampanha(campanha);
-        return finaceiroCampanhaRepository.save(finaceiroCampanha);
-    }
-
     public List<FinanceiroCampanha> buscarTodosFinanceirosCampanha() {
         return finaceiroCampanhaRepository.findAll();
     }
@@ -29,6 +24,11 @@ public class FinanceiroCampanhaService {
     public FinanceiroCampanha buscarFinanceiroCampanhaPorId(UUID id) {
         return finaceiroCampanhaRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Financeiro"));
+    }
+
+    public FinanceiroCampanha criarFinanceiroCampanha(FinanceiroCampanha finaceiroCampanha, Campanha campanha) {
+        finaceiroCampanha.setCampanha(campanha);
+        return finaceiroCampanhaRepository.save(finaceiroCampanha);
     }
 
     public FinanceiroCampanha atualizarFinanceiroCampanha(UUID id, FinanceiroCampanha financeiroCampanha) {
@@ -39,9 +39,7 @@ public class FinanceiroCampanhaService {
     }
 
     public void deletarFinanceiroCampanha(UUID id) {
-        if (!finaceiroCampanhaRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Financeiro");
-        }
+        buscarFinanceiroCampanhaPorId(id);
         finaceiroCampanhaRepository.deleteById(id);
     }
 
