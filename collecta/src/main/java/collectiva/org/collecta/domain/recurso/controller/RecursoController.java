@@ -28,7 +28,7 @@ public class RecursoController {
     public ResponseEntity<List<ResponseRecursoDTO>> buscarRecursos() {
         List<ResponseRecursoDTO> listaDTO = recursoService.buscarTodosRecursos().stream()
                 .map(RecursoMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")

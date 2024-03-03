@@ -30,7 +30,7 @@ public class PostController {
     public ResponseEntity<List<ResponsePostDTO>> buscarPosts() {
         List<ResponsePostDTO> listaDTO = postService.buscarTodosPosts().stream()
                 .map(PostMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
@@ -41,7 +41,7 @@ public class PostController {
     @GetMapping("/campanha/{id}")
     public ResponseEntity<List<ResponsePostDTO>> buscarPostPorCampanhaId(@PathVariable UUID id) {
         List<ResponsePostDTO> listaDTO = postService.buscarPostsPorCampanha(id).stream().map(PostMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
 

@@ -49,7 +49,7 @@ public class PostLikeController {
         Post post = postService.buscarPostPorId(postID);
         List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesPost(post).stream()
                 .map(PostLikeMapper::paraRespostaDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/doador/{doadorID}")
@@ -57,7 +57,7 @@ public class PostLikeController {
         Doador doador = doadorService.buscarDoadorPorId(doadorID);
         List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesDoador(doador).stream()
                 .map(PostLikeMapper::paraRespostaDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
 }

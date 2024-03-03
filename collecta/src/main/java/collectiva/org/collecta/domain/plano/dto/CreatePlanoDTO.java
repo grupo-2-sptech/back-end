@@ -1,6 +1,5 @@
 package collectiva.org.collecta.domain.plano.dto;
 
-import collectiva.org.collecta.enums.StatusPlano;
 import collectiva.org.collecta.enums.TipoPlano;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -23,6 +21,4 @@ public class CreatePlanoDTO {
     @Enumerated(EnumType.STRING)
     private TipoPlano tipoPlano;
 
-    @NotNull(message = "O id do doador está vazio")
-    private UUID idDoador;
 }

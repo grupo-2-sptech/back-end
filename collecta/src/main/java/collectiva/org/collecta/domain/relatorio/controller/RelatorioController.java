@@ -28,7 +28,7 @@ public class RelatorioController {
     public ResponseEntity<List<ResponseRelatorioDTO>> buscarRelatorios() {
         List<ResponseRelatorioDTO> listaDTO = relatorioService.buscarTodosRelatorios().stream()
                 .map(RelatorioMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/gerar/{id}")
