@@ -19,6 +19,14 @@ import java.util.List;
 public class PostLikeService {
     private final PostLikeRepository postLikeRepository;
 
+    public List<PostLike> buscarPostLikesDoador(Doador doador) {
+        return postLikeRepository.findByDoador(doador);
+    }
+
+    public List<PostLike> buscarPostLikesPost(Post post) {
+        return postLikeRepository.findByPost(post);
+    }
+
     public void adicionarPostLike(Doador doador, Post post) throws ResponseStatusException {
         if (postLikeRepository.existsByDoadorAndPost(doador, post)) {
             throw new ConflitoEntidadeException("Like");
@@ -40,14 +48,6 @@ public class PostLikeService {
 
     public Integer contarPostLikesPost(Post post) {
         return postLikeRepository.countByPost(post);
-    }
-
-    public List<PostLike> buscarPostLikesDoador(Doador doador) {
-        return postLikeRepository.findByDoador(doador);
-    }
-
-    public List<PostLike> buscarPostLikesPost(Post post) {
-        return postLikeRepository.findByPost(post);
     }
 }
 

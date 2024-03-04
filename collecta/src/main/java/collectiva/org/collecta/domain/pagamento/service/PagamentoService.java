@@ -15,11 +15,6 @@ import java.util.UUID;
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
-    public Pagamento salvarPagamento(Pagamento pagamento, ContribuicaoMonetaria contribuicaoMonetaria) {
-        pagamento.setContribuicaoMonetaria(contribuicaoMonetaria);
-        return pagamentoRepository.save(pagamento);
-    }
-
     public List<Pagamento> buscarTodosPagamentos() {
         return pagamentoRepository.findAll();
     }
@@ -29,11 +24,13 @@ public class PagamentoService {
                 () -> new EntidadeNaoEncontradaException("Pagamento"));
     }
 
+    public Pagamento criarPagamento(Pagamento pagamento, ContribuicaoMonetaria contribuicaoMonetaria) {
+        pagamento.setContribuicaoMonetaria(contribuicaoMonetaria);
+        return pagamentoRepository.save(pagamento);
+    }
 
     public void deletarPagamento(UUID id) {
-        if (!pagamentoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Pagamento");
-        }
+        buscarPagamentoPorId(id);
         pagamentoRepository.deleteById(id);
     }
 }

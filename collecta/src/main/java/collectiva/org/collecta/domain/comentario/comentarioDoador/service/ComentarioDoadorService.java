@@ -16,12 +16,6 @@ import java.util.UUID;
 public class ComentarioDoadorService {
     private final ComentarioDoadorRepository comentarioDoadorRepository;
 
-    public ComentarioDoador salvarComentario(ComentarioDoador comentarioDoador, Doador doador, Post post) {
-        comentarioDoador.setDoador(doador);
-        comentarioDoador.setPost(post);
-        return comentarioDoadorRepository.save(comentarioDoador);
-    }
-
     public List<ComentarioDoador> buscarTodosComentarios() {
         return comentarioDoadorRepository.findAll();
     }
@@ -31,11 +25,14 @@ public class ComentarioDoadorService {
                 () -> new EntidadeNaoEncontradaException("ComentarioDoador"));
     }
 
+    public ComentarioDoador criarComentario(ComentarioDoador comentarioDoador, Doador doador, Post post) {
+        comentarioDoador.setDoador(doador);
+        comentarioDoador.setPost(post);
+        return comentarioDoadorRepository.save(comentarioDoador);
+    }
 
     public void deletarComentario(UUID id) {
-        if (!comentarioDoadorRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ComentarioDoador");
-        }
+        buscarComentarioPorId(id);
         comentarioDoadorRepository.deleteById(id);
     }
 }

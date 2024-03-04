@@ -1,12 +1,9 @@
 package collectiva.org.collecta.domain.conta.organizacao.controller;
 
-import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.domain.conta.organizacao.dto.AssociationOrganizacaoDTO;
-import collectiva.org.collecta.domain.conta.organizacao.dto.CreateOrganizacaoDTO;
 import collectiva.org.collecta.domain.conta.organizacao.dto.ResponseOrganizacaoDTO;
-import collectiva.org.collecta.domain.conta.organizacao.mapper.OrganizacaoMapper;
-import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import collectiva.org.collecta.domain.conta.organizacao.dto.UpdateOrganizacaoDTO;
+import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +16,27 @@ import java.util.UUID;
 @RequestMapping("/organizacoes")
 @RequiredArgsConstructor
 public class OrganizacaoController {
-    private final OrganizacaoService organizacaoService;
+    private final OrganizacaoServiceFacade organizacaoServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponseOrganizacaoDTO>> buscarOrganizacoes() {
-        List<ResponseOrganizacaoDTO> listaDTO = organizacaoService.buscarTodasOrganizacoes().stream()
-                .map(OrganizacaoMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseOrganizacaoDTO> listaDTO = organizacaoServiceF.buscarTodasOrganizacaoes();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseOrganizacaoDTO> buscarOrganizacaoPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(OrganizacaoMapper.paraDTO(organizacaoService.buscarOrganizacaoPorId(id)));
+        return ResponseEntity.ok(organizacaoServiceF.buscarOrganizacaoPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AssociationOrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
-        Organizacao organizacao = organizacaoService.atualizarOrganizacao(id, OrganizacaoMapper.paraEntidade(organizacaoDTO));
-        return ResponseEntity.ok(OrganizacaoMapper.paraAssociacaoDTO(organizacao));
+    public ResponseEntity<AssociationOrganizacaoDTO> atualizarOrganizacao(@PathVariable UUID id, @RequestBody @Valid UpdateOrganizacaoDTO organizacaoDTO) {
+        return ResponseEntity.ok(organizacaoServiceF.atualizarOrganizacao(id, organizacaoDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarOrganizacao(@PathVariable UUID id) {
-        organizacaoService.deletarOrganizacao(id);
+        organizacaoServiceF.deletarOrganizacao(id);
         return ResponseEntity.noContent().build();
     }
 }

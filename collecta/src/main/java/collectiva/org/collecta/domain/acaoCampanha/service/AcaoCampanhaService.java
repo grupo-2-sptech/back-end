@@ -15,30 +15,28 @@ import java.util.UUID;
 public class AcaoCampanhaService {
     private final AcaoCampanhaRepository acoesRepository;
 
-    public AcaoCampanha salvarAcaoCampanha(AcaoCampanha acoes, Relatorio relatorio) {
-        acoes.setRelatorio(relatorio);
-        return acoesRepository.save(acoes);
-    }
-
     public List<AcaoCampanha> buscarTodosAcoes() {
         return acoesRepository.findAll();
     }
 
     public AcaoCampanha buscarAcaoCampanhaPorId(UUID id) {
-        return acoesRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Açao"));
+        return acoesRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("AcaoCampanha"));
     }
 
-    public AcaoCampanha atualizarAcaoCampanha(UUID id, AcaoCampanha acoes) {
-        AcaoCampanha buscaAcaoCampanha = buscarAcaoCampanhaPorId(id);
-        acoes.setId(id);
-        buscaAcaoCampanha.setRelatorio(buscaAcaoCampanha.getRelatorio());
-        return acoesRepository.save(acoes);
+    public AcaoCampanha criarAcaoCampanha(AcaoCampanha acaoCampanha, Relatorio relatorio) {
+        acaoCampanha.setRelatorio(relatorio);
+        return acoesRepository.save(acaoCampanha);
+    }
+
+    public AcaoCampanha atualizarAcaoCampanha(UUID id, AcaoCampanha acaoCampanha) {
+        AcaoCampanha existeAcao = buscarAcaoCampanhaPorId(id);
+        acaoCampanha.setId(id);
+        acaoCampanha.setRelatorio(existeAcao.getRelatorio());
+        return acoesRepository.save(acaoCampanha);
     }
 
     public void deletarAcaoCampanha(UUID id) {
-        if (!acoesRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("AcaoCampanha");
-        }
+        buscarAcaoCampanhaPorId(id);
         acoesRepository.deleteById(id);
     }
 

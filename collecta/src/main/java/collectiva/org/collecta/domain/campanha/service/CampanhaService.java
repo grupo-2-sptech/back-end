@@ -17,49 +17,45 @@ import java.util.UUID;
 public class CampanhaService {
     private final CampanhaRepository campanhaRepository;
 
-    public Campanha salvarCampanha(Campanha campanha, Organizacao organizacao) {
-        campanha.setOrganizacao(organizacao);
-        return campanhaRepository.save(campanha);
+    public void incrementarVisualizacao(Campanha campanha) {
+        campanha.setVisualizacoes(campanha.getVisualizacoes() + 1);
+        campanhaRepository.save(campanha);
     }
 
     public List<Campanha> buscarTodasCampanhas() {
         return campanhaRepository.findAll();
     }
 
-    public Campanha buscarCampanhaPorId(UUID id) {
-        return campanhaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Campanha"));
+    public List<Campanha> buscarTop3CampanhasPorTipo(TipoCampanha tipoCampanha) {
+        return campanhaRepository.findTop3ByTipoCampanhaOrderByVisualizacoesDesc(tipoCampanha);
     }
 
-    public Campanha atualizarCampanha(UUID id, Campanha campanha) {
-        Campanha novaCampanha = buscarCampanhaPorId(id);
+    public List<Campanha> buscarCampanhasPorGenero(CategoriaCampanha categoriaCampanha) {
+        return campanhaRepository.findByCategoriaCampanha(categoriaCampanha);
+    }
+
+    public Campanha buscarCampanhaPorId(UUID id) {
+        return campanhaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Campanha"));
+    }
+
+    public Campanha criarCampanha(Campanha campanha, Organizacao organizacao) {
+        campanha.setOrganizacao(organizacao);
+        return campanhaRepository.save(campanha);
+    }
+
+    public Campanha atualizarCampanha(UUID idCampanha, Campanha campanha) {
+        Campanha novaCampanha = buscarCampanhaPorId(idCampanha);
         novaCampanha.setNome(campanha.getNome());
         novaCampanha.setDescricao(campanha.getDescricao());
-        novaCampanha.setDataInicio(campanha.getDataInicio());
         novaCampanha.setDataFim(campanha.getDataFim());
         novaCampanha.setCategoriaCampanha(campanha.getCategoriaCampanha());
         novaCampanha.setTipoCampanha(campanha.getTipoCampanha());
-        novaCampanha.setStatusCampanha(campanha.getStatusCampanha());
         return campanhaRepository.save(novaCampanha);
     }
 
     public void deletarCampanha(UUID id) {
-        if (!campanhaRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Campanha");
-        }
+        buscarCampanhaPorId(id);
         campanhaRepository.deleteById(id);
     }
-    public void incrementarVisualizacao(Campanha campanha) {
-        campanha.setVisualizacoes(campanha.getVisualizacoes() + 1);
-        campanhaRepository.save(campanha);
-    }
-
-    public List<Campanha> buscarTop3CampanhasPorTipo(TipoCampanha tipoCampanha){
-        return campanhaRepository.findTop3ByTipoCampanhaOrderByVisualizacoesDesc(tipoCampanha);
-    }
-    public List<Campanha> buscarCampanhasPorGenero(CategoriaCampanha categoriaCampanha){
-        return campanhaRepository.findByCategoriaCampanha(categoriaCampanha);
-    }
-
 }
 

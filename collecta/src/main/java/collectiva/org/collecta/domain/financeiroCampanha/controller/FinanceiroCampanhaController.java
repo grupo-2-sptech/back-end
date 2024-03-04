@@ -1,15 +1,10 @@
 package collectiva.org.collecta.domain.financeiroCampanha.controller;
 
-import collectiva.org.collecta.domain.campanha.Campanha;
-import collectiva.org.collecta.domain.campanha.service.CampanhaService;
-import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
-import collectiva.org.collecta.domain.financeiroCampanha.FinanceiroCampanha;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.AssociationFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.CreateFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.ResponseFinanceiroCampanhaDTO;
 import collectiva.org.collecta.domain.financeiroCampanha.dto.UpdateFinanceiroCampanhaDTO;
-import collectiva.org.collecta.domain.financeiroCampanha.mapper.FinanceiroCampanhaMapper;
-import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaService;
+import collectiva.org.collecta.domain.financeiroCampanha.service.FinanceiroCampanhaServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,37 +17,32 @@ import java.util.UUID;
 @RequestMapping("/financeiros")
 @RequiredArgsConstructor
 public class FinanceiroCampanhaController {
-    private final FinanceiroCampanhaService financeiroCampanhaService;
-    private final CampanhaService campanhaService;
+    private final FinanceiroCampanhaServiceFacade financeiroCampanhaServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponseFinanceiroCampanhaDTO>> buscarFinanceirosCampanha() {
-        List<ResponseFinanceiroCampanhaDTO> listaDTO = financeiroCampanhaService.buscarTodosFinanceirosCampanha().stream()
-                .map(FinanceiroCampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseFinanceiroCampanhaDTO> listaDTO = financeiroCampanhaServiceF.buscarTodosFinanceiroCampanhas();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseFinanceiroCampanhaDTO> buscarFinanceiroCampanhaPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(FinanceiroCampanhaMapper.paraDTO(financeiroCampanhaService.buscarFinanceiroCampanhaPorId(id)));
+        return ResponseEntity.ok(financeiroCampanhaServiceF.buscarFinanceiroCampanhaPorId(id));
     }
 
-    @PostMapping
-    public ResponseEntity<AssociationFinanceiroCampanhaDTO> criarFinanceiroCampanha(@RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(financeiroCampanhaDTO.getIdCampanha());
-        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.salvarFinanceiroCampanha(FinanceiroCampanhaMapper.paraEntidade(financeiroCampanhaDTO), campanha);
-        return ResponseEntity.status(201).body(FinanceiroCampanhaMapper.paraAssociacaoDTO(financeiroCampanha));
+    @PostMapping("/{idCampanha}")
+    public ResponseEntity<AssociationFinanceiroCampanhaDTO> criarFinanceiroCampanha(@PathVariable UUID idCampanha, @RequestBody @Valid CreateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
+        return ResponseEntity.status(201).body(financeiroCampanhaServiceF.criarFinanceiroCampanha(idCampanha, financeiroCampanhaDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AssociationFinanceiroCampanhaDTO> atualizarFinanceiroCampanha(@PathVariable UUID id, @RequestBody @Valid UpdateFinanceiroCampanhaDTO financeiroCampanhaDTO) {
-        FinanceiroCampanha financeiroCampanha = financeiroCampanhaService.atualizarFinanceiroCampanha(id, FinanceiroCampanhaMapper.paraEntidadeUpdate(financeiroCampanhaDTO));
-        return ResponseEntity.ok(FinanceiroCampanhaMapper.paraAssociacaoDTO(financeiroCampanha));
+        return ResponseEntity.ok(financeiroCampanhaServiceF.atualizarFinanceiroCampanha(id, financeiroCampanhaDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarFinanceiroCampanha(@PathVariable UUID id) {
-        financeiroCampanhaService.deletarFinanceiroCampanha(id);
+        financeiroCampanhaServiceF.deletarFinanceiroCampanha(id);
         return ResponseEntity.noContent().build();
     }
 }

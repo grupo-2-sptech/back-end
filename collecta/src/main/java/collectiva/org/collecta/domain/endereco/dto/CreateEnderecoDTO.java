@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -37,7 +35,4 @@ public class CreateEnderecoDTO {
     @Min(value = 1, message = "O número de parcelas deve ser pelo menos 1")
     @Max(value = 999999, message = "O número de parcelas não pode exceder 999999")
     private int numero;
-
-    @NotNull(message = "O id do evento está vazio")
-    private UUID idEventoCampanha;
 }

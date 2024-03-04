@@ -16,18 +16,17 @@ import java.util.UUID;
 public class PlanoService {
     private final PlanoRepository planoRepository;
 
-    public Plano salvarPlano(Plano plano, Doador doador) {
-        plano.setDoador(doador);
-        return planoRepository.save(plano);
-    }
-
     public List<Plano> buscarTodosPlanos() {
         return planoRepository.findAll();
     }
 
     public Plano buscarPlanoPorId(UUID id) {
-        return planoRepository.findById(id).orElseThrow(()
-                -> new EntidadeNaoEncontradaException("Plano"));
+        return planoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Plano"));
+    }
+
+    public Plano criarPlano(Plano plano, Doador doador) {
+        plano.setDoador(doador);
+        return planoRepository.save(plano);
     }
 
     public Plano atualizarPlano(UUID id, Plano plano) {
@@ -44,9 +43,7 @@ public class PlanoService {
     }
 
     public void deletarPlano(UUID id) {
-        if (!planoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Plano");
-        }
+        buscarPlanoPorId(id);
         planoRepository.deleteById(id);
     }
 }

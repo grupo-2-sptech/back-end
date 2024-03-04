@@ -29,6 +29,8 @@ public class Campanha {
     private UUID id;
 
     private String nome;
+
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String descricao;
 
     private LocalDateTime dataInicio;
@@ -44,6 +46,7 @@ public class Campanha {
     private CategoriaCampanha categoriaCampanha;
 
     private int visualizacoes;
+
     private String urlImagem;
 
 

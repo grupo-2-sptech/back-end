@@ -15,11 +15,6 @@ import java.util.UUID;
 public class EnderecoService {
     private final EnderecoRepository enderecoRepository;
 
-    public Endereco salvarEndereco(Endereco endereco, EventoCampanha eventoCampanha) {
-        endereco.setEventoCampanha(eventoCampanha);
-        return enderecoRepository.save(endereco);
-    }
-
     public List<Endereco> buscarTodosEnderecos() {
         return enderecoRepository.findAll();
     }
@@ -27,6 +22,11 @@ public class EnderecoService {
     public Endereco buscarEnderecoPorId(UUID id) {
         return enderecoRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Endereco"));
+    }
+
+    public Endereco criarEndereco(Endereco endereco, EventoCampanha eventoCampanha) {
+        endereco.setEventoCampanha(eventoCampanha);
+        return enderecoRepository.save(endereco);
     }
 
     public Endereco atualizarEndereco(UUID id, Endereco endereco) {
@@ -37,9 +37,7 @@ public class EnderecoService {
     }
 
     public void deletarEndereco(UUID id) {
-        if (!enderecoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Endereco");
-        }
+        buscarEnderecoPorId(id);
         enderecoRepository.deleteById(id);
     }
 }

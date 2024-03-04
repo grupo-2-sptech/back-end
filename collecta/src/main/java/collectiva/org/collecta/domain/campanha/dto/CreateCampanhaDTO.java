@@ -12,7 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -22,7 +21,7 @@ public class CreateCampanhaDTO {
     private String nome;
 
     @NotBlank(message = "A descrição está vazia")
-    @Size(min = 3, message = "A descrição deve ter no mínimo 3 caracteres")
+    @Size(min = 3, max = 1000, message = "A descrição deve ter no mínimo 3 e no máximo 1000 caracteres")
     private String descricao;
 
     @NotNull(message = "A data do fim está vazia")
@@ -36,9 +35,6 @@ public class CreateCampanhaDTO {
     @NotNull(message = "O tipo da campanha está vazio")
     @Enumerated(EnumType.STRING)
     private TipoCampanha tipoCampanha;
-
-    @NotNull(message = "O id da organização está vazio")
-    private UUID idOrganizacao;
 
     @NotBlank(message = "a url da imagem está vazia")
     private String urlImagem;

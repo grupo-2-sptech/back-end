@@ -1,22 +1,15 @@
 package collectiva.org.collecta.domain.eventoCampanha.controller;
 
-import collectiva.org.collecta.domain.campanha.Campanha;
-import collectiva.org.collecta.domain.campanha.service.CampanhaService;
-import collectiva.org.collecta.domain.eventoCampanha.EventoCampanha;
 import collectiva.org.collecta.domain.eventoCampanha.dto.AssociationEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.dto.CreateEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.dto.ResponseEventoCampanhaDTO;
 import collectiva.org.collecta.domain.eventoCampanha.dto.UpdateEventoCampanhaDTO;
-import collectiva.org.collecta.domain.eventoCampanha.mapper.EventoCampanhaMapper;
-import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaService;
-import collectiva.org.collecta.utils.PilhaObj;
+import collectiva.org.collecta.domain.eventoCampanha.service.EventoCampanhaServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,60 +17,38 @@ import java.util.UUID;
 @RequestMapping("/eventos")
 @RequiredArgsConstructor
 public class EventoCampanhaController {
-    private final EventoCampanhaService eventoCampanhaService;
-    private final CampanhaService campanhaService;
+    private final EventoCampanhaServiceFacade eventoCampanhaServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponseEventoCampanhaDTO>> buscarEventosCampanha() {
-        List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarTodosEventosCampanha().stream()
-                .map(EventoCampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaServiceF.buscarTodosEventoCampanhas();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseEventoCampanhaDTO> buscarEventoCampanhaPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(EventoCampanhaMapper.paraDTO(eventoCampanhaService.buscarEventoCampanhaPorId(id)));
+        return ResponseEntity.ok(eventoCampanhaServiceF.buscarEventoCampanhaPorId(id));
     }
 
     @GetMapping("/campanha/{id}")
     public ResponseEntity<List<ResponseEventoCampanhaDTO>> buscarEventoCampanhaPorIdCampanha(@PathVariable UUID id) {
-        List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaService.buscarEventoCampanhaPorIdCampanha(id).stream()
-                .map(EventoCampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseEventoCampanhaDTO> listaDTO = eventoCampanhaServiceF.buscarEventoCampanhaPorIdCampanha(id);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
-    @GetMapping("/pilha")
-    public ResponseEntity<List<EventoCampanha>> buscarEmPilha() {
-        PilhaObj pilhaObj = eventoCampanhaService.trazEmPilha();
-
-        if (pilhaObj.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        List<EventoCampanha> listaDeEventos = new ArrayList<>();
-
-        while (!pilhaObj.isEmpty()) {
-            EventoCampanha eventoCampanha = (EventoCampanha) pilhaObj.pop();
-            listaDeEventos.add(eventoCampanha);
-        }
-        return ResponseEntity.ok(listaDeEventos);
-    }
-
-    @PostMapping
-    public ResponseEntity<AssociationEventoCampanhaDTO> criarEventoCampanha(@RequestBody @Valid CreateEventoCampanhaDTO eventoCampanhaDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(eventoCampanhaDTO.getIdCampanha());
-        EventoCampanha eventoCampanha = eventoCampanhaService.salvarEventoCampanha(EventoCampanhaMapper.paraEntidade(eventoCampanhaDTO), campanha );
-        return ResponseEntity.status(201).body(EventoCampanhaMapper.paraAssociacaoDTO(eventoCampanha));
+    @PostMapping("/{idEventoCampanha}")
+    public ResponseEntity<AssociationEventoCampanhaDTO> criarEventoCampanha(@PathVariable UUID idEventoCampanha, @RequestBody @Valid CreateEventoCampanhaDTO eventoCampanhaDTO) {
+        return ResponseEntity.status(201).body(eventoCampanhaServiceF.criarEventoCampanha(idEventoCampanha, eventoCampanhaDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AssociationEventoCampanhaDTO> atualizarEventoCampanha(@PathVariable UUID id, @Valid @RequestBody UpdateEventoCampanhaDTO eventoCampanhaDTO) {
-        EventoCampanha eventoCampanha = eventoCampanhaService.atualizarEventoCampanha(id, EventoCampanhaMapper.paraEntidadeUpdate(eventoCampanhaDTO));
-        return ResponseEntity.ok(EventoCampanhaMapper.paraAssociacaoDTO(eventoCampanha));
+        return ResponseEntity.ok(eventoCampanhaServiceF.atualizarEventoCampanha(id, eventoCampanhaDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEventoCampanha(@PathVariable UUID id) {
-        eventoCampanhaService.deletarEventoCampanha(id);
+        eventoCampanhaServiceF.deletarEventoCampanha(id);
         return ResponseEntity.noContent().build();
     }
 }

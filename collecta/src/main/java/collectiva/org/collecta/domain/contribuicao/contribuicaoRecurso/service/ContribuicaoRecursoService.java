@@ -17,14 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContribuicaoRecursoService {
     private final ContribuicaoRecursoRepository contribuicaoRecursoRepository;
-    private final RecursoService recursoService;
-
-    public ContribuicaoRecurso salvarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
-        contribuicaoRecurso.setDoador(doador);
-        contribuicaoRecurso.setRecurso(recurso);
-        recursoService.somarContribuicao(recurso, contribuicaoRecurso.getQuantidade());
-        return contribuicaoRecursoRepository.save(contribuicaoRecurso);
-    }
 
     public List<ContribuicaoRecurso> buscarTodasContribuicoesRecursos() {
         return contribuicaoRecursoRepository.findAll();
@@ -33,6 +25,12 @@ public class ContribuicaoRecursoService {
     public ContribuicaoRecurso buscarContribuicaoRecursoPorId(UUID id) {
         return contribuicaoRecursoRepository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("ContribuicaoRecurso"));
+    }
+
+    public ContribuicaoRecurso criarContribuicaoRecurso(ContribuicaoRecurso contribuicaoRecurso, Doador doador, Recurso recurso) {
+        contribuicaoRecurso.setDoador(doador);
+        contribuicaoRecurso.setRecurso(recurso);
+        return contribuicaoRecursoRepository.save(contribuicaoRecurso);
     }
 
     public ContribuicaoRecurso atualizarStatusContribuicao(UUID id, StatusContribuicao statusContribuicao) {

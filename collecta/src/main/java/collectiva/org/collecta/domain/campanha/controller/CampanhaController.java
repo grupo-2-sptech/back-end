@@ -1,14 +1,10 @@
 package collectiva.org.collecta.domain.campanha.controller;
 
-import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.dto.AssociationCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.CreateCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
 import collectiva.org.collecta.domain.campanha.dto.UpdateCampanhaDTO;
-import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
-import collectiva.org.collecta.domain.campanha.service.CampanhaService;
-import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
-import collectiva.org.collecta.domain.conta.organizacao.service.OrganizacaoService;
+import collectiva.org.collecta.domain.campanha.service.CampanhaServiceFacade;
 import collectiva.org.collecta.enums.CategoriaCampanha;
 import collectiva.org.collecta.enums.TipoCampanha;
 import jakarta.validation.Valid;
@@ -23,50 +19,44 @@ import java.util.UUID;
 @RequestMapping("/campanhas")
 @RequiredArgsConstructor
 public class CampanhaController {
-    private final CampanhaService campanhaService;
-    private final OrganizacaoService organizacaoService;
+    private final CampanhaServiceFacade campanhaServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponseCampanhaDTO>> buscarCampanhas() {
-        List<ResponseCampanhaDTO> listaDTO = campanhaService.buscarTodasCampanhas().stream().map
-                (CampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseCampanhaDTO> listaDTO = campanhaServiceF.buscarTodasCampanhas();
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
+
     @GetMapping("/top3")
     public ResponseEntity<List<ResponseCampanhaDTO>> buscarTop3CampanhasPorTipo(@RequestParam TipoCampanha tipoCampanha) {
-        List<ResponseCampanhaDTO> listaDTO = campanhaService.buscarTop3CampanhasPorTipo(tipoCampanha).stream().map
-                (CampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseCampanhaDTO> listaDTO = campanhaServiceF.buscarTop3CampanhasPorTipo(tipoCampanha);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/genero/{categoriaCampanha}")
     public ResponseEntity<List<ResponseCampanhaDTO>> buscarCampanhaPorGenero(@PathVariable CategoriaCampanha categoriaCampanha) {
-        List<ResponseCampanhaDTO> listaDTO = campanhaService.buscarCampanhasPorGenero(categoriaCampanha).stream().map
-                (CampanhaMapper::paraDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+        List<ResponseCampanhaDTO> listaDTO = campanhaServiceF.buscarCampanhasPorGenero(categoriaCampanha);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseCampanhaDTO> buscarCampanhaPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(CampanhaMapper.paraDTO(campanhaService.buscarCampanhaPorId(id)));
+        return ResponseEntity.ok(campanhaServiceF.buscarCampanhaPorId(id));
     }
 
-    @PostMapping
-    public ResponseEntity<AssociationCampanhaDTO> criarCampanha(@RequestBody @Valid CreateCampanhaDTO campanhaDTO) {
-        Organizacao organizacao = organizacaoService.buscarOrganizacaoPorId(campanhaDTO.getIdOrganizacao());
-        Campanha campanha = campanhaService.salvarCampanha(CampanhaMapper.paraEntidade(campanhaDTO), organizacao);
-        return ResponseEntity.status(201).body(CampanhaMapper.paraAssociacaoDTO(campanha));
+    @PostMapping("/{idOrganizacao}")
+    public ResponseEntity<AssociationCampanhaDTO> criarCampanha(@PathVariable UUID idOrganizacao, @RequestBody @Valid CreateCampanhaDTO campanhaDTO) {
+        return ResponseEntity.status(201).body(campanhaServiceF.criarCampanha(idOrganizacao, campanhaDTO));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AssociationCampanhaDTO> atualizarCampanha(@PathVariable UUID id, @Valid @RequestBody UpdateCampanhaDTO campanhaDTO) {
-        Campanha novaCampanha = campanhaService.atualizarCampanha(id, CampanhaMapper.paraEntidadeUpdate(campanhaDTO));
-        return ResponseEntity.ok(CampanhaMapper.paraAssociacaoDTO(novaCampanha));
+    @PutMapping("/{idOrganizacao}")
+    public ResponseEntity<AssociationCampanhaDTO> atualizarCampanha(@PathVariable UUID idOrganizacao, @Valid @RequestBody UpdateCampanhaDTO campanhaDTO) {
+        return ResponseEntity.ok(campanhaServiceF.atualizarCampanha(idOrganizacao, campanhaDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id) {
-        campanhaService.deletarCampanha(id);
+        campanhaServiceF.deletarCampanha(id);
         return ResponseEntity.noContent().build();
     }
 }

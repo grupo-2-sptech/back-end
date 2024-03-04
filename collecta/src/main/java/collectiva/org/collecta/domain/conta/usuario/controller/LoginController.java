@@ -39,14 +39,14 @@ public class LoginController {
     @PostMapping("/cadastro/doador")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<AssociationDoadorDTO> criarDoador(@RequestBody @Valid CreateDoadorDTO doadorDTO) {
-        Doador doador = doadorService.salvarDoador(DoadorMapper.paraEntidade(doadorDTO));
+        Doador doador = doadorService.criarDoador(DoadorMapper.paraEntidade(doadorDTO));
         return ResponseEntity.status(201).body(DoadorMapper.paraAssociacaoDTO(doador));
     }
 
     @PostMapping("/cadastro/organizacao")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<AssociationOrganizacaoDTO> criarOrganizacao(@RequestBody @Valid CreateOrganizacaoDTO organizacaoDTO) {
-        Organizacao organizacao = organizacaoService.salvarOrganizacao(OrganizacaoMapper.paraEntidade(organizacaoDTO));
+        Organizacao organizacao = organizacaoService.criarOrganizacao(OrganizacaoMapper.paraEntidade(organizacaoDTO));
         return ResponseEntity.status(201).body(OrganizacaoMapper.paraAssociacaoDTO(organizacao));
     }
 }

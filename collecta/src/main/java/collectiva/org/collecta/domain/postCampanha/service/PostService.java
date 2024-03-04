@@ -15,11 +15,6 @@ import java.util.UUID;
 public class PostService {
     private final PostRepository postRepository;
 
-    public Post salvarPost(Post post, Campanha campanha) {
-        post.setCampanha(campanha);
-        return postRepository.save(post);
-    }
-
     public List<Post> buscarTodosPosts() {
         return postRepository.findAll();
     }
@@ -33,6 +28,11 @@ public class PostService {
                 () -> new EntidadeNaoEncontradaException("Post"));
     }
 
+    public Post criarPost(Post post, Campanha campanha) {
+        post.setCampanha(campanha);
+        return postRepository.save(post);
+    }
+
     public Post atualizarPost(UUID id, Post post) {
         Post postNovo = buscarPostPorId(id);
         postNovo.setTitulo(post.getTitulo());
@@ -41,9 +41,7 @@ public class PostService {
     }
 
     public void deletarPost(UUID id) {
-        if (!postRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Post");
-        }
+        buscarPostPorId(id);
         postRepository.deleteById(id);
     }
 }

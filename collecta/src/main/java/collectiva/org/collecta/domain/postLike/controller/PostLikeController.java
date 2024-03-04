@@ -1,12 +1,7 @@
 package collectiva.org.collecta.domain.postLike.controller;
 
-import collectiva.org.collecta.domain.conta.doador.Doador;
-import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
 import collectiva.org.collecta.domain.postLike.dto.ResponsePostLikeDTO;
-import collectiva.org.collecta.domain.postLike.mapper.PostLikeMapper;
-import collectiva.org.collecta.domain.postLike.service.PostLikeService;
-import collectiva.org.collecta.domain.postCampanha.Post;
-import collectiva.org.collecta.domain.postCampanha.service.PostService;
+import collectiva.org.collecta.domain.postLike.service.PostLikeServiceFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,46 +13,35 @@ import java.util.UUID;
 @RequestMapping("/postLikes")
 @RequiredArgsConstructor
 public class PostLikeController {
-    private final PostLikeService postLikeService;
-    private final DoadorService doadorService;
-    private final PostService postService;
+    private final PostLikeServiceFacade postLikeServiceF;
 
     @PostMapping("/{postID}/{doadorID}")
     public ResponseEntity<Void> adicionarPostLike(@PathVariable UUID postID, @PathVariable UUID doadorID) {
-        Doador doador = doadorService.buscarDoadorPorId(doadorID);
-        Post post = postService.buscarPostPorId(postID);
-        postLikeService.adicionarPostLike(doador, post);
+        postLikeServiceF.adicionarPostLike(postID, doadorID);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{postID}/{doadorID}")
     public ResponseEntity<Void> removerPostLike(@PathVariable UUID postID, @PathVariable UUID doadorID) {
-        Doador doador = doadorService.buscarDoadorPorId(doadorID);
-        Post post = postService.buscarPostPorId(postID);
-        postLikeService.removerPostLike(doador, post);
+        postLikeServiceF.removerPostLike(postID, doadorID);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{postID}")
     public ResponseEntity<Integer> contarPostLikesPost(@PathVariable UUID postID) {
-        Integer postLikes = postLikeService.contarPostLikesPost(postService.buscarPostPorId(postID));
-        return ResponseEntity.ok(postLikes);
+        return ResponseEntity.ok(postLikeServiceF.contarPostLikesPost(postID));
     }
 
     @GetMapping("/post/{postID}")
-    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesPost(@PathVariable UUID postID){
-        Post post = postService.buscarPostPorId(postID);
-        List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesPost(post).stream()
-                .map(PostLikeMapper::paraRespostaDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesPost(@PathVariable UUID postID) {
+        List<ResponsePostLikeDTO> listaDTO = postLikeServiceF.buscarPostLikesPost(postID);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/doador/{doadorID}")
-    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesDoador(@PathVariable UUID doadorID){
-        Doador doador = doadorService.buscarDoadorPorId(doadorID);
-        List<ResponsePostLikeDTO> listaDTO = postLikeService.buscarPostLikesDoador(doador).stream()
-                .map(PostLikeMapper::paraRespostaDTO).toList();
-        return ResponseEntity.status(listaDTO.isEmpty() ? 204 : 200).body(listaDTO);
+    public ResponseEntity<List<ResponsePostLikeDTO>> buscarPostLikesDoador(@PathVariable UUID doadorID) {
+        List<ResponsePostLikeDTO> listaDTO = postLikeServiceF.buscarPostLikesDoador(doadorID);
+        return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
 }

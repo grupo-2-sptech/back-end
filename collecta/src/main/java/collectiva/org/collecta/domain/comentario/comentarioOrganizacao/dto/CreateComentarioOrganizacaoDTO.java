@@ -12,13 +12,6 @@ import java.util.UUID;
 @Builder
 public class CreateComentarioOrganizacaoDTO {
     @NotBlank(message = "O comentário está vazio")
-    @Size(min = 3, message = "O comentário deve ter no mínimo 3 caracteres")
-    @Size(max = 255, message = "O comentário deve ter no máximo 255 caracteres")
+    @Size(min = 3, max = 255, message = "O comentário deve ter no mínimo 3 e no máximo 255 caracteres")
     private String comentario;
-
-    @NotNull(message = "O id da organização está vazio")
-    private UUID idOrganizacao;
-
-    @NotNull(message = "O id do post está vazio")
-    private UUID idPost;
 }

@@ -16,12 +16,6 @@ import java.util.UUID;
 public class ComentarioOrganizacaoService {
     private final ComentarioOrganizacaoRepository comentarioOrganizacaoRepository;
 
-    public ComentarioOrganizacao salvarComentario(ComentarioOrganizacao comentarioOrganizacao, Organizacao organizacao, Post post) {
-        comentarioOrganizacao.setOrganizacao(organizacao);
-        comentarioOrganizacao.setPost(post);
-        return comentarioOrganizacaoRepository.save(comentarioOrganizacao);
-    }
-
     public List<ComentarioOrganizacao> buscarTodosComentarios() {
         return comentarioOrganizacaoRepository.findAll();
     }
@@ -31,10 +25,14 @@ public class ComentarioOrganizacaoService {
                 () -> new EntidadeNaoEncontradaException("ComentariosOrganizacao"));
     }
 
+    public ComentarioOrganizacao criarComentario(ComentarioOrganizacao comentarioOrganizacao, Organizacao organizacao, Post post) {
+        comentarioOrganizacao.setOrganizacao(organizacao);
+        comentarioOrganizacao.setPost(post);
+        return comentarioOrganizacaoRepository.save(comentarioOrganizacao);
+    }
+
     public void deletarComentario(UUID id) {
-        if (!comentarioOrganizacaoRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("ComentarioOrganizacao");
-        }
+        buscarComentarioPorId(id);
         comentarioOrganizacaoRepository.deleteById(id);
     }
 }
