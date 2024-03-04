@@ -18,6 +18,16 @@ import java.util.UUID;
 public class RelatorioService {
     private final RelatorioRepository relatorioRepository;
 
+    public List<Relatorio> buscarTodosRelatorios() {
+        return relatorioRepository.findAll();
+    }
+
+
+    public Relatorio buscarRelatorioPorId(UUID id) {
+        return relatorioRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Relatorio"));
+    }
+
     public Relatorio criarRelatorio(Relatorio relatorio, Campanha campanha) {
         relatorio.setCampanha(campanha);
         return relatorioRepository.save(relatorio);
@@ -25,15 +35,6 @@ public class RelatorioService {
 
     public Relatorio gerarRelatorioPorCampanha(UUID idCampanha, LocalDateTime inicio, LocalDateTime fim) {
         return RelatorioMapper.paraGeradorEntidade(relatorioRepository.gerarRelatorioPorCampanha(idCampanha, inicio, fim, StatusContribuicao.FINALIZADA));
-    }
-
-    public List<Relatorio> buscarTodosRelatorios() {
-        return relatorioRepository.findAll();
-    }
-
-    public Relatorio buscarRelatorioPorId(UUID id) {
-        return relatorioRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Relatorio"));
     }
 
 }

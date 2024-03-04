@@ -15,17 +15,17 @@ import java.util.UUID;
 public class RecursoService {
     private final RecursoRepository recursoRepository;
 
-    public Recurso criarRecurso(Recurso recurso, Campanha campanha) {
-        recurso.setCampanha(campanha);
-        return recursoRepository.save(recurso);
-    }
-
     public List<Recurso> buscarTodosRecursos() {
         return recursoRepository.findAll();
     }
 
     public Recurso buscarRecursoPorId(UUID id) {
         return recursoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Recurso"));
+    }
+
+    public Recurso criarRecurso(Recurso recurso, Campanha campanha) {
+        recurso.setCampanha(campanha);
+        return recursoRepository.save(recurso);
     }
 
     public Recurso atualizarRecurso(UUID id, Recurso recurso) {

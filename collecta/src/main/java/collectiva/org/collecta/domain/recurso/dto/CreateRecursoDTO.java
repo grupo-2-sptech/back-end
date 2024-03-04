@@ -7,8 +7,6 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Builder
 public class CreateRecursoDTO {
@@ -32,7 +30,4 @@ public class CreateRecursoDTO {
     @NotNull(message = "A forma de pagamento está vazio")
     @Enumerated(EnumType.STRING)
     private TipoRecurso tipoRecurso;
-
-    @NotNull(message = "O id da campanha está vazio")
-    private UUID idCampanha;
 }

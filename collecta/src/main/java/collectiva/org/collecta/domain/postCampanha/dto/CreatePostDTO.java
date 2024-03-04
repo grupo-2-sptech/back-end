@@ -1,12 +1,9 @@
 package collectiva.org.collecta.domain.postCampanha.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @Builder
@@ -22,6 +19,4 @@ public class CreatePostDTO {
     @NotBlank(message = "A url da imagem está vazia")
     private String urlImagem;
 
-    @NotNull(message = "O id da campanha está vazio")
-    private UUID idCampanha;
 }

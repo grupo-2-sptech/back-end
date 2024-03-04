@@ -1,14 +1,13 @@
-package collectiva.org.collecta.domain.plano.service;
+package collectiva.org.collecta.domain.postCampanha.service;
 
-import collectiva.org.collecta.domain.conta.doador.Doador;
-import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
-import collectiva.org.collecta.domain.plano.Plano;
-import collectiva.org.collecta.domain.plano.dto.AssociationPlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.UpdatePlanoDTO;
-import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
-import collectiva.org.collecta.enums.StatusPlano;
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
+import collectiva.org.collecta.domain.postCampanha.Post;
+import collectiva.org.collecta.domain.postCampanha.dto.AssociationPostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
+import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
+import collectiva.org.collecta.domain.postCampanha.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,36 +16,37 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class PlanoServiceFacade {
-    private final PlanoService planoService;
-    private final DoadorService doadorService;
+public class PostServiceFacade {
+    private final PostService postService;
+    private final CampanhaService campanhaService;
 
-    public List<ResponsePlanoDTO> buscarTodosPlanos() {
-        return planoService.buscarTodosPlanos().stream().map
-                (PlanoMapper::paraDTO).toList();
+    public List<ResponsePostDTO> buscarTodosPosts() {
+        return postService.buscarTodosPosts().stream().map
+                (PostMapper::paraDTO).toList();
     }
 
-    public ResponsePlanoDTO buscarPlanoPorId(UUID id) {
-        return PlanoMapper.paraDTO(planoService.buscarPlanoPorId(id));
+    public List<ResponsePostDTO> buscarPostsPorCampanha(UUID id) {
+        return postService.buscarPostsPorCampanha(id).stream().map
+                (PostMapper::paraDTO).toList();
     }
 
-    public AssociationPlanoDTO criarPlano(UUID idEventoCampanha, CreatePlanoDTO planoDTO) {
-        Doador doador = doadorService.buscarDoadorPorId(idEventoCampanha);
-        Plano plano = PlanoMapper.paraEntidade(planoDTO);
-        return PlanoMapper.paraAssociacaoDTO(planoService.criarPlano(plano, doador));
+    public ResponsePostDTO buscarPostPorId(UUID id) {
+        return PostMapper.paraDTO(postService.buscarPostPorId(id));
     }
 
-    public AssociationPlanoDTO atualizarPlano(UUID idPlano, UpdatePlanoDTO planoDTO) {
-        Plano plano = PlanoMapper.paraEntidadeUpdate(planoDTO);
-        return PlanoMapper.paraAssociacaoDTO(planoService.atualizarPlano(idPlano, plano));
-    }
-    public AssociationPlanoDTO atualizarStatusPlano(UUID idPlano, StatusPlano statusPlano) {
-        return PlanoMapper.paraAssociacaoDTO(planoService.atualizarStatusPlano(idPlano, statusPlano));
+    public AssociationPostDTO criarPost(UUID idEvento, CreatePostDTO postDTO) {
+        Campanha campanha = campanhaService.buscarCampanhaPorId(idEvento);
+        Post post = PostMapper.paraEntidade(postDTO);
+        return PostMapper.paraAssociacaoDTO(postService.criarPost(post, campanha));
     }
 
+    public AssociationPostDTO atualizarPost(UUID idPost, UpdatePostDTO postDTO) {
+        Post post = PostMapper.paraEntidadeUpdate(postDTO);
+        return PostMapper.paraAssociacaoDTO(postService.atualizarPost(idPost, post));
+    }
 
-    public void deletarPlano(UUID id) {
-        planoService.deletarPlano(id);
+    public void deletarPost(UUID id) {
+        postService.deletarPost(id);
     }
 
 }

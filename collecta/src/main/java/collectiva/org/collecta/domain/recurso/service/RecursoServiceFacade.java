@@ -1,14 +1,13 @@
-package collectiva.org.collecta.domain.plano.service;
+package collectiva.org.collecta.domain.recurso.service;
 
-import collectiva.org.collecta.domain.conta.doador.Doador;
-import collectiva.org.collecta.domain.conta.doador.service.DoadorService;
-import collectiva.org.collecta.domain.plano.Plano;
-import collectiva.org.collecta.domain.plano.dto.AssociationPlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.CreatePlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.ResponsePlanoDTO;
-import collectiva.org.collecta.domain.plano.dto.UpdatePlanoDTO;
-import collectiva.org.collecta.domain.plano.mapper.PlanoMapper;
-import collectiva.org.collecta.enums.StatusPlano;
+import collectiva.org.collecta.domain.campanha.Campanha;
+import collectiva.org.collecta.domain.campanha.service.CampanhaService;
+import collectiva.org.collecta.domain.recurso.Recurso;
+import collectiva.org.collecta.domain.recurso.dto.AssociationRecursoDTO;
+import collectiva.org.collecta.domain.recurso.dto.CreateRecursoDTO;
+import collectiva.org.collecta.domain.recurso.dto.ResponseRecursoDTO;
+import collectiva.org.collecta.domain.recurso.dto.UpdateRecursoDTO;
+import collectiva.org.collecta.domain.recurso.mapper.RecursoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,36 +16,32 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class PlanoServiceFacade {
-    private final PlanoService planoService;
-    private final DoadorService doadorService;
+public class RecursoServiceFacade {
+    private final RecursoService recursoService;
+    private final CampanhaService campanhaService;
 
-    public List<ResponsePlanoDTO> buscarTodosPlanos() {
-        return planoService.buscarTodosPlanos().stream().map
-                (PlanoMapper::paraDTO).toList();
+    public List<ResponseRecursoDTO> buscarTodosRecursos() {
+        return recursoService.buscarTodosRecursos().stream().map
+                (RecursoMapper::paraDTO).toList();
     }
 
-    public ResponsePlanoDTO buscarPlanoPorId(UUID id) {
-        return PlanoMapper.paraDTO(planoService.buscarPlanoPorId(id));
+    public ResponseRecursoDTO buscarRecursoPorId(UUID id) {
+        return RecursoMapper.paraDTO(recursoService.buscarRecursoPorId(id));
     }
 
-    public AssociationPlanoDTO criarPlano(UUID idEventoCampanha, CreatePlanoDTO planoDTO) {
-        Doador doador = doadorService.buscarDoadorPorId(idEventoCampanha);
-        Plano plano = PlanoMapper.paraEntidade(planoDTO);
-        return PlanoMapper.paraAssociacaoDTO(planoService.criarPlano(plano, doador));
+    public AssociationRecursoDTO criarRecurso(UUID idEventoCampanha, CreateRecursoDTO recursoDTO) {
+        Campanha campanha = campanhaService.buscarCampanhaPorId(idEventoCampanha);
+        Recurso recurso = RecursoMapper.paraEntidade(recursoDTO);
+        return RecursoMapper.paraAssociacaoDTO(recursoService.criarRecurso(recurso, campanha));
     }
 
-    public AssociationPlanoDTO atualizarPlano(UUID idPlano, UpdatePlanoDTO planoDTO) {
-        Plano plano = PlanoMapper.paraEntidadeUpdate(planoDTO);
-        return PlanoMapper.paraAssociacaoDTO(planoService.atualizarPlano(idPlano, plano));
-    }
-    public AssociationPlanoDTO atualizarStatusPlano(UUID idPlano, StatusPlano statusPlano) {
-        return PlanoMapper.paraAssociacaoDTO(planoService.atualizarStatusPlano(idPlano, statusPlano));
+    public AssociationRecursoDTO atualizarRecurso(UUID idRecurso, UpdateRecursoDTO recursoDTO) {
+        Recurso recurso = RecursoMapper.paraEntidadeUpdate(recursoDTO);
+        return RecursoMapper.paraAssociacaoDTO(recursoService.atualizarRecurso(idRecurso, recurso));
     }
 
-
-    public void deletarPlano(UUID id) {
-        planoService.deletarPlano(id);
+    public void deletarRecurso(UUID id) {
+        recursoService.deletarRecurso(id);
     }
 
 }

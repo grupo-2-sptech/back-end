@@ -1,16 +1,10 @@
 package collectiva.org.collecta.domain.postCampanha.controller;
 
-import collectiva.org.collecta.domain.campanha.Campanha;
-import collectiva.org.collecta.domain.campanha.dto.ResponseCampanhaDTO;
-import collectiva.org.collecta.domain.campanha.mapper.CampanhaMapper;
-import collectiva.org.collecta.domain.campanha.service.CampanhaService;
-import collectiva.org.collecta.domain.postCampanha.Post;
 import collectiva.org.collecta.domain.postCampanha.dto.AssociationPostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.CreatePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.ResponsePostDTO;
 import collectiva.org.collecta.domain.postCampanha.dto.UpdatePostDTO;
-import collectiva.org.collecta.domain.postCampanha.mapper.PostMapper;
-import collectiva.org.collecta.domain.postCampanha.service.PostService;
+import collectiva.org.collecta.domain.postCampanha.service.PostServiceFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,44 +17,38 @@ import java.util.UUID;
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
-    private final PostService postService;
-    private final CampanhaService campanhaService;
+    private final PostServiceFacade postServiceF;
 
     @GetMapping
     public ResponseEntity<List<ResponsePostDTO>> buscarPosts() {
-        List<ResponsePostDTO> listaDTO = postService.buscarTodosPosts().stream()
-                .map(PostMapper::paraDTO).toList();
+        List<ResponsePostDTO> listaDTO = postServiceF.buscarTodosPosts();
         return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponsePostDTO> buscarPostPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(PostMapper.paraDTO(postService.buscarPostPorId(id)));
+        return ResponseEntity.ok(postServiceF.buscarPostPorId(id));
     }
 
     @GetMapping("/campanha/{id}")
     public ResponseEntity<List<ResponsePostDTO>> buscarPostPorCampanhaId(@PathVariable UUID id) {
-        List<ResponsePostDTO> listaDTO = postService.buscarPostsPorCampanha(id).stream().map(PostMapper::paraDTO).toList();
+        List<ResponsePostDTO> listaDTO = postServiceF.buscarPostsPorCampanha(id);
         return listaDTO.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDTO);
     }
 
-
-    @PostMapping
-    public ResponseEntity<AssociationPostDTO> criarPost(@RequestBody @Valid CreatePostDTO postDTO) {
-        Campanha campanha = campanhaService.buscarCampanhaPorId(postDTO.getIdCampanha());
-        Post post = postService.criarPost(PostMapper.paraEntidade(postDTO), campanha);
-        return ResponseEntity.status(201).body(PostMapper.paraAssociacaoDTO(post));
+    @PostMapping("/{idCampanha}")
+    public ResponseEntity<AssociationPostDTO> criarPost(@PathVariable UUID idCampanha, @RequestBody @Valid CreatePostDTO postDTO) {
+        return ResponseEntity.status(201).body(postServiceF.criarPost(idCampanha, postDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AssociationPostDTO> atualizarPost(@PathVariable UUID id, @RequestBody @Valid UpdatePostDTO postDTO) {
-        Post post = postService.atualizarPost(id, PostMapper.paraEntidadeUpdate(postDTO));
-        return ResponseEntity.ok(PostMapper.paraAssociacaoDTO(post));
+        return ResponseEntity.ok(postServiceF.atualizarPost(id, postDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPost(@PathVariable UUID id) {
-        postService.deletarPost(id);
+        postServiceF.deletarPost(id);
         return ResponseEntity.noContent().build();
     }
 }
