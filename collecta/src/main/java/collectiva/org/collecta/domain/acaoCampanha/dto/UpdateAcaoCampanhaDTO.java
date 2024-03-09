@@ -11,15 +11,15 @@ import java.time.LocalDate;
 @Builder
 public class UpdateAcaoCampanhaDTO {
     @NotBlank(message = "O nome está vazio")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
+    @Size(min = 3, max = 255, message = "O nome deve ter no mínimo 3 e no máximo 255 caracteres")
     private String nome;
 
     @NotBlank(message = "A descrição está vazio")
-    @Size(min = 5, message = "A descrição deve ter no mínimo 5 caracteres")
+    @Size(min = 5, max = 700, message = "A descrição deve ter no mínimo 5 e no máximo 700 caracteres")
     private String descricao;
 
     @NotNull(message = "A data está vazio")
-    @Past(message = "A data deve estar no passado")
+    @PastOrPresent(message = "A data deve estar no passado ou presente")
     private LocalDate data;
 
     @DecimalMin(value = "0.00", message = "O valor deve ser maior ou igual a 0.00")

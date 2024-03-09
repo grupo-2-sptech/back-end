@@ -1,10 +1,7 @@
 package collectiva.org.collecta.domain.acaoCampanha;
 
 import collectiva.org.collecta.domain.relatorio.Relatorio;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,7 +19,10 @@ public class AcaoCampanha {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
     private String nome;
+
+    @Column(columnDefinition = "VARCHAR(700)")
     private String descricao;
+
     private LocalDate data;
     private BigDecimal valor;
 
