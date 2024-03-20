@@ -16,7 +16,7 @@ public class PixGenerateQRCode {
 
 	  Credentials credentials = new Credentials();
 
-    HashMap<String, Object> options = new HashMap<String, Object>();
+      HashMap<String, Object> options = new HashMap<String, Object>();
       options.put("client_id", credentials.getClientId());
       options.put("client_secret", credentials.getClientSecret());
       options.put("certificate", credentials.getCertificate());

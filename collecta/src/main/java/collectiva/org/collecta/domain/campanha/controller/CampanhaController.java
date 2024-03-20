@@ -64,6 +64,12 @@ public class CampanhaController {
         return ResponseEntity.ok(CampanhaMapper.paraAssociacaoDTO(novaCampanha));
     }
 
+    @PutMapping("/mudar-status/{id}")
+    public ResponseEntity<Void> atualizarStatus(@PathVariable UUID id) {
+        Campanha campanha = campanhaService.atualizarStatus(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCampanha(@PathVariable UUID id) {
         campanhaService.deletarCampanha(id);

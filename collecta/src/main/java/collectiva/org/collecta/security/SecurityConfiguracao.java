@@ -115,7 +115,7 @@ public class SecurityConfiguracao {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracao = new CorsConfiguration();
         configuracao.applyPermitDefaultValues();
-        configuracao.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuracao.setAllowedOrigins(Arrays.asList("http://3.214.143.252:5173/"));
         configuracao.setAllowCredentials(true);
         configuracao.setAllowedMethods(
                 Arrays.asList(

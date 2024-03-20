@@ -4,6 +4,7 @@ import collectiva.org.collecta.domain.campanha.Campanha;
 import collectiva.org.collecta.domain.campanha.repository.CampanhaRepository;
 import collectiva.org.collecta.domain.conta.organizacao.Organizacao;
 import collectiva.org.collecta.enums.CategoriaCampanha;
+import collectiva.org.collecta.enums.StatusCampanha;
 import collectiva.org.collecta.enums.TipoCampanha;
 import collectiva.org.collecta.exception.exceptions.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,12 @@ public class CampanhaService {
     }
     public List<Campanha> buscarCampanhasPorGenero(CategoriaCampanha categoriaCampanha){
         return campanhaRepository.findByCategoriaCampanha(categoriaCampanha);
+    }
+
+    public Campanha atualizarStatus(UUID id){
+        Campanha campanha = buscarCampanhaPorId(id);
+        campanha.setStatusCampanha(StatusCampanha.CONCLUIDA);
+        return campanha;
     }
 
 }

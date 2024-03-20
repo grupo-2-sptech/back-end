@@ -44,6 +44,8 @@ public class Campanha {
     private CategoriaCampanha categoriaCampanha;
 
     private int visualizacoes;
+
+    @Column(length = 10000)
     private String urlImagem;
 
 
